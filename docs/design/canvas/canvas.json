@@ -1,0 +1,54 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-10-10T16:58:00Z"},
+  "title": "Swim Meet",
+  "launch": {"view": "canvas"},
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 390, "h": 844, "title": "1 · Home · public"},
+    "HomeEditor.dc.html": {"x": 470, "y": 0, "w": 390, "h": 844, "title": "1 · Home · editor"},
+    "SwimmerUpcoming.dc.html": {"x": 940, "y": 0, "w": 390, "h": 1100, "title": "2a · Swimmer · Upcoming · public"},
+    "SwimmerUpcomingEditor.dc.html": {"x": 1410, "y": 0, "w": 390, "h": 1100, "title": "2a · Swimmer · Upcoming · editor"},
+    "SwimmerResults.dc.html": {"x": 1880, "y": 0, "w": 390, "h": 1150, "title": "2b · Swimmer · Results by meet · public"},
+    "SwimmerResultsEditor.dc.html": {"x": 2350, "y": 0, "w": 390, "h": 1150, "title": "2b · Swimmer · Results by meet · editor"},
+    "SwimmerResultsByEvent.dc.html": {"x": 2820, "y": 0, "w": 390, "h": 1150, "title": "2b · Swimmer · Results by event · public"},
+    "SwimmerPBs.dc.html": {"x": 3290, "y": 0, "w": 390, "h": 1150, "title": "2c · Swimmer · Personal bests · public"},
+    "SwimmerSettings.dc.html": {"x": 3760, "y": 0, "w": 390, "h": 1500, "title": "2 · Swimmer settings · owner"},
+
+    "Meet.dc.html": {"x": 0, "y": 1900, "w": 390, "h": 1200, "title": "3 · Meet · public · Sat evening"},
+    "MeetEditor.dc.html": {"x": 470, "y": 1900, "w": 390, "h": 1350, "title": "3 · Meet · editor · after the meet"},
+    "MeetEditorZh.dc.html": {"x": 940, "y": 1900, "w": 390, "h": 1350, "title": "3 · Meet · editor · 中文"},
+    "TimeEntry.dc.html": {"x": 1410, "y": 1900, "w": 390, "h": 844, "title": "4 · Time entry sheet · live time"},
+    "TimeEntryZh.dc.html": {"x": 1880, "y": 1900, "w": 390, "h": 844, "title": "4 · Time entry sheet · 中文 · official time"},
+
+    "MeetStates.dc.html": {"x": 0, "y": 3700, "w": 1680, "h": 844, "title": "3 · Meet states: loading · empty · failed to load · failed to save"},
+    "TimeEntryStates.dc.html": {"x": 1760, "y": 3700, "w": 2110, "h": 844, "title": "4 · Time entry states: empty · loading · No Show · saving · failed to save"},
+
+    "AddEntries.dc.html": {"x": 0, "y": 4944, "w": 1250, "h": 1100, "title": "5 · Add entries · steps 1–3"},
+    "MeetForm.dc.html": {"x": 1330, "y": 4944, "w": 820, "h": 1000, "title": "6 · Meet form · edit (course locked) · new"},
+    "SignIn.dc.html": {"x": 2230, "y": 4944, "w": 820, "h": 844, "title": "7 · Sign in · default · error"},
+
+    "SwimmerDesktop.dc.html": {"x": 0, "y": 6444, "w": 1280, "h": 1000, "title": "Desktop · Swimmer · Results", "expand": "fill"},
+    "MeetDesktop.dc.html": {"x": 1360, "y": 6444, "w": 1280, "h": 1050, "title": "Desktop · Meet · editor with time entry panel", "expand": "fill"},
+
+    "Components.dc.html": {"x": 0, "y": 7894, "w": 1600, "h": 1700, "title": "Composed components and the one proposed token"}
+  },
+  "order": [
+    "Main.dc.html", "HomeEditor.dc.html", "SwimmerUpcoming.dc.html", "SwimmerUpcomingEditor.dc.html",
+    "SwimmerResults.dc.html", "SwimmerResultsEditor.dc.html", "SwimmerResultsByEvent.dc.html", "SwimmerPBs.dc.html",
+    "SwimmerSettings.dc.html", "Meet.dc.html", "MeetEditor.dc.html", "MeetEditorZh.dc.html", "TimeEntry.dc.html",
+    "TimeEntryZh.dc.html", "MeetStates.dc.html", "TimeEntryStates.dc.html", "AddEntries.dc.html", "MeetForm.dc.html",
+    "SignIn.dc.html", "SwimmerDesktop.dc.html", "MeetDesktop.dc.html", "Components.dc.html"
+  ],
+  "notes": {
+    "rowHome": {"x": 0, "y": -300, "text": "Home and Swimmer · phone 390", "kind": "title1", "maxW": 4150},
+    "rowMeet": {"x": 0, "y": 1600, "text": "Meet day · EN and 中文", "kind": "title1", "maxW": 2270},
+    "rowStates": {"x": 0, "y": 3400, "text": "States · Meet and Time entry", "kind": "title1", "maxW": 3870},
+    "rowFlows": {"x": 0, "y": 4644, "text": "Editor flows and sign in", "kind": "title1", "maxW": 3050},
+    "rowDesktop": {"x": 0, "y": 6144, "text": "Desktop adaptation", "kind": "title1", "maxW": 2640},
+    "rowComponents": {"x": 0, "y": 7594, "text": "Built from DreamBig tokens", "kind": "title1", "maxW": 1600}
+  },
+  "designSystems": [
+    {"title": "DreamBig Design System", "namespace": "dreambigdesignsystem_59eada", "artifact": "https://claude.ai/code/artifact/a67f44e3-aac8-4aa5-b1ea-4369a59e87f9", "version": "1791650667-76f8", "copiedAt": "2026-10-10T16:58:00Z"}
+  ]
+}

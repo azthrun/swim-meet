@@ -1,0 +1,9 @@
+/* The source documents press transforms but no easing curves or durations;
+   the values below are the system's stated defaults, flagged in readme.md as derived. */
+:root{
+--press-scale:0.9; /* @kind other */--press-scale-subtle:0.97; /* @kind other */
+--duration-fast:120ms; /* @kind other */--duration-base:180ms; /* @kind other */--duration-slow:280ms; /* @kind other */
+--ease-standard:cubic-bezier(0.2,0.6,0.2,1); /* @kind other */--ease-out:cubic-bezier(0,0,0.2,1); /* @kind other */
+--transition-press:transform var(--duration-fast) var(--ease-standard);
+--transition-surface:background-color var(--duration-base) var(--ease-standard),box-shadow var(--duration-base) var(--ease-standard),border-color var(--duration-base) var(--ease-standard)
+}

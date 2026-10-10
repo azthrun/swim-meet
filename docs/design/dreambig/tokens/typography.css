@@ -1,0 +1,28 @@
+:root{
+/* per-role atoms */
+--size-display-1:64px;--tracking-display-1:-2.125px;--lh-display-1:1; /* @kind other */
+--size-display-2:54px;--tracking-display-2:-1.875px;--lh-display-2:1.04; /* @kind other */
+--size-heading-1:40px;--tracking-heading-1:-1px;--lh-heading-1:1.1; /* @kind other */
+--size-heading-2:26px;--tracking-heading-2:-0.625px;--lh-heading-2:1.23; /* @kind other */
+--size-heading-3:22px;--tracking-heading-3:-0.25px;--lh-heading-3:1.27; /* @kind other */
+--size-title:20px;--tracking-title:-0.125px;--lh-title:1.4; /* @kind other */
+--size-body-md:16px;--tracking-body-md:0;--lh-body-md:1.5; /* @kind other */
+--size-body-sm:15px;--tracking-body-sm:0;--lh-body-sm:1.33; /* @kind other */
+--size-button:16px;--tracking-button:0;--lh-button:1.5; /* @kind other */
+--size-caption:14px;--tracking-caption:0;--lh-caption:1.43; /* @kind other */
+--size-eyebrow:12px;--tracking-eyebrow:0.125px;--lh-eyebrow:1.33; /* @kind other */
+/* weights */
+--weight-regular:400; /* @kind other */--weight-medium:500; /* @kind other */--weight-semibold:600; /* @kind other */--weight-bold:700; /* @kind other */
+/* role shorthands: font: <weight> <size>/<lh> <family> — pair with the matching --tracking-* */
+--type-display-1:var(--weight-bold) var(--size-display-1)/var(--lh-display-1) var(--font-sans);
+--type-display-2:var(--weight-bold) var(--size-display-2)/var(--lh-display-2) var(--font-sans);
+--type-heading-1:var(--weight-bold) var(--size-heading-1)/var(--lh-heading-1) var(--font-sans);
+--type-heading-2:var(--weight-bold) var(--size-heading-2)/var(--lh-heading-2) var(--font-sans);
+--type-heading-3:var(--weight-bold) var(--size-heading-3)/var(--lh-heading-3) var(--font-sans);
+--type-title:var(--weight-semibold) var(--size-title)/var(--lh-title) var(--font-sans);
+--type-body-md:var(--weight-regular) var(--size-body-md)/var(--lh-body-md) var(--font-sans);
+--type-body-sm:var(--weight-regular) var(--size-body-sm)/var(--lh-body-sm) var(--font-sans);
+--type-button:var(--weight-medium) var(--size-button)/var(--lh-button) var(--font-sans);
+--type-caption:var(--weight-regular) var(--size-caption)/var(--lh-caption) var(--font-sans);
+--type-eyebrow:var(--weight-semibold) var(--size-eyebrow)/var(--lh-eyebrow) var(--font-sans)
+}

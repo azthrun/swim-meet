@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home · editor</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/styles.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/fonts.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/colors.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/typography.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/spacing.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/radius.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/elevation.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/motion.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/base.css">
+<script src="/_blob/618d86b92ca8d894604b56ae1d973a10"></script>
+<script src="ds/dreambigdesignsystem_59eada/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;display=swap">
+<style>
+body{margin:0}
+/* NEW (proposed): DreamBig has only "lnum". Times need tabular figures. */
+:root{--font-features-tabular:"lnum" 1,"tnum" 1}
+a{color:var(--text-link)}a:hover{color:var(--color-primary-active)}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: var(--canvas); color: var(--text-body); font-family: var(--font-sans); font-feature-settings: var(--font-features); display: flex; flex-direction: column; overflow: hidden;">
+
+  <header style="display: flex; align-items: center; gap: var(--space-sm); height: 60px; padding: 0 var(--space-md); background: var(--surface-card); border-bottom: 1px solid var(--border-hairline); flex: none;">
+    <a href="HomeEditor.dc.html" style="flex: 1; font-weight: var(--weight-bold); font-size: var(--size-title); line-height: 1; letter-spacing: -0.8px; color: var(--text-heading); text-decoration: none;">Swim Meet</a>
+    <div role="group" aria-label="Language" style="display: inline-flex; background: var(--canvas); border-radius: var(--radius-full);">
+      <button type="button" aria-pressed="true" style="min-width: 56px; height: 44px; padding: 0 var(--space-sm); border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">EN</button>
+      <button type="button" aria-pressed="false" style="min-width: 56px; height: 44px; padding: 0 var(--space-sm); border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">中文</button>
+    </div>
+    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="circle-user" label="Account: sign out" tone="on-light" size="{{n44}}"></x-import>
+  </header>
+
+  <main style="flex: 1; display: flex; flex-direction: column; gap: var(--space-md); padding: var(--space-lg) var(--space-md);">
+    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+      <h1 style="flex: 1; margin: 0; font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2); color: var(--text-heading);">Swimmers</h1>
+    </div>
+    <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-sm);">
+      <li>
+        <a href="SwimmerUpcomingEditor.dc.html" style="display: flex; align-items: center; gap: var(--space-md); min-height: 88px; box-sizing: border-box; padding: var(--space-md); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card); color: var(--text-body); text-decoration: none;">
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+            <span style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); color: var(--text-heading);">Jayden</span>
+            <span style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-xs); font: var(--type-body-sm); color: var(--text-muted);">
+              <span>Next: Shark Invitational · Nov 14–15</span>
+              <span title="Short Course Yards" style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">SCY</x-import></span>
+            </span>
+          </span>
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-right" size="{{n20}}" color="var(--text-faint)"></x-import>
+        </a>
+      </li>
+      <li>
+        <a href="SwimmerUpcomingEditor.dc.html" style="display: flex; align-items: center; gap: var(--space-md); min-height: 88px; box-sizing: border-box; padding: var(--space-md); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card); color: var(--text-body); text-decoration: none;">
+          <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+            <span style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); color: var(--text-heading);">[Swimmer 2]</span>
+            <span style="font: var(--type-body-sm); color: var(--text-faint);">No meet scheduled</span>
+          </span>
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-right" size="{{n20}}" color="var(--text-faint)"></x-import>
+        </a>
+      </li>
+    </ul>
+    <div style="display: flex; flex-direction: column; padding-top: var(--space-xs);">
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="plus" full-width="{{yes}}">Add swimmer</x-import>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { yes: true, n16: 16, n20: 20, n24: 24, n44: 44 }; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+/* DreamBigSans is DreamBig's in-house tuning of Inter. No font binaries were supplied with the
+   source material, so --font-sans keeps DreamBigSans first and renders through its fallback stack.
+   Inter is loaded below purely as that fallback — it is the family the source names as the nearest
+   match. When the real DreamBigSans woff2 files arrive, drop them in assets/fonts/ and add the
+   @font-face rules here; nothing else needs to change.
+   Display tightness is recovered by applying the explicit negative tracking in typography.css. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap");
+:root{--font-sans:"DreamBigSans","Inter",-apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;--font-features:"lnum" 1,"locl" 1 /* @kind other */}
