@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Swimmer · desktop</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/styles.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/fonts.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/colors.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/typography.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/spacing.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/radius.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/elevation.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/motion.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/base.css">
+<script src="/_blob/618d86b92ca8d894604b56ae1d973a10"></script>
+<script src="ds/dreambigdesignsystem_59eada/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;display=swap">
+<style>
+body{margin:0}
+/* NEW (proposed): DreamBig has only "lnum". Times need tabular figures. */
+:root{--font-features-tabular:"lnum" 1,"tnum" 1}
+a{color:var(--text-link)}a:hover{color:var(--color-primary-active)}
+</style>
+</helmet>
+<div style="min-height: 1000px; background: var(--canvas); color: var(--text-body); font-family: var(--font-sans); font-feature-settings: var(--font-features);">
+
+  <header style="background: var(--surface-card); border-bottom: 1px solid var(--border-hairline);">
+    <div style="max-width: var(--container-desktop); margin: 0 auto; padding: 0 var(--gutter); height: 64px; display: flex; align-items: center; gap: var(--space-md);">
+      <a href="Main.dc.html" style="flex: 1; font-weight: var(--weight-bold); font-size: var(--size-title); line-height: 1; letter-spacing: -0.8px; color: var(--text-heading); text-decoration: none;">Swim Meet</a>
+      <div role="group" aria-label="Language" style="display: inline-flex; background: var(--canvas); border-radius: var(--radius-full);">
+        <button type="button" aria-pressed="true" style="min-width: 56px; height: 44px; padding: 0 var(--space-sm); border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">EN</button>
+        <button type="button" aria-pressed="false" style="min-width: 56px; height: 44px; padding: 0 var(--space-sm); border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">中文</button>
+      </div>
+      <a href="SignIn.dc.html" style="font: var(--type-caption); color: var(--text-muted);">Sign in</a>
+    </div>
+  </header>
+
+  <div style="max-width: var(--container-desktop); margin: 0 auto; padding: var(--space-xxl) var(--gutter); display: flex; flex-wrap: wrap; gap: var(--space-xxl); align-items: flex-start;">
+
+    <aside style="flex: 0 1 248px; display: flex; flex-direction: column; gap: var(--space-md);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-xxs);">
+        <a href="Main.dc.html" style="font: var(--type-caption); color: var(--text-muted);">Swimmers</a>
+        <h1 style="margin: 0; font: var(--type-heading-1); letter-spacing: var(--tracking-heading-1);">Jayden</h1>
+      </div>
+      <nav aria-label="Swimmer sections" style="display: flex; flex-direction: column; gap: var(--space-xxs);">
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.SidebarNavRow" icon="calendar" label="Upcoming" count="{{n4}}"></x-import>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.SidebarNavRow" icon="list-ordered" label="Results" active="{{yes}}"></x-import>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.SidebarNavRow" icon="trophy" label="Personal bests"></x-import>
+      </nav>
+    </aside>
+
+    <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: var(--space-lg);">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm);">
+        <h2 style="flex: 1 1 auto; margin: 0; font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">Results</h2>
+        <div role="group" aria-label="Group results" style="display: inline-flex; background: var(--hairline-grey); border-radius: var(--radius-full); padding: var(--space-xxs);">
+          <button type="button" aria-pressed="true" style="height: 44px; padding: 0 var(--space-md); border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">By meet</button>
+          <button type="button" aria-pressed="false" style="height: 44px; padding: 0 var(--space-md); border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">By event</button>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: var(--space-xs);">
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="md" trailing-icon="chevron-down">Course: All</x-import>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="md" trailing-icon="chevron-down">Stroke: All</x-import>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="md" trailing-icon="chevron-down">Season: 2026–27</x-import>
+      </div>
+
+      <section style="display: flex; flex-direction: column; gap: var(--space-sm);">
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-xs);">
+          <a href="MeetDesktop.dc.html" style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); color: var(--text-heading); text-decoration: none;">Shark Invitational</a>
+          <span title="Short Course Yards" style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">SCY</x-import></span>
+          <span style="font: var(--type-body-sm); color: var(--text-muted);">Nov 14–15 · Riverside Aquatic Center</span>
+        </div>
+        <div style="overflow-x: auto; background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+          <table style="width: 100%; border-collapse: collapse; min-width: 640px;">
+            <thead>
+              <tr>
+                <th scope="col" style="text-align: left; background: var(--canvas); font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border-hairline);">Event</th>
+                <th scope="col" style="text-align: left; background: var(--canvas); font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border-hairline);">Round</th>
+                <th scope="col" style="text-align: right; background: var(--canvas); font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border-hairline);">Time</th>
+                <th scope="col" style="text-align: left; background: var(--canvas); font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border-hairline);">vs seed</th>
+                <th scope="col" style="text-align: left; background: var(--canvas); font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--border-hairline);">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); font-weight: var(--weight-medium); vertical-align: top;">
+                  <span style="display: flex; flex-direction: column; gap: var(--space-xs); align-items: flex-start;">
+                    <span>50 Freestyle</span>
+                    <span style="display: inline-flex; border: 1px dashed var(--text-faint); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink" dot="var(--accent-green)">Provisional personal best</x-import></span>
+                  </span>
+                </td>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); color: var(--text-secondary); vertical-align: top;">Timed final</td>
+                <td style="padding: var(--space-md); text-align: right; vertical-align: top;">
+                  <span style="display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-xxs);">
+                    <span style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); font-feature-settings: var(--font-features-tabular); color: var(--text-secondary);">29.48</span>
+                    <span style="display: inline-flex; border: 1px dashed var(--text-faint); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">Unofficial</x-import></span>
+                  </span>
+                </td>
+                <td style="padding: var(--space-md); vertical-align: top;">
+                  <span style="display: inline-flex; align-items: center; gap: var(--space-xxs); font: var(--type-body-sm); font-weight: var(--weight-semibold); font-feature-settings: var(--font-features-tabular);">
+                    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="arrow-down" size="{{n16}}" color="var(--accent-green)"></x-import>−0.64 <span style="font-weight: var(--weight-regular); color: var(--text-muted);">faster</span>
+                  </span>
+                </td>
+                <td style="padding: var(--space-md); font: var(--type-caption); color: var(--text-faint); vertical-align: top;">—</td>
+              </tr>
+              <tr>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); font-weight: var(--weight-medium); border-top: 1px solid var(--border-hairline); vertical-align: top;">100 Breaststroke</td>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); color: var(--text-secondary); border-top: 1px solid var(--border-hairline); vertical-align: top;">Timed final</td>
+                <td style="padding: var(--space-md); text-align: right; border-top: 1px solid var(--border-hairline); vertical-align: top;"><span style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); font-feature-settings: var(--font-features-tabular); color: var(--text-heading);">1:33.10</span></td>
+                <td style="padding: var(--space-md); border-top: 1px solid var(--border-hairline); vertical-align: top;">
+                  <span style="display: inline-flex; align-items: center; gap: var(--space-xxs); font: var(--type-body-sm); font-weight: var(--weight-semibold); font-feature-settings: var(--font-features-tabular);">
+                    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="arrow-up" size="{{n16}}" color="var(--accent-orange)"></x-import>+0.30 <span style="font-weight: var(--weight-regular); color: var(--text-muted);">slower</span>
+                  </span>
+                </td>
+                <td style="padding: var(--space-md); font: var(--type-caption); color: var(--text-faint); border-top: 1px solid var(--border-hairline); vertical-align: top;">—</td>
+              </tr>
+              <tr>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); font-weight: var(--weight-medium); border-top: 1px solid var(--border-hairline); vertical-align: top;">
+                  <span style="display: flex; align-items: flex-start; gap: var(--space-sm);">
+                  <span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--accent-teal); color: var(--white);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="users" size="{{n20}}"></x-import></span>
+                  <span style="display: flex; flex-direction: column; gap: var(--space-xs); align-items: flex-start;">
+                    <span>200 Freestyle Relay</span>
+                    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink" dot="var(--accent-teal)">Relay · team time</x-import>
+                  </span>
+                  </span>
+                </td>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); color: var(--text-secondary); border-top: 1px solid var(--border-hairline); vertical-align: top;">Timed final</td>
+                <td style="padding: var(--space-md); text-align: right; border-top: 1px solid var(--border-hairline); vertical-align: top;"><span style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); font-feature-settings: var(--font-features-tabular); color: var(--text-heading);">2:05.44</span></td>
+                <td style="padding: var(--space-md); font: var(--type-caption); color: var(--text-faint); border-top: 1px solid var(--border-hairline); vertical-align: top;">—</td>
+                <td style="padding: var(--space-md); font: var(--type-caption); color: var(--text-secondary); border-top: 1px solid var(--border-hairline); vertical-align: top;">leg 3, split 31.2</td>
+              </tr>
+              <tr>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); font-weight: var(--weight-medium); border-top: 1px solid var(--border-hairline); vertical-align: top;">100 Individual Medley</td>
+                <td style="padding: var(--space-md); font: var(--type-body-sm); color: var(--text-secondary); border-top: 1px solid var(--border-hairline); vertical-align: top;">Timed final</td>
+                <td style="padding: var(--space-md); text-align: right; border-top: 1px solid var(--border-hairline); vertical-align: top;">
+                  <span style="display: inline-flex; align-items: center; gap: var(--space-xs); padding: var(--space-xxs) var(--space-sm); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-title); color: var(--text-secondary);">
+                    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="flag" size="{{n16}}"></x-import>DQ
+                  </span>
+                </td>
+                <td style="padding: var(--space-md); font: var(--type-caption); color: var(--text-muted); border-top: 1px solid var(--border-hairline); vertical-align: top;">Disqualified</td>
+                <td style="padding: var(--space-md); font: var(--type-caption); color: var(--text-faint); border-top: 1px solid var(--border-hairline); vertical-align: top;">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() { return { yes: true, n4: 4, n16: 16, n20: 20, n24: 24, n44: 44 }; }
+}
+</script>
+</body>
+</html>

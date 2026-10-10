@@ -106,3 +106,18 @@ Bottom sheet over the meet screen. Used one-handed, in a hurry.
 
 - Meet: Shark Invitational · SCY · Nov 14–15 · Riverside Aquatic Center
 - Entries: #12 50 Freestyle, heat 3 lane 4, seed 30.12 → live 29.48 (-0.64, personal best) · #27 100 Breaststroke, heat 2 lane 5, seed 1:32.80 → official 1:33.10 (+0.30) · #41 200 Freestyle Relay, 2:05.44, note "leg 3, split 31.2" · #44 100 Individual Medley, DQ
+
+## Decisions after the design draft
+
+The draft lives in `docs/design/canvas/`, built on the design system in `docs/design/dreambig/`.
+
+- **Unsaved times are kept on the phone.** A time that fails to save is held in local storage and retried from the banner, as the failure states in the draft promise. This is not a full offline mode: reads and every other write still need a connection.
+- **Set password screen.** Invite and password-reset links land on a single form: new password, confirm, save. Sign in gains a "Forgot password" link.
+- **Screens derived from existing patterns, not drawn:**
+  - Edit entry: the Add entries step 3 row, for one entry.
+  - Add swimmer: Swimmer settings without the sharing and delete sections.
+  - Delete entry: confirmation in the system's Modal.
+  - Empty states for the Upcoming and Results tabs, and loading / empty / failed states for Home, following the Meet states.
+  - Unknown swimmer or meet: the system's EmptyState with a link home.
+  - Filter pickers: the Select from the components sheet.
+- **Not in v1:** a list of all meets, and a delete meet control.

@@ -1,0 +1,12 @@
+:root{
+/* base unit 8px */
+--space-xxs:4px;--space-xs:8px;--space-sm:12px;--space-md:16px;
+--space-lg:24px;--space-xl:28px;--space-xxl:32px;
+/* documented off-scale values — keep verbatim, do not snap to the 8px grid */
+--space-input:6px;--space-button-utility:4px 14px;--space-badge:4px 8px;
+/* semantic */
+--pad-card:var(--space-lg);--pad-nav:var(--space-md);--pad-footer:var(--space-xxl);
+--pad-hero:var(--space-xxl);--pad-empty-state:var(--space-xxl);
+--gap-grid:var(--space-lg);--gap-section:96px;
+--container-desktop:1080px;--container-wide:1300px;--gutter:var(--space-xxl)
+}

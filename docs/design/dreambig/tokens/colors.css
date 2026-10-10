@@ -1,0 +1,26 @@
+:root{
+/* ── Base: brand ─────────────────────────────────────────── */
+--blue-600:#0075de;--blue-700:#005bab;--indigo-900:#213183;
+/* ── Base: neutrals (warm) ───────────────────────────────── */
+--white:#ffffff;--paper:#f6f5f4;--hairline-grey:#e6e6e6;--input-grey:#dddddd;
+--black:#000000;--warm-charcoal:#31302e;--stone:#615d59;--ash:#a39e98;
+/* ── Base: decorative accent palette (illustration only) ─── */
+--accent-sky:#62aef0;--accent-purple:#d6b6f6;--accent-purple-deep:#391c57;
+--accent-pink:#ff64c8;--accent-orange:#dd5b00;--accent-orange-deep:#793400;
+--accent-teal:#2a9d99;--accent-green:#1aae39;--accent-brown:#523410;
+
+/* ── Semantic: action ────────────────────────────────────── */
+--color-primary:var(--blue-600);--color-primary-active:var(--blue-700);
+--color-secondary:var(--indigo-900);--color-on-primary:var(--white);
+--fill-translucent:rgba(0,0,0,0.05);
+/* ── Semantic: surface ───────────────────────────────────── */
+--canvas:var(--paper);--canvas-white:var(--white);--surface-card:var(--white);
+--surface-featured:var(--paper);--surface-night:var(--indigo-900);
+/* ── Semantic: text ──────────────────────────────────────── */
+--text-body:rgba(0,0,0,0.95);--text-heading:rgba(0,0,0,0.95);
+--text-secondary:var(--warm-charcoal);--text-muted:var(--stone);--text-faint:var(--ash);
+--text-on-dark:var(--white);--text-link:var(--color-primary);
+/* ── Semantic: line ─────────────────────────────────────── */
+--border-hairline:var(--hairline-grey);--border-input:var(--input-grey);
+--border-on-dark:rgba(255,255,255,0.16)
+}

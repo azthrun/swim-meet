@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add entries</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/styles.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/fonts.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/colors.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/typography.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/spacing.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/radius.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/elevation.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/motion.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/base.css">
+<script src="/_blob/618d86b92ca8d894604b56ae1d973a10"></script>
+<script src="ds/dreambigdesignsystem_59eada/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;display=swap">
+<style>
+body{margin:0}
+/* NEW (proposed): DreamBig has only "lnum". Times need tabular figures. */
+:root{--font-features-tabular:"lnum" 1,"tnum" 1}
+a{color:var(--text-link)}a:hover{color:var(--color-primary-active)}
+</style>
+</helmet>
+<div style="width: 1250px; height: 1100px; display: flex; gap: 40px; font-family: var(--font-sans); font-feature-settings: var(--font-features); color: var(--text-body);">
+
+  <!-- Step 1 -->
+  <div style="width: 390px; height: 1100px; flex: none; box-sizing: border-box; background: var(--canvas); display: flex; flex-direction: column; overflow: hidden;">
+    <div style="flex: none; display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-sm) var(--space-md) var(--space-md) var(--space-xs); background: var(--surface-card); border-bottom: 1px solid var(--border-hairline);">
+      <div style="display: flex; align-items: center; gap: var(--space-xs);">
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="x" label="Cancel" tone="on-light" size="{{n44}}"></x-import>
+        <h1 style="flex: 1; margin: 0; font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">Add entries</h1>
+        <span style="font: var(--type-caption); color: var(--text-muted);">Step 1 of 3</span>
+      </div>
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xxs); padding-left: var(--space-sm);">
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--color-primary);"></span>
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--hairline-grey);"></span>
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--hairline-grey);"></span>
+      </div>
+    </div>
+    <main style="flex: 1; display: flex; flex-direction: column; gap: var(--space-lg); padding: var(--space-lg) var(--space-md);">
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-title); letter-spacing: var(--tracking-title);">Swimmer</legend>
+        <label style="display: flex; align-items: center; gap: var(--space-sm); min-height: 56px; padding: 0 var(--space-md); background: var(--surface-card); border: 1px solid var(--color-primary); border-radius: var(--radius-card); font: var(--type-body-md);">
+          <input type="radio" name="swimmer" checked style="width: 20px; height: 20px; margin: 0; accent-color: var(--color-primary);">Jayden
+        </label>
+        <label style="display: flex; align-items: center; gap: var(--space-sm); min-height: 56px; padding: 0 var(--space-md); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card); font: var(--type-body-md);">
+          <input type="radio" name="swimmer" style="width: 20px; height: 20px; margin: 0; accent-color: var(--color-primary);">[Swimmer 2]
+        </label>
+      </fieldset>
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-title); letter-spacing: var(--tracking-title);">Meet</legend>
+        <label style="display: flex; align-items: center; gap: var(--space-sm); min-height: 64px; padding: var(--space-sm) var(--space-md); background: var(--surface-card); border: 1px solid var(--color-primary); border-radius: var(--radius-card);">
+          <input type="radio" name="meet" checked style="width: 20px; height: 20px; margin: 0; accent-color: var(--color-primary);">
+          <span style="flex: 1; display: flex; flex-direction: column; gap: var(--space-xxs);">
+            <span style="font: var(--type-body-md); font-weight: var(--weight-medium);">Shark Invitational</span>
+            <span style="display: flex; align-items: center; gap: var(--space-xs); font: var(--type-caption); color: var(--text-muted);">
+              <span style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">SCY</x-import></span>
+              Nov 14–15 · Riverside Aquatic Center
+            </span>
+          </span>
+        </label>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="md" icon="plus">Create a new meet</x-import>
+      </fieldset>
+    </main>
+    <div style="flex: none; padding: var(--space-md); background: var(--surface-card); border-top: 1px solid var(--border-hairline);">
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" trailing-icon="arrow-right" full-width="{{yes}}">Next: events</x-import>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div style="width: 390px; height: 1100px; flex: none; box-sizing: border-box; background: var(--canvas); display: flex; flex-direction: column; overflow: hidden;">
+    <div style="flex: none; display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-sm) var(--space-md) var(--space-md) var(--space-xs); background: var(--surface-card); border-bottom: 1px solid var(--border-hairline);">
+      <div style="display: flex; align-items: center; gap: var(--space-xs);">
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="chevron-left" label="Back" tone="on-light" size="{{n44}}"></x-import>
+        <h1 style="flex: 1; margin: 0; font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">Add entries</h1>
+        <span style="font: var(--type-caption); color: var(--text-muted);">Step 2 of 3</span>
+      </div>
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xxs); padding-left: var(--space-sm);">
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--color-primary);"></span>
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--color-primary);"></span>
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--hairline-grey);"></span>
+      </div>
+    </div>
+    <main style="flex: 1; display: flex; flex-direction: column; gap: var(--space-md); padding: var(--space-md);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-xxs);">
+        <span style="font: var(--type-body-sm); color: var(--text-secondary);">Jayden · Shark Invitational</span>
+        <span style="display: flex; align-items: center; gap: var(--space-xs); font: var(--type-caption); color: var(--text-muted);">
+          <span style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">SCY</x-import></span>
+          Events for Short Course Yards. Locked ones are already entered.
+        </span>
+      </div>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-body-sm); font-weight: var(--weight-semibold);">Freestyle</legend>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--canvas); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); font: var(--type-body-sm); color: var(--text-muted);"><input type="checkbox" checked disabled style="width: 18px; height: 18px; margin: 0; accent-color: var(--text-muted);">50<x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="lock" size="{{n12}}"></x-import></label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--color-primary); border-radius: var(--radius-md); font: var(--type-body-sm); font-weight: var(--weight-medium);"><input type="checkbox" checked style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">100</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">200</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">500</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">1000</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">1650</label>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-body-sm); font-weight: var(--weight-semibold);">Backstroke</legend>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--color-primary); border-radius: var(--radius-md); font: var(--type-body-sm); font-weight: var(--weight-medium);"><input type="checkbox" checked style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">50</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">100</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">200</label>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-body-sm); font-weight: var(--weight-semibold);">Breaststroke</legend>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">50</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--canvas); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); font: var(--type-body-sm); color: var(--text-muted);"><input type="checkbox" checked disabled style="width: 18px; height: 18px; margin: 0; accent-color: var(--text-muted);">100<x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="lock" size="{{n12}}"></x-import></label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">200</label>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-body-sm); font-weight: var(--weight-semibold);">Butterfly</legend>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">50</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">100</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">200</label>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-body-sm); font-weight: var(--weight-semibold);">Individual Medley</legend>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--canvas); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); font: var(--type-body-sm); color: var(--text-muted);"><input type="checkbox" checked disabled style="width: 18px; height: 18px; margin: 0; accent-color: var(--text-muted);">100<x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="lock" size="{{n12}}"></x-import></label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">200</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">400</label>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-body-sm); font-weight: var(--weight-semibold);">Freestyle Relay</legend>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--canvas); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); font: var(--type-body-sm); color: var(--text-muted);"><input type="checkbox" checked disabled style="width: 18px; height: 18px; margin: 0; accent-color: var(--text-muted);">200<x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="lock" size="{{n12}}"></x-import></label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">400</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">800</label>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: var(--space-xs);">
+        <legend style="padding: 0 0 var(--space-xs); font: var(--type-body-sm); font-weight: var(--weight-semibold);">Medley Relay</legend>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">200</label>
+          <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">400</label>
+        </div>
+      </fieldset>
+    </main>
+    <div style="flex: none; display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md); background: var(--surface-card); border-top: 1px solid var(--border-hairline);">
+      <span style="font: var(--type-caption); color: var(--text-muted); text-align: center;">2 new events chosen</span>
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" trailing-icon="arrow-right" full-width="{{yes}}">Next: details</x-import>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div style="width: 390px; height: 1100px; flex: none; box-sizing: border-box; background: var(--canvas); display: flex; flex-direction: column; overflow: hidden;">
+    <div style="flex: none; display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-sm) var(--space-md) var(--space-md) var(--space-xs); background: var(--surface-card); border-bottom: 1px solid var(--border-hairline);">
+      <div style="display: flex; align-items: center; gap: var(--space-xs);">
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="chevron-left" label="Back" tone="on-light" size="{{n44}}"></x-import>
+        <h1 style="flex: 1; margin: 0; font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">Add entries</h1>
+        <span style="font: var(--type-caption); color: var(--text-muted);">Step 3 of 3</span>
+      </div>
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xxs); padding-left: var(--space-sm);">
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--color-primary);"></span>
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--color-primary);"></span>
+        <span style="height: 4px; border-radius: var(--radius-full); background: var(--color-primary);"></span>
+      </div>
+    </div>
+    <main style="flex: 1; display: flex; flex-direction: column; gap: var(--space-md); padding: var(--space-md);">
+      <p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Only the date is required. Everything else can be filled in later.</p>
+
+      <section style="display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-md); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+        <h2 style="margin: 0; font: var(--type-title); letter-spacing: var(--tracking-title);">100 Freestyle</h2>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm);">
+          <label style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font: var(--type-caption); color: var(--text-secondary);">Date</span>
+            <span style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-input); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-input); font: var(--type-body-sm);"><span style="flex: 1;">Sat, Nov 14</span><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-down" size="{{n16}}" color="var(--text-muted)"></x-import></span>
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font: var(--type-caption); color: var(--text-secondary);">Round</span>
+            <span style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-input); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-input); font: var(--type-body-sm);"><span style="flex: 1;">Timed final</span><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-down" size="{{n16}}" color="var(--text-muted)"></x-import></span>
+          </label>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-sm);">
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Event #" placeholder="—"></x-import>
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Heat" placeholder="—"></x-import>
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Lane" placeholder="—"></x-import>
+        </div>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Seed time" placeholder="e.g. 1:05.32" hint="No personal best to pre-fill."></x-import>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Notes" placeholder="Optional"></x-import>
+      </section>
+
+      <section style="display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-md); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+        <h2 style="margin: 0; font: var(--type-title); letter-spacing: var(--tracking-title);">50 Backstroke</h2>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm);">
+          <label style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font: var(--type-caption); color: var(--text-secondary);">Date</span>
+            <span style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-input); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-input); font: var(--type-body-sm);"><span style="flex: 1;">Sat, Nov 14</span><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-down" size="{{n16}}" color="var(--text-muted)"></x-import></span>
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font: var(--type-caption); color: var(--text-secondary);">Round</span>
+            <span style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-input); background: var(--surface-card); border: 1px solid var(--border-input); border-radius: var(--radius-input); font: var(--type-body-sm);"><span style="flex: 1;">Timed final</span><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-down" size="{{n16}}" color="var(--text-muted)"></x-import></span>
+          </label>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-sm);">
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Event #" placeholder="—"></x-import>
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Heat" placeholder="—"></x-import>
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Lane" placeholder="—"></x-import>
+        </div>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Seed time" placeholder="e.g. 28.41" hint="No personal best to pre-fill."></x-import>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Notes" placeholder="Optional"></x-import>
+      </section>
+    </main>
+    <div style="flex: none; padding: var(--space-md); background: var(--surface-card); border-top: 1px solid var(--border-hairline);">
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="check" full-width="{{yes}}">Create 2 entries</x-import>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1250,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return { yes: true, n12: 12, n16: 16, n20: 20, n24: 24, n28: 28, n44: 44 }; }
+}
+</script>
+</body>
+</html>

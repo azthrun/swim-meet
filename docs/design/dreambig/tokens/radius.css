@@ -1,0 +1,8 @@
+:root{
+--radius-xs:4px;--radius-sm:5px;--radius-md:8px;--radius-lg:12px;--radius-xl:16px;--radius-full:9999px;
+/* semantic */
+--radius-input:var(--radius-xs);--radius-menu-item:var(--radius-sm);
+--radius-button-utility:var(--radius-md);--radius-button-pill:var(--radius-full);
+--radius-card:var(--radius-lg);--radius-plan-card:var(--radius-md);
+--radius-media:var(--radius-lg);--radius-well:var(--radius-xl)
+}

@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Composed components</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/styles.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/fonts.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/colors.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/typography.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/spacing.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/radius.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/elevation.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/motion.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/base.css">
+<script src="/_blob/618d86b92ca8d894604b56ae1d973a10"></script>
+<script src="ds/dreambigdesignsystem_59eada/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;display=swap">
+<style>
+body{margin:0}
+/* NEW (proposed): DreamBig has only "lnum". Times need tabular figures. */
+:root{--font-features-tabular:"lnum" 1,"tnum" 1}
+a{color:var(--text-link)}a:hover{color:var(--color-primary-active)}
+</style>
+</helmet>
+<div style="width: 1600px; height: 1700px; box-sizing: border-box; padding: 48px; background: var(--canvas); color: var(--text-body); font-family: var(--font-sans); font-feature-settings: var(--font-features); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-lg); align-content: start;">
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">AppHeader</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">NavBar chrome (white, hairline bottom) · Wordmark type rule for “Swim Meet” · IconButton on-light 44</p></div>
+    <div style="display: flex; align-items: center; gap: var(--space-sm); height: 60px; padding: 0 var(--space-md); border: 1px solid var(--border-hairline); border-radius: var(--radius-md);">
+      <span style="flex: 1; font-weight: var(--weight-bold); font-size: var(--size-title); letter-spacing: -0.8px;">Swim Meet</span>
+      <div style="display: inline-flex; background: var(--canvas); border-radius: var(--radius-full);">
+        <button type="button" style="min-width: 56px; height: 44px; border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans);">EN</button>
+        <button type="button" style="min-width: 56px; height: 44px; border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">中文</button>
+      </div>
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="circle-user" label="Account" tone="on-light" size="{{n44}}"></x-import>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">SegmentedControl</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Track: one step darker than its surface (canvas or hairline-grey) · active: surface-card + shadow-soft · radius-full · 44px</p></div>
+    <div style="display: flex; background: var(--canvas); border-radius: var(--radius-full); padding: var(--space-xxs);">
+      <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans);">Live time</button>
+      <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">Official time</button>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xxs); background: var(--canvas); border-radius: var(--radius-md); padding: var(--space-xxs);">
+      <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-body-sm); font-weight: var(--weight-medium); font-family: var(--font-sans);">Swum</button>
+      <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">DQ</button>
+      <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">No Show</button>
+      <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">Scratched</button>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">TabBar</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">type-button · text-muted / text-heading · 2px color-primary indicator (SidebarNavRow’s active signal) · 48px</p></div>
+    <nav style="display: flex; border-bottom: 1px solid var(--border-hairline);">
+      <span style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; font: var(--type-button); color: var(--text-muted); border-bottom: 2px solid transparent;">Upcoming</span>
+      <span style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; font: var(--type-button); color: var(--text-heading); border-bottom: 2px solid var(--color-primary);">Results</span>
+      <span style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; font: var(--type-button); color: var(--text-muted); border-bottom: 2px solid transparent;">Personal bests</span>
+    </nav>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">CourseBadge</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">BadgePill tone ink, wrapped in a 1px border-hairline ring so it reads on white · full name in title / next to it</p></div>
+    <div style="display: flex; gap: var(--space-sm); align-items: center;">
+      <span style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">SCY</x-import></span>
+      <span style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">SCM</x-import></span>
+      <span style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">LCM</x-import></span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">TimeValue</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">type-heading-2 in lists, type-display-1 in the sheet · + tabular figures (proposed token)</p></div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-sm);">
+      <div style="display: flex; flex-direction: column; gap: var(--space-xxs);"><span style="font: var(--type-eyebrow); text-transform: uppercase; color: var(--text-muted);">Official</span><span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2); font-feature-settings: var(--font-features-tabular); color: var(--text-heading);">1:33.10</span></div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-xxs); align-items: flex-start;"><span style="font: var(--type-eyebrow); text-transform: uppercase; color: var(--text-muted);">Live</span><span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2); font-feature-settings: var(--font-features-tabular); color: var(--text-secondary);">29.48</span><span style="display: inline-flex; border: 1px dashed var(--text-faint); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">Unofficial</x-import></span></div>
+      <div style="display: flex; flex-direction: column; gap: var(--space-xxs);"><span style="font: var(--type-eyebrow); text-transform: uppercase; color: var(--text-muted);">Missing</span><span style="font: var(--type-heading-2); color: var(--text-faint);">—</span></div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">Personal best badges</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">BadgePill + accent-green dot · official: tone primary, solid hairline ring · provisional: tone ink, dashed ring (dashed = not yet official, same as Unofficial)</p></div>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+      <span style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="primary" dot="var(--accent-green)">Personal best</x-import></span>
+      <span style="display: inline-flex; border: 1px dashed var(--text-faint); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink" dot="var(--accent-green)">Provisional personal best</x-import></span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">DropIndicator</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Arrow direction + sign + word carry it; accent-green / accent-orange glyph only repeats it · text stays text-body</p></div>
+    <div style="display: flex; gap: var(--space-lg);">
+      <span style="display: inline-flex; align-items: center; gap: var(--space-xxs); font: var(--type-caption); font-weight: var(--weight-semibold); font-feature-settings: var(--font-features-tabular);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="arrow-down" size="{{n16}}" color="var(--accent-green)"></x-import>−0.64 <span style="font-weight: var(--weight-regular); color: var(--text-muted);">faster</span></span>
+      <span style="display: inline-flex; align-items: center; gap: var(--space-xxs); font: var(--type-caption); font-weight: var(--weight-semibold); font-feature-settings: var(--font-features-tabular);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="arrow-up" size="{{n16}}" color="var(--accent-orange)"></x-import>+0.30 <span style="font-weight: var(--weight-regular); color: var(--text-muted);">slower</span></span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">StatusBlock</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Takes the time’s place · type-title, text-secondary · border-input, radius-md · Icon flag / user-x / circle-slash</p></div>
+    <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+      <span style="display: inline-flex; align-items: center; gap: var(--space-xs); padding: var(--space-xxs) var(--space-sm); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-title); color: var(--text-secondary);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="flag" size="{{n16}}"></x-import>DQ</span>
+      <span style="display: inline-flex; align-items: center; gap: var(--space-xs); padding: var(--space-xxs) var(--space-sm); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-title); color: var(--text-secondary);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="user-x" size="{{n16}}"></x-import>No Show</span>
+      <span style="display: inline-flex; align-items: center; gap: var(--space-xs); padding: var(--space-xxs) var(--space-sm); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-title); color: var(--text-secondary);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="circle-slash" size="{{n16}}"></x-import>Scratched</span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">Relay row</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">White card like every row · 40px accent-teal tile, radius-md, white users glyph (the system’s accent-tile pattern) · BadgePill ink + accent-teal dot · “Team time” eyebrow · never gets a PB badge</p></div>
+    <div style="display: flex; align-items: flex-start; gap: var(--space-md); padding: var(--space-md); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+      <span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--accent-teal); color: var(--white);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="users" size="{{n20}}"></x-import></span>
+      <span style="flex: 1; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs);"><span style="font: var(--type-title);">200 Freestyle Relay</span><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink" dot="var(--accent-teal)">Relay</x-import></span>
+      <span style="display: flex; flex-direction: column; align-items: flex-end;"><span style="font: var(--type-eyebrow); text-transform: uppercase; color: var(--text-muted);">Team time</span><span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2); font-feature-settings: var(--font-features-tabular);">2:05.44</span></span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">NumberPad</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Keys: canvas fill, radius-lg, 60px, type-heading-2 · Clear / Backspace: surface-card + hairline · press = utility-button press (hairline-grey, scale 0.97)</p></div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+      <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">7</span>
+      <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--hairline-grey); font: var(--type-heading-2); transform: scale(var(--press-scale-subtle));">8</span>
+      <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">9</span>
+      <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); box-shadow: inset 0 0 0 1px var(--border-hairline); font: var(--type-button); color: var(--text-secondary);">Clear</span>
+      <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">0</span>
+      <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); box-shadow: inset 0 0 0 1px var(--border-hairline); color: var(--text-secondary);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="delete" size="{{n28}}"></x-import></span>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">BottomSheet</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Modal’s scrim rgba(0,0,0,0.28) and shadow-modal · radius-well on top corners only · grabber border-input 40×4</p></div>
+    <div style="position: relative; height: 180px; border-radius: var(--radius-md); overflow: hidden; background: rgba(0,0,0,0.28);">
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; top: 40px; display: flex; flex-direction: column; gap: var(--space-sm); padding: var(--space-xs) var(--space-md); background: var(--surface-card); border-radius: var(--radius-well) var(--radius-well) 0 0; box-shadow: var(--shadow-modal);">
+        <span style="align-self: center; width: 40px; height: 4px; border-radius: var(--radius-full); background: var(--border-input);"></span>
+        <span style="font: var(--type-title);">Jayden · 50 Freestyle</span>
+        <span style="font: var(--type-caption); color: var(--text-muted);">#12 · Heat 3 · Lane 4 · Seed 30.12</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">Save feedback</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Saved: Toast (check, accent-green) · Failed: persistent banner, 2px accent-orange ring (the focus-ring width), triangle-alert, primary Retry</p></div>
+    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Toast" icon="check" accent="var(--accent-green)">Saved · 50 Freestyle 29.48</x-import>
+    <div style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md); border: 2px solid var(--accent-orange); border-radius: var(--radius-card);">
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="triangle-alert" size="{{n24}}" color="var(--accent-orange)"></x-import>
+      <span style="flex: 1; display: flex; flex-direction: column;"><span style="font: var(--type-body-sm); font-weight: var(--weight-semibold);">Not saved. No signal.</span><span style="font: var(--type-caption); color: var(--text-secondary);">Kept on this phone.</span></span>
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="md" icon="rotate-cw">Retry</x-import>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">Select · CheckChip</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">Select = TextInput chrome + chevron-down · Chip: border-input / color-primary when chosen / canvas + lock when already entered · 48px</p></div>
+    <span style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-input); border: 1px solid var(--border-input); border-radius: var(--radius-input); font: var(--type-body-sm);"><span style="flex: 1;">Timed final</span><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-down" size="{{n16}}" color="var(--text-muted)"></x-import></span>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+      <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); border: 1px solid var(--border-input); border-radius: var(--radius-md); font: var(--type-body-sm);"><input type="checkbox" style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">200</label>
+      <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); border: 1px solid var(--color-primary); border-radius: var(--radius-md); font: var(--type-body-sm); font-weight: var(--weight-medium);"><input type="checkbox" checked style="width: 18px; height: 18px; margin: 0; accent-color: var(--color-primary);">100</label>
+      <label style="display: flex; align-items: center; gap: var(--space-xs); min-height: 48px; padding: 0 var(--space-sm); background: var(--canvas); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); font: var(--type-body-sm); color: var(--text-muted);"><input type="checkbox" checked disabled style="width: 18px; height: 18px; margin: 0; accent-color: var(--text-muted);">50<x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="lock" size="{{n12}}"></x-import></label>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div><h2 style="margin: 0; font: var(--type-title);">PB grid cells</h2><p style="margin: 0; font: var(--type-caption); color: var(--text-muted);">DataTable header chrome · time in type-title, date in caption · empty = blank white · not an event in this course = canvas fill</p></div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--border-hairline); border-radius: var(--radius-md); overflow: hidden;">
+      <span style="display: flex; flex-direction: column; gap: var(--space-xxs); min-height: 64px; padding: var(--space-xs) var(--space-sm);"><span style="font: var(--type-title); font-feature-settings: var(--font-features-tabular);">1:32.80</span><span style="font: var(--type-caption); color: var(--text-muted);">[date]</span></span>
+      <span style="border-left: 1px solid var(--border-hairline);"></span>
+      <span style="background: var(--canvas); border-left: 1px solid var(--border-hairline);"></span>
+    </div>
+  </section>
+
+  <section style="grid-column: span 2; display: flex; flex-direction: column; gap: var(--space-md); padding: var(--pad-card); background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card);">
+    <div style="display: flex; align-items: center; gap: var(--space-sm);">
+      <h2 style="margin: 0; font: var(--type-title);">Proposed token · --font-features-tabular</h2>
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="primary">New</x-import>
+    </div>
+    <p style="margin: 0; font: var(--type-body-sm); color: var(--text-secondary);">DreamBig sets only <code>--font-features: "lnum" 1, "locl" 1</code>. Inter has tabular figures, but there is no token for them. Smallest addition: <code>--font-features-tabular: "lnum" 1, "tnum" 1</code>, used only on times and seeds.</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-lg);">
+      <div style="display: flex; flex-direction: column; align-items: flex-end; padding: var(--space-md); background: var(--canvas); border-radius: var(--radius-md);">
+        <span style="font: var(--type-eyebrow); text-transform: uppercase; color: var(--text-muted); align-self: flex-start;">Today: proportional</span>
+        <span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">1:11.11</span>
+        <span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">1:08.40</span>
+        <span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">29.48</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; padding: var(--space-md); background: var(--canvas); border-radius: var(--radius-md); font-feature-settings: var(--font-features-tabular);">
+        <span style="font: var(--type-eyebrow); text-transform: uppercase; color: var(--text-muted); align-self: flex-start;">With the token: tabular</span>
+        <span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">1:11.11</span>
+        <span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">1:08.40</span>
+        <span style="font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2);">29.48</span>
+      </div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() { return { yes: true, n12: 12, n16: 16, n20: 20, n24: 24, n28: 28, n44: 44 }; }
+}
+</script>
+</body>
+</html>

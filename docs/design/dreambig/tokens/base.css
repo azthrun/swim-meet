@@ -1,0 +1,14 @@
+/* Minimal element defaults so a bare page already reads as DreamBig. */
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{margin:0;background:var(--canvas);color:var(--text-body);font:var(--type-body-md);font-feature-settings:var(--font-features);text-wrap:pretty}
+h1,h2,h3,h4{margin:0;color:var(--text-heading)}
+h1{font:var(--type-heading-1);letter-spacing:var(--tracking-heading-1)}
+h2{font:var(--type-heading-2);letter-spacing:var(--tracking-heading-2)}
+h3{font:var(--type-heading-3);letter-spacing:var(--tracking-heading-3)}
+h4{font:var(--type-title);letter-spacing:var(--tracking-title)}
+p{margin:0}
+a{color:var(--text-link);text-decoration:none}
+a:hover{color:var(--color-primary-active);text-decoration:underline}
+a:active{color:var(--color-primary-active)}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+hr{border:0;border-top:1px solid var(--border-hairline);margin:0}

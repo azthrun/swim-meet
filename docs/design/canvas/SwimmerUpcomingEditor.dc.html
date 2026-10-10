@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Swimmer · Upcoming · editor</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/styles.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/fonts.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/colors.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/typography.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/spacing.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/radius.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/elevation.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/motion.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/base.css">
+<script src="/_blob/618d86b92ca8d894604b56ae1d973a10"></script>
+<script src="ds/dreambigdesignsystem_59eada/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;display=swap">
+<style>
+body{margin:0}
+/* NEW (proposed): DreamBig has only "lnum". Times need tabular figures. */
+:root{--font-features-tabular:"lnum" 1,"tnum" 1}
+a{color:var(--text-link)}a:hover{color:var(--color-primary-active)}
+</style>
+</helmet>
+<div style="width: 390px; height: 1100px; box-sizing: border-box; background: var(--canvas); color: var(--text-body); font-family: var(--font-sans); font-feature-settings: var(--font-features); display: flex; flex-direction: column; overflow: hidden;">
+
+  <header style="display: flex; align-items: center; gap: var(--space-sm); height: 60px; padding: 0 var(--space-md); background: var(--surface-card); border-bottom: 1px solid var(--border-hairline); flex: none;">
+    <a href="HomeEditor.dc.html" style="flex: 1; font-weight: var(--weight-bold); font-size: var(--size-title); line-height: 1; letter-spacing: -0.8px; color: var(--text-heading); text-decoration: none;">Swim Meet</a>
+    <div role="group" aria-label="Language" style="display: inline-flex; background: var(--canvas); border-radius: var(--radius-full);">
+      <button type="button" aria-pressed="true" style="min-width: 56px; height: 44px; padding: 0 var(--space-sm); border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">EN</button>
+      <button type="button" aria-pressed="false" style="min-width: 56px; height: 44px; padding: 0 var(--space-sm); border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">中文</button>
+    </div>
+    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="circle-user" label="Account: sign out" tone="on-light" size="{{n44}}"></x-import>
+  </header>
+
+  <div style="flex: none; background: var(--surface-card); border-bottom: 1px solid var(--border-hairline);">
+    <div style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md) var(--space-xs) var(--space-xs);">
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="chevron-left" label="Back to swimmers" tone="on-light" size="{{n44}}"></x-import>
+      <h1 style="flex: 1; margin: 0; font: var(--type-heading-1); letter-spacing: var(--tracking-heading-1); color: var(--text-heading);">Jayden</h1>
+      <a href="SwimmerSettings.dc.html" aria-label="Swimmer settings" style="display: inline-flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="settings" label="Swimmer settings" tone="on-light" size="{{n44}}"></x-import></a>
+    </div>
+    <nav aria-label="Swimmer sections" style="display: flex; padding: 0 var(--space-xs);">
+      <a href="SwimmerUpcomingEditor.dc.html" aria-current="page" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; font: var(--type-button); font-family: var(--font-sans); color: var(--text-heading); border-bottom: 2px solid var(--color-primary); text-decoration: none;">Upcoming</a>
+      <a href="SwimmerResultsEditor.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted); border-bottom: 2px solid transparent; text-decoration: none;">Results</a>
+      <a href="SwimmerPBs.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 48px; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted); border-bottom: 2px solid transparent; text-decoration: none;">Personal bests</a>
+    </nav>
+  </div>
+
+  <main style="flex: 1; display: flex; flex-direction: column; gap: var(--space-md); padding: var(--space-md);">
+    <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="plus" full-width="{{yes}}">Add entries</x-import>
+
+    <section style="background: var(--surface-card); border: 1px solid var(--border-hairline); border-radius: var(--radius-card); overflow: hidden;">
+      <div style="display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md);">
+        <a href="MeetEditor.dc.html" style="display: flex; align-items: center; gap: var(--space-xs); min-height: 44px; color: var(--text-heading); text-decoration: none;">
+          <span style="flex: 1; font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3);">Shark Invitational</span>
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="chevron-right" size="{{n20}}" color="var(--text-faint)"></x-import>
+        </a>
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-xs); font: var(--type-body-sm); color: var(--text-secondary);">
+          <span title="Short Course Yards" style="display: inline-flex; border: 1px solid var(--border-hairline); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink">SCY</x-import></span>
+          <span>Sat–Sun, Nov 14–15</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: var(--space-xs); font: var(--type-body-sm); color: var(--text-muted);">
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="map-pin" size="{{n16}}"></x-import>
+          <span>Riverside Aquatic Center</span>
+        </div>
+        <a href="#live" style="display: inline-flex; align-items: center; gap: var(--space-xs); min-height: 44px; align-self: flex-start; font: var(--type-body-sm);">
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="external-link" size="{{n16}}"></x-import>
+          <span>Live results</span>
+        </a>
+      </div>
+
+      <ol style="list-style: none; margin: 0; padding: 0;">
+        <li style="display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md) var(--space-md) var(--space-xs); border-top: 1px solid var(--border-hairline);">
+          <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-xxs);">
+              <span style="font: var(--type-title); letter-spacing: var(--tracking-title); color: var(--text-heading);">50 Freestyle</span>
+              <span style="font: var(--type-caption); color: var(--text-muted);">Sat, Nov 14 · #12 · Heat 3 · Lane 4</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-xxs);">
+              <span style="font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted);">Seed</span>
+              <span style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); font-feature-settings: var(--font-features-tabular); color: var(--text-heading);">30.12</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: var(--space-xs);">
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="pencil" label="Edit entry: 50 Freestyle" tone="on-light" size="{{n44}}"></x-import>
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="trash-2" label="Delete entry: 50 Freestyle" tone="on-light" size="{{n44}}"></x-import>
+          </div>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md) var(--space-md) var(--space-xs); border-top: 1px solid var(--border-hairline);">
+          <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-xxs);">
+              <span style="font: var(--type-title); letter-spacing: var(--tracking-title); color: var(--text-heading);">100 Breaststroke</span>
+              <span style="font: var(--type-caption); color: var(--text-muted);">Sat, Nov 14 · #27 · Heat 2 · Lane 5</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-xxs);">
+              <span style="font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted);">Seed</span>
+              <span style="font: var(--type-heading-3); letter-spacing: var(--tracking-heading-3); font-feature-settings: var(--font-features-tabular); color: var(--text-heading);">1:32.80</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: var(--space-xs);">
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="pencil" label="Edit entry: 100 Breaststroke" tone="on-light" size="{{n44}}"></x-import>
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="trash-2" label="Delete entry: 100 Breaststroke" tone="on-light" size="{{n44}}"></x-import>
+          </div>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md) var(--space-md) var(--space-xs); border-top: 1px solid var(--border-hairline);">
+          <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+            <span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--accent-teal); color: var(--white);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="users" size="{{n20}}"></x-import></span>
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-xxs);">
+              <span style="display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-xs);">
+                <span style="font: var(--type-title); letter-spacing: var(--tracking-title); color: var(--text-heading);">200 Freestyle Relay</span>
+                <x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink" dot="var(--accent-teal)">Relay</x-import>
+              </span>
+              <span style="font: var(--type-caption); color: var(--text-muted);">Sun, Nov 15 · #41</span>
+              <span style="font: var(--type-caption); color: var(--text-secondary);">Note: leg 3</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-xxs);">
+              <span style="font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted);">Seed</span>
+              <span aria-label="No seed time" style="font: var(--type-heading-3); color: var(--text-faint);">—</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: var(--space-xs);">
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="pencil" label="Edit entry: 200 Freestyle Relay" tone="on-light" size="{{n44}}"></x-import>
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="trash-2" label="Delete entry: 200 Freestyle Relay" tone="on-light" size="{{n44}}"></x-import>
+          </div>
+        </li>
+        <li style="display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md) var(--space-md) var(--space-xs); border-top: 1px solid var(--border-hairline);">
+          <div style="display: flex; align-items: flex-start; gap: var(--space-md);">
+            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--space-xxs);">
+              <span style="font: var(--type-title); letter-spacing: var(--tracking-title); color: var(--text-heading);">100 Individual Medley</span>
+              <span style="font: var(--type-caption); color: var(--text-muted);">Sun, Nov 15 · #44</span>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-xxs);">
+              <span style="font: var(--type-eyebrow); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted);">Seed</span>
+              <span aria-label="No seed time" style="font: var(--type-heading-3); color: var(--text-faint);">—</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: var(--space-xs);">
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="pencil" label="Edit entry: 100 Individual Medley" tone="on-light" size="{{n44}}"></x-import>
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="trash-2" label="Delete entry: 100 Individual Medley" tone="on-light" size="{{n44}}"></x-import>
+          </div>
+        </li>
+      </ol>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() { return { yes: true, n16: 16, n20: 20, n24: 24, n44: 44 }; }
+}
+</script>
+</body>
+</html>

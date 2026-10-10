@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Time entry states</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/styles.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/fonts.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/colors.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/typography.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/spacing.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/radius.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/elevation.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/motion.css">
+<link rel="stylesheet" href="ds/dreambigdesignsystem_59eada/tokens/base.css">
+<script src="/_blob/618d86b92ca8d894604b56ae1d973a10"></script>
+<script src="ds/dreambigdesignsystem_59eada/_ds_bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;display=swap">
+<style>
+body{margin:0}
+/* NEW (proposed): DreamBig has only "lnum". Times need tabular figures. */
+:root{--font-features-tabular:"lnum" 1,"tnum" 1}
+a{color:var(--text-link)}a:hover{color:var(--color-primary-active)}
+</style>
+</helmet>
+<div style="width: 2110px; height: 844px; display: flex; gap: 40px; font-family: var(--font-sans); font-feature-settings: var(--font-features); color: var(--text-body);">
+
+  <!-- 1 · Empty: no time typed yet -->
+  <div style="width: 390px; height: 844px; flex: none; position: relative; overflow: hidden; background: rgba(0,0,0,0.28);">
+    <section role="dialog" aria-label="Enter time" style="position: absolute; left: 0; right: 0; bottom: 0; top: 48px; display: flex; flex-direction: column; gap: var(--space-sm); box-sizing: border-box; padding: var(--space-xs) var(--space-md) var(--space-md); background: var(--surface-card); border-radius: var(--radius-well) var(--radius-well) 0 0; box-shadow: var(--shadow-modal);">
+      <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: var(--radius-full); background: var(--border-input);"></span>
+      <div style="display: flex; align-items: flex-start; gap: var(--space-xs);">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: var(--space-xxs);">
+          <h2 style="margin: 0; font: var(--type-title); letter-spacing: var(--tracking-title);">Jayden · 100 Breaststroke</h2>
+          <span style="font: var(--type-caption); color: var(--text-muted);">#27 · Timed final · Heat 2 · Lane 5 · Seed <span style="font-feature-settings: var(--font-features-tabular);">1:32.80</span></span>
+        </div>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="x" label="Close" tone="on-light" size="{{n44}}"></x-import>
+      </div>
+      <div style="display: flex; background: var(--canvas); border-radius: var(--radius-full); padding: var(--space-xxs);">
+        <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">Live time</button>
+        <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">Official time</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xxs); background: var(--canvas); border-radius: var(--radius-md); padding: var(--space-xxs);">
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-body-sm); font-weight: var(--weight-medium); font-family: var(--font-sans); color: var(--text-body);">Swum</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">DQ</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">No Show</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">Scratched</button>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-hairline); border-radius: var(--radius-well);">
+        <output style="font: var(--type-display-1); letter-spacing: var(--tracking-display-1); font-feature-settings: var(--font-features-tabular); color: var(--text-faint);">0:00.00</output>
+        <span style="font: var(--type-caption); color: var(--text-muted);">Type the digits: 13310 → 1:33.10</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">1</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">2</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">3</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">4</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">5</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">6</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">7</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">8</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">9</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--surface-card); box-shadow: inset 0 0 0 1px var(--border-hairline); font: var(--type-button); font-family: var(--font-sans); color: var(--text-secondary);">Clear</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">0</button>
+        <button type="button" aria-label="Backspace" style="display: flex; align-items: center; justify-content: center; height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--surface-card); box-shadow: inset 0 0 0 1px var(--border-hairline); color: var(--text-secondary);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="delete" size="{{n28}}"></x-import></button>
+      </div>
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Notes" placeholder="Relay leg, split…"></x-import>
+      <div style="display: flex; gap: var(--space-xs); margin-top: auto;">
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="lg" disabled="{{yes}}" full-width="{{yes}}" trailing-icon="arrow-right">Save and next</x-import></span>
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="check" disabled="{{yes}}" full-width="{{yes}}">Save</x-import></span>
+      </div>
+    </section>
+  </div>
+
+  <!-- 2 · Loading the entry -->
+  <div style="width: 390px; height: 844px; flex: none; position: relative; overflow: hidden; background: rgba(0,0,0,0.28);">
+    <section role="dialog" aria-label="Enter time" aria-busy="true" style="position: absolute; left: 0; right: 0; bottom: 0; top: 48px; display: flex; flex-direction: column; gap: var(--space-sm); box-sizing: border-box; padding: var(--space-xs) var(--space-md) var(--space-md); background: var(--surface-card); border-radius: var(--radius-well) var(--radius-well) 0 0; box-shadow: var(--shadow-modal);">
+      <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: var(--radius-full); background: var(--border-input);"></span>
+      <div style="display: flex; align-items: flex-start; gap: var(--space-xs);">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: var(--space-xs); padding-top: var(--space-xxs);">
+          <span style="display: block; width: 70%; height: 20px; border-radius: var(--radius-sm); background: var(--hairline-grey);"></span>
+          <span style="display: block; width: 85%; height: 14px; border-radius: var(--radius-sm); background: var(--canvas);"></span>
+        </div>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="x" label="Close" tone="on-light" size="{{n44}}"></x-import>
+      </div>
+      <span style="display: block; height: 52px; border-radius: var(--radius-full); background: var(--canvas);"></span>
+      <span style="display: block; height: 52px; border-radius: var(--radius-md); background: var(--canvas);"></span>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-xs); height: 122px; box-sizing: border-box; border: 1px solid var(--border-hairline); border-radius: var(--radius-well);">
+        <span role="status" style="font: var(--type-body-sm); color: var(--text-muted);">Loading entry…</span>
+      </div>
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs); opacity: 0.4;">
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+        <span style="height: 60px; border-radius: var(--radius-lg); background: var(--canvas);"></span>
+      </div>
+      <div style="display: flex; gap: var(--space-xs); margin-top: auto;">
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="lg" disabled="{{yes}}" full-width="{{yes}}" trailing-icon="arrow-right">Save and next</x-import></span>
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="check" disabled="{{yes}}" full-width="{{yes}}">Save</x-import></span>
+      </div>
+    </section>
+  </div>
+
+  <!-- 3 · No Show: pad disabled -->
+  <div style="width: 390px; height: 844px; flex: none; position: relative; overflow: hidden; background: rgba(0,0,0,0.28);">
+    <section role="dialog" aria-label="Enter time" style="position: absolute; left: 0; right: 0; bottom: 0; top: 48px; display: flex; flex-direction: column; gap: var(--space-sm); box-sizing: border-box; padding: var(--space-xs) var(--space-md) var(--space-md); background: var(--surface-card); border-radius: var(--radius-well) var(--radius-well) 0 0; box-shadow: var(--shadow-modal);">
+      <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: var(--radius-full); background: var(--border-input);"></span>
+      <div style="display: flex; align-items: flex-start; gap: var(--space-xs);">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: var(--space-xxs);">
+          <h2 style="margin: 0; font: var(--type-title); letter-spacing: var(--tracking-title);">Jayden · 100 Individual Medley</h2>
+          <span style="font: var(--type-caption); color: var(--text-muted);">#44 · Timed final · No seed time</span>
+        </div>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="x" label="Close" tone="on-light" size="{{n44}}"></x-import>
+      </div>
+      <div style="display: flex; background: var(--canvas); border-radius: var(--radius-full); padding: var(--space-xxs); opacity: 0.4;">
+        <button type="button" disabled style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: var(--surface-card); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">Live time</button>
+        <button type="button" disabled style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">Official time</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xxs); background: var(--canvas); border-radius: var(--radius-md); padding: var(--space-xxs);">
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">Swum</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">DQ</button>
+        <button type="button" aria-pressed="true" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-body-sm); font-weight: var(--weight-medium); font-family: var(--font-sans); color: var(--text-body);">No Show</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">Scratched</button>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-xs); height: 122px; box-sizing: border-box; border: 1px solid var(--border-hairline); border-radius: var(--radius-well);">
+        <span style="display: inline-flex; align-items: center; gap: var(--space-xs); font: var(--type-heading-2); letter-spacing: var(--tracking-heading-2); color: var(--text-secondary);">
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="user-x" size="{{n24}}"></x-import>No Show
+        </span>
+        <span style="font: var(--type-caption); color: var(--text-muted);">No time for this entry.</span>
+      </div>
+      <div aria-disabled="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs); opacity: 0.4;">
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">1</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">2</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">3</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">4</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">5</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">6</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">7</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">8</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">9</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--surface-card); box-shadow: inset 0 0 0 1px var(--border-hairline); font: var(--type-button); font-family: var(--font-sans); color: var(--text-secondary);">Clear</button>
+        <button type="button" disabled style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">0</button>
+        <button type="button" disabled aria-label="Backspace" style="display: flex; align-items: center; justify-content: center; height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--surface-card); box-shadow: inset 0 0 0 1px var(--border-hairline); color: var(--text-secondary);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="delete" size="{{n28}}"></x-import></button>
+      </div>
+      <x-import component-from-global-scope="DreamBigDesignSystem_59eada.TextInput" label="Notes" placeholder="Relay leg, split…"></x-import>
+      <div style="display: flex; gap: var(--space-xs); margin-top: auto;">
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="lg" full-width="{{yes}}" trailing-icon="arrow-right">Save and next</x-import></span>
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="check" full-width="{{yes}}">Save</x-import></span>
+      </div>
+    </section>
+  </div>
+
+  <!-- 4 · Saving -->
+  <div style="width: 390px; height: 844px; flex: none; position: relative; overflow: hidden; background: rgba(0,0,0,0.28);">
+    <section role="dialog" aria-label="Enter time" style="position: absolute; left: 0; right: 0; bottom: 0; top: 48px; display: flex; flex-direction: column; gap: var(--space-sm); box-sizing: border-box; padding: var(--space-xs) var(--space-md) var(--space-md); background: var(--surface-card); border-radius: var(--radius-well) var(--radius-well) 0 0; box-shadow: var(--shadow-modal);">
+      <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: var(--radius-full); background: var(--border-input);"></span>
+      <div style="display: flex; align-items: flex-start; gap: var(--space-xs);">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: var(--space-xxs);">
+          <h2 style="margin: 0; font: var(--type-title); letter-spacing: var(--tracking-title);">Jayden · 50 Freestyle</h2>
+          <span style="font: var(--type-caption); color: var(--text-muted);">#12 · Timed final · Heat 3 · Lane 4 · Seed <span style="font-feature-settings: var(--font-features-tabular);">30.12</span></span>
+        </div>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="x" label="Close" tone="on-light" size="{{n44}}"></x-import>
+      </div>
+      <div style="display: flex; background: var(--canvas); border-radius: var(--radius-full); padding: var(--space-xxs);">
+        <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">Live time</button>
+        <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">Official time</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xxs); background: var(--canvas); border-radius: var(--radius-md); padding: var(--space-xxs);">
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-body-sm); font-weight: var(--weight-medium); font-family: var(--font-sans); color: var(--text-body);">Swum</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">DQ</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">No Show</button>
+        <button type="button" style="height: 44px; border: 0; border-radius: var(--radius-sm); background: transparent; font: var(--type-body-sm); font-family: var(--font-sans); color: var(--text-secondary);">Scratched</button>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-hairline); border-radius: var(--radius-well);">
+        <output style="font: var(--type-display-1); letter-spacing: var(--tracking-display-1); font-feature-settings: var(--font-features-tabular); color: var(--text-heading);">29.48</output>
+        <span style="display: inline-flex; align-items: center; gap: var(--space-xxs); font: var(--type-caption); font-weight: var(--weight-semibold); font-feature-settings: var(--font-features-tabular);">
+          <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="arrow-down" size="{{n16}}" color="var(--accent-green)"></x-import>
+          <span>−0.64</span><span style="font-weight: var(--weight-regular); color: var(--text-muted);">faster</span>
+        </span>
+      </div>
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs); opacity: 0.4;">
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">1</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">2</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">3</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">4</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">5</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">6</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">7</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">8</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">9</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); box-shadow: inset 0 0 0 1px var(--border-hairline); font: var(--type-button);">Clear</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2);">0</span>
+        <span style="display: flex; align-items: center; justify-content: center; height: 60px; border-radius: var(--radius-lg); box-shadow: inset 0 0 0 1px var(--border-hairline);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="delete" size="{{n28}}"></x-import></span>
+      </div>
+      <p role="status" style="margin: 0; display: flex; align-items: center; justify-content: center; gap: var(--space-xs); font: var(--type-body-sm); color: var(--text-secondary);">
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="loader" size="{{n16}}"></x-import>Saving 29.48…
+      </p>
+      <div style="display: flex; gap: var(--space-xs); margin-top: auto;">
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="lg" disabled="{{yes}}" full-width="{{yes}}" trailing-icon="arrow-right">Save and next</x-import></span>
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="loader" pressed="{{yes}}" full-width="{{yes}}">Saving…</x-import></span>
+      </div>
+    </section>
+  </div>
+
+  <!-- 5 · Failed to save -->
+  <div style="width: 390px; height: 844px; flex: none; position: relative; overflow: hidden; background: rgba(0,0,0,0.28);">
+    <section role="dialog" aria-label="Enter time" style="position: absolute; left: 0; right: 0; bottom: 0; top: 48px; display: flex; flex-direction: column; gap: var(--space-sm); box-sizing: border-box; padding: var(--space-xs) var(--space-md) var(--space-md); background: var(--surface-card); border-radius: var(--radius-well) var(--radius-well) 0 0; box-shadow: var(--shadow-modal);">
+      <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: var(--radius-full); background: var(--border-input);"></span>
+      <div style="display: flex; align-items: flex-start; gap: var(--space-xs);">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: var(--space-xxs);">
+          <h2 style="margin: 0; font: var(--type-title); letter-spacing: var(--tracking-title);">Jayden · 50 Freestyle</h2>
+          <span style="font: var(--type-caption); color: var(--text-muted);">#12 · Timed final · Heat 3 · Lane 4 · Seed <span style="font-feature-settings: var(--font-features-tabular);">30.12</span></span>
+        </div>
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.IconButton" icon="x" label="Close" tone="on-light" size="{{n44}}"></x-import>
+      </div>
+      <div style="display: flex; background: var(--canvas); border-radius: var(--radius-full); padding: var(--space-xxs);">
+        <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: var(--surface-card); box-shadow: var(--shadow-soft); font: var(--type-button); font-family: var(--font-sans); color: var(--text-body);">Live time</button>
+        <button type="button" style="flex: 1; height: 44px; border: 0; border-radius: var(--radius-full); background: transparent; font: var(--type-button); font-family: var(--font-sans); color: var(--text-muted);">Official time</button>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border: 1px solid var(--border-hairline); border-radius: var(--radius-well);">
+        <output style="font: var(--type-display-1); letter-spacing: var(--tracking-display-1); font-feature-settings: var(--font-features-tabular); color: var(--text-heading);">29.48</output>
+        <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center; gap: var(--space-sm);">
+          <span style="display: inline-flex; align-items: center; gap: var(--space-xxs); font: var(--type-caption); font-weight: var(--weight-semibold); font-feature-settings: var(--font-features-tabular);">
+            <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="arrow-down" size="{{n16}}" color="var(--accent-green)"></x-import>
+            <span>−0.64</span><span style="font-weight: var(--weight-regular); color: var(--text-muted);">faster</span>
+          </span>
+          <span style="display: inline-flex; border: 1px dashed var(--text-faint); border-radius: var(--radius-full);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.BadgePill" tone="ink" dot="var(--accent-green)">Provisional personal best</x-import></span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs);">
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">1</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">2</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">3</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">4</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">5</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">6</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">7</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">8</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">9</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--surface-card); box-shadow: inset 0 0 0 1px var(--border-hairline); font: var(--type-button); font-family: var(--font-sans); color: var(--text-secondary);">Clear</button>
+        <button type="button" style="height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--canvas); font: var(--type-heading-2); font-family: var(--font-sans); color: var(--text-heading);">0</button>
+        <button type="button" aria-label="Backspace" style="display: flex; align-items: center; justify-content: center; height: 60px; border: 0; border-radius: var(--radius-lg); background: var(--surface-card); box-shadow: inset 0 0 0 1px var(--border-hairline); color: var(--text-secondary);"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="delete" size="{{n28}}"></x-import></button>
+      </div>
+      <div role="alert" style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); border: 2px solid var(--accent-orange); border-radius: var(--radius-card);">
+        <x-import component-from-global-scope="DreamBigDesignSystem_59eada.Icon" name="triangle-alert" size="{{n24}}" color="var(--accent-orange)"></x-import>
+        <span style="flex: 1; display: flex; flex-direction: column;">
+          <span style="font: var(--type-body-sm); font-weight: var(--weight-semibold);">Not saved. No signal.</span>
+          <span style="font: var(--type-caption); color: var(--text-secondary);">29.48 is kept on this phone until it saves.</span>
+        </span>
+      </div>
+      <div style="display: flex; gap: var(--space-xs); margin-top: auto;">
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="secondary" size="lg" full-width="{{yes}}">Keep editing</x-import></span>
+        <span style="flex: 1; display: flex;"><x-import component-from-global-scope="DreamBigDesignSystem_59eada.Button" variant="primary" size="lg" icon="rotate-cw" full-width="{{yes}}">Retry save</x-import></span>
+      </div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":2110,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return { yes: true, n16: 16, n20: 20, n24: 24, n28: 28, n44: 44 }; }
+}
+</script>
+</body>
+</html>
