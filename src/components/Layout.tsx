@@ -121,20 +121,18 @@ export function Layout() {
             </Link>
             <LanguageToggle />
             {status === 'signedIn' ? <AccountMenu /> : null}
+            {status === 'signedOut' && location.pathname !== '/sign-in' ? (
+              <Link
+                to="/sign-in"
+                state={{ from: location.pathname + location.search }}
+                className="inline-flex min-h-11 flex-none items-center px-xs type-button text-ink no-underline"
+              >
+                {m.signIn}
+              </Link>
+            ) : null}
           </div>
         </header>
         <Outlet />
-        {status === 'signedOut' && location.pathname !== '/sign-in' ? (
-          <footer className="flex flex-none justify-center border-t border-hairline p-md">
-            <Link
-              to="/sign-in"
-              state={{ from: location.pathname + location.search }}
-              className="inline-flex min-h-11 items-center px-sm type-caption text-muted"
-            >
-              {m.signIn}
-            </Link>
-          </footer>
-        ) : null}
       </div>
     </ToastProvider>
   )
