@@ -7,6 +7,7 @@ export type SaveResult = {
   /** The result the entry has in the database, as loaded. */
   serverResult: Result | null
   draft: ResultDraft
+  eventId: number
   /** What is being saved, in words: "50 Freestyle 29.48", or just the event when clearing. */
   label: string
 }

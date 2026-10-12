@@ -1,12 +1,14 @@
-import { CircleUser, LogOut, RotateCw, Trash2 } from 'lucide-react'
+import { CircleUser, LogOut, RotateCw, Trash2, UserPen } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { usePendingResults } from '../data/PendingResultsContext'
 import { PendingResultsProvider } from '../data/PendingResultsProvider'
+import { useOwnDisplayName } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import type { Lang } from '../lib/dates'
 import { Alert, Modal, ToastProvider } from './feedback'
+import { usePendingLabel } from './swim'
 import { buttonClass, iconButtonClass } from './ui'
 
 const LANGS: { value: Lang; label: string }[] = [
@@ -42,10 +44,14 @@ function LanguageToggle() {
   )
 }
 
-/** The account button and its menu: who is signed in, and sign out. */
+const MENU_ITEM =
+  'press flex min-h-11 items-center gap-sm rounded-sm border-0 bg-transparent px-sm text-left type-button text-ink no-underline active:bg-canvas'
+
+/** The account button and its menu: who is signed in, edit profile, and sign out. */
 function AccountMenu() {
-  const { m, fill } = useI18n()
-  const { email, signOut } = useAuth()
+  const { m } = useI18n()
+  const { userId, signOut } = useAuth()
+  const displayName = useOwnDisplayName(userId)
   const [open, setOpen] = useState(false)
   const [failed, setFailed] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -84,10 +90,19 @@ function AccountMenu() {
           aria-label={m.account}
           className="absolute top-full right-0 z-40 mt-xs flex w-64 max-w-[calc(100vw-32px)] flex-col gap-xs rounded-card border border-hairline bg-card p-xs shadow-modal"
         >
-          <span className="px-sm pt-xs type-caption break-all text-muted">
-            {email ? fill(m.signedInAs, { email }) : m.signedIn}
-          </span>
+          <div className="flex flex-col gap-xxs px-sm pt-xs">
+            <span className="type-caption text-muted">{m.signedIn}</span>
+            {displayName.isPending || displayName.isError ? null : (
+              <span className="type-body-sm font-semibold break-words text-heading">
+                {displayName.data?.trim() || m.unnamedAccount}
+              </span>
+            )}
+          </div>
           {failed ? <Alert title={m.signOutFailed} /> : null}
+          <Link to="/profile" role="menuitem" onClick={() => setOpen(false)} className={MENU_ITEM}>
+            <UserPen size={18} aria-hidden="true" />
+            {m.editProfile}
+          </Link>
           <button
             type="button"
             role="menuitem"
@@ -95,7 +110,7 @@ function AccountMenu() {
               setFailed(false)
               signOut().catch(() => setFailed(true))
             }}
-            className="press flex min-h-11 items-center gap-sm rounded-sm border-0 bg-transparent px-sm text-left type-button text-ink active:bg-canvas"
+            className={MENU_ITEM}
           >
             <LogOut size={18} aria-hidden="true" />
             {m.signOut}
@@ -113,12 +128,14 @@ function AccountMenu() {
 function UnsavedResults() {
   const { m, fill, plural } = useI18n()
   const { pending, retry, discard } = usePendingResults()
+  const labelOf = usePendingLabel()
   const [confirming, setConfirming] = useState(false)
   const failed = [...pending.values()].filter((p) => p.state === 'failed')
   if (failed.length === 0) return null
 
   const reason = failed.find((p) => p.error)?.error
   const ids = failed.map((p) => p.entryId)
+  const labels = failed.map(labelOf).join(' · ')
   return (
     <div className={`flex-none px-md pt-md ${CONTAINER}`}>
       <Alert
@@ -139,8 +156,7 @@ function UnsavedResults() {
           </div>
         }
       >
-        {failed.map((p) => p.label).join(' · ')}. {reason ? `${m.saveErrors[reason.kind].title} ` : null}
-        {m.keptOnPhone}
+        {fill(m.unsavedSummary, { labels, reason: reason ? m.saveErrors[reason.kind].title : '' })}
       </Alert>
       {confirming ? (
         <Modal
@@ -169,7 +185,7 @@ function UnsavedResults() {
             </>
           }
         >
-          {fill(m.discardUnsavedBody, { labels: failed.map((p) => p.label).join(' · ') })}
+          {fill(m.discardUnsavedBody, { labels })}
         </Modal>
       ) : null}
     </div>
@@ -188,7 +204,7 @@ export function Layout() {
             <div className={`flex h-[60px] items-center gap-sm px-md ${CONTAINER}`}>
               <Link
                 to="/"
-                className="flex-1 text-[length:var(--size-title)] leading-none font-bold tracking-[-0.8px] text-heading no-underline"
+                className="flex min-h-11 flex-1 items-center text-[length:var(--size-title)] leading-none font-bold tracking-[-0.8px] text-heading no-underline"
               >
                 {m.appName}
               </Link>

@@ -13,6 +13,10 @@ export type FieldError =
   | 'laneNumber'
   | 'timeFormat'
   | 'dateOutsideMeet'
+  | 'emailFormat'
+  /** The database's answer to a share: no account has that email. */
+  | 'noAccount'
+  | 'displayNameTooLong'
 
 export type FieldErrors<Form> = Partial<Record<keyof Form, FieldError>>
 
@@ -160,4 +164,22 @@ export function meetValues(form: MeetForm) {
     results_url: blankToNull(form.resultsUrl),
     notes: blankToNull(form.notes),
   }
+}
+
+// ---------------------------------------------------------------------------
+// Profile
+// ---------------------------------------------------------------------------
+
+export const DISPLAY_NAME_MAX = 50
+
+/** The display name as it is stored: trimmed. */
+export function displayNameValue(typed: string): string {
+  return typed.trim()
+}
+
+/** Required, and 50 characters at most once trimmed. Counted as a reader would, not in UTF-16 units. */
+export function validateDisplayName(typed: string): FieldError | null {
+  const name = displayNameValue(typed)
+  if (name === '') return 'required'
+  return [...name].length > DISPLAY_NAME_MAX ? 'displayNameTooLong' : null
 }

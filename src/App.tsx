@@ -8,6 +8,7 @@ import { EditEntry } from './screens/EditEntry'
 import { Home } from './screens/Home'
 import { MeetScreen } from './screens/Meet'
 import { EditMeet } from './screens/MeetForm'
+import { EditProfile } from './screens/EditProfile'
 import { NotFound } from './screens/NotFound'
 import { SignIn } from './screens/SignIn'
 import { SwimmerScreen } from './screens/Swimmer'
@@ -36,6 +37,7 @@ export function App() {
               <Route element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="sign-in" element={<SignIn />} />
+                <Route path="profile" element={<EditProfile />} />
                 <Route path="swimmers/new" element={<AddSwimmer />} />
                 <Route path="swimmers/:slug/settings" element={<SwimmerSettings />} />
                 <Route path="swimmers/:slug" element={<SwimmerScreen />}>

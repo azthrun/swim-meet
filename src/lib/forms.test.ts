@@ -3,12 +3,14 @@ import {
   EMPTY_MEET_FORM,
   EMPTY_SWIMMER_FORM,
   blankToNull,
+  displayNameValue,
   hasErrors,
   isIsoDate,
   meetValues,
   slugify,
   swimmerPrivateValues,
   swimmerValues,
+  validateDisplayName,
   validateMeet,
   validateSwimmer,
   withoutErrors,
@@ -156,5 +158,28 @@ describe('blankToNull', () => {
   it('trims', () => {
     expect(blankToNull('  a ')).toBe('a')
     expect(blankToNull('   ')).toBeNull()
+  })
+})
+
+describe('validateDisplayName', () => {
+  it('is required', () => {
+    expect(validateDisplayName('')).toBe('required')
+    expect(validateDisplayName('   ')).toBe('required')
+  })
+
+  it('allows 50 characters and no more', () => {
+    expect(validateDisplayName('a'.repeat(50))).toBeNull()
+    expect(validateDisplayName('a'.repeat(51))).toBe('displayNameTooLong')
+  })
+
+  it('measures the name as it is stored, trimmed', () => {
+    expect(validateDisplayName(`  ${'a'.repeat(50)}  `)).toBeNull()
+    expect(displayNameValue('  Terry Chen ')).toBe('Terry Chen')
+  })
+
+  it('counts characters, not UTF-16 units', () => {
+    expect(validateDisplayName('陈'.repeat(50))).toBeNull()
+    expect(validateDisplayName('🏊'.repeat(50))).toBeNull()
+    expect(validateDisplayName('🏊'.repeat(51))).toBe('displayNameTooLong')
   })
 })

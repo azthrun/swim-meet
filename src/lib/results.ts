@@ -105,7 +105,9 @@ export type PendingResult = {
   /** The result the database is believed to hold. Decides insert, update or delete. */
   base: Result | null
   draft: ResultDraft
-  /** What is being saved, in words: "50 Freestyle 29.48". */
+  /** The entry's event, so the save can be put into words in whichever language is on screen. */
+  eventId?: number
+  /** What is being saved, in words, as it read when typed: "50 Freestyle 29.48". */
   label: string
   state: 'saving' | 'failed'
   error?: { kind: SaveErrorKind; message: string }
@@ -187,6 +189,7 @@ export function readStoredPending(json: string | null): PendingResult[] {
         userId: p.userId,
         base,
         draft: { statusCode: draft.statusCode, live: draft.live, official: draft.official, notes: draft.notes },
+        ...(typeof p.eventId === 'number' && Number.isInteger(p.eventId) ? { eventId: p.eventId } : {}),
         label: p.label,
         state: 'failed',
         ...(error && isText(error.kind) && isText(error.message)

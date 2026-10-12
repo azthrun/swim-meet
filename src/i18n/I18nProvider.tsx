@@ -24,6 +24,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en'
+    document.title = MESSAGES[lang].appName
   }, [lang])
 
   const value = useMemo<I18n>(

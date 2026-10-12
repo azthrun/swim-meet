@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { ResultWrite } from '../lib/results'
+import { shareOutcome, type ShareOutcome } from '../lib/sharing'
 import type { TablesInsert } from './database.types'
 import { supabase } from './supabase'
 
@@ -133,6 +134,51 @@ export async function writeResult(write: ResultWrite): Promise<void> {
   check(await supabase.from('results').upsert(row, { onConflict: 'entry_id' }).abortSignal(timeout()))
 }
 
+async function editorIdsOf(swimmerId: string): Promise<{ ownerId: string; editorIds: string[] }> {
+  const [swimmer, editors] = await Promise.all([
+    supabase.from('swimmers').select('owner_id').eq('id', swimmerId).abortSignal(timeout()).single(),
+    supabase.from('swimmer_editors').select('user_id').eq('swimmer_id', swimmerId).abortSignal(timeout()),
+  ])
+  if (swimmer.error) throw swimmer.error
+  if (editors.error) throw editors.error
+  return { ownerId: swimmer.data.owner_id, editorIds: editors.data.map((row) => row.user_id) }
+}
+
+/**
+ * Shares a swimmer with the account that has this email. The database says only whether such
+ * an account exists, so the editor list is read on both sides to tell a new share from one
+ * that was already there. A retry after a lost answer reports "already shared", which is true.
+ */
+export async function shareSwimmer({ swimmerId, email }: { swimmerId: string; email: string }): Promise<ShareOutcome> {
+  const before = await editorIdsOf(swimmerId)
+  const { data: found, error } = await supabase
+    .rpc('share_swimmer', { p_swimmer_id: swimmerId, p_email: email })
+    .abortSignal(timeout())
+  if (error) throw error
+  if (!found) return 'noAccount'
+  return shareOutcome(found, before, await editorIdsOf(swimmerId))
+}
+
+/** Removing someone who is not on the list changes nothing, so a retry is safe. */
+export async function unshareSwimmer({ swimmerId, userId }: { swimmerId: string; userId: string }): Promise<void> {
+  check(
+    await supabase.rpc('unshare_swimmer', { p_swimmer_id: swimmerId, p_user_id: userId }).abortSignal(timeout()),
+  )
+}
+
+/** An account's own display name. Row level security refuses any other account's row. */
+export async function saveDisplayName({ userId, displayName }: { userId: string; displayName: string }): Promise<void> {
+  check(
+    await supabase
+      .from('profiles')
+      .update({ display_name: displayName })
+      .eq('id', userId)
+      .select('id')
+      .abortSignal(timeout())
+      .single(),
+  )
+}
+
 // How long "saving" may wait for the screens behind the form to catch up with the write.
 const REFRESH_WAIT_MS = 5_000
 
@@ -140,10 +186,10 @@ const REFRESH_WAIT_MS = 5_000
  * A write with its saving / saved / failed state. Nothing is retried behind the editor's back:
  * a failure stays on screen until they retry it.
  */
-export function useSave<Variables>(
-  write: (variables: Variables) => Promise<void>,
+export function useSave<Variables, Data = void>(
+  write: (variables: Variables) => Promise<Data>,
   /** Runs once the write is saved, even if the form that asked for it has left the screen. */
-  onSaved?: (variables: Variables) => void,
+  onSaved?: (variables: Variables, data: Data) => void,
 ) {
   const queryClient = useQueryClient()
   return useMutation({
@@ -151,12 +197,12 @@ export function useSave<Variables>(
     // "Saved" waits for the refetch, so the screen the editor lands on already shows the change.
     // The wait is capped: on bad signal the write is done even if the refresh is not.
     // The lookups are written by migrations only and never change under a write.
-    onSuccess: async (_data, variables) => {
+    onSuccess: async (data, variables) => {
       await Promise.race([
         queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] !== 'lookups' }),
         new Promise<void>((resolve) => setTimeout(resolve, REFRESH_WAIT_MS)),
       ])
-      onSaved?.(variables)
+      onSaved?.(variables, data)
     },
   })
 }

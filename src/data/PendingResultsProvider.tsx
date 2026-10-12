@@ -1,6 +1,7 @@
 import { useQueryClient, type QueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useAuth } from '../auth/AuthContext'
+import { usePendingLabel } from '../components/swim'
 import { useToast } from '../components/ToastContext'
 import { useI18n } from '../i18n/I18nContext'
 import { baseForSave, decideResultWrite, readStoredPending, resultOfDraft, type PendingResult } from '../lib/results'
@@ -41,6 +42,7 @@ export function PendingResultsProvider({ children }: { children: ReactNode }) {
   const { userId } = useAuth()
   const { m, fill } = useI18n()
   const toast = useToast()
+  const labelOf = usePendingLabel()
   const [all, setAll] = useState(stored)
   const [lastSaved, setLastSaved] = useState<{ id: number; message: string } | null>(null)
   // The list as of now, for saves that finish long after the render that started them.
@@ -78,12 +80,12 @@ export function PendingResultsProvider({ children }: { children: ReactNode }) {
       patchCachedResult(queryClient, entryId, next)
       change(others)
       void queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] !== 'lookups' })
-      const message = fill(next ? m.resultSaved : m.resultCleared, { label: record.label })
+      const message = fill(next ? m.resultSaved : m.resultCleared, { label: labelOf(record) })
       toast(message)
       setLastSaved({ id: Date.now(), message })
       return true
     },
-    [change, queryClient, toast, fill, m],
+    [change, queryClient, toast, fill, m, labelOf],
   )
 
   const value = useMemo<PendingResults>(() => {
@@ -91,10 +93,10 @@ export function PendingResultsProvider({ children }: { children: ReactNode }) {
     return {
       pending: new Map(mine.map((p) => [p.entryId, p])),
       lastSaved: lastSaved?.message ?? null,
-      save: async ({ entryId, serverResult, draft, label }: SaveResult) => {
+      save: async ({ entryId, serverResult, draft, eventId, label }: SaveResult) => {
         if (!userId) return false
         const prior = latest.current.find((p) => p.entryId === entryId && p.userId === userId)
-        return run({ entryId, userId, base: baseForSave(serverResult, prior), draft, label, state: 'saving' })
+        return run({ entryId, userId, base: baseForSave(serverResult, prior), draft, eventId, label, state: 'saving' })
       },
       retry: (entryIds) => {
         for (const p of latest.current) {

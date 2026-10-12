@@ -2,7 +2,7 @@ import type { FieldError } from '../lib/forms'
 import type { SaveErrorKind } from '../lib/saveErrors'
 import type { PadError } from '../lib/timePad'
 
-// UI chrome only. Courses, strokes, rounds and statuses come from the lookup tables.
+// UI chrome only. Courses, strokes, rounds, statuses and genders come from the lookup tables.
 export const en = {
   appName: 'Swim Meet',
   language: 'Language',
@@ -12,6 +12,7 @@ export const en = {
   tryAgain: 'Try again',
   loading: 'Loading…',
   all: 'All',
+  labelValue: '{label}: {value}',
 
   swimmers: 'Swimmers',
   nextMeet: 'Next: {meet} · {dates}',
@@ -66,7 +67,6 @@ export const en = {
   noTime: 'no time',
   noneYet: 'None yet',
   relaysNeverCount: 'Relays never count as personal bests.',
-  statusShort: { DQ: 'DQ' } as Record<string, string>,
 
   course: 'Course',
   stroke: 'Stroke',
@@ -99,6 +99,7 @@ export const en = {
   signingIn: 'Signing in…',
   signInIntro: 'For editors. Viewing never needs an account.',
   email: 'Email',
+  emailPlaceholder: 'you@example.com',
   password: 'Password',
   accountsByAdmin: 'Accounts are created by the admin.',
   signInErrors: {
@@ -108,7 +109,12 @@ export const en = {
   },
   account: 'Account',
   signedIn: 'Signed in',
-  signedInAs: 'Signed in as {email}',
+  unnamedAccount: 'Unnamed account',
+  editProfile: 'Edit profile',
+  displayName: 'Display name',
+  displayNameHint:
+    'How other editors see you, for example in a swimmer\'s "Who can edit" list. Never shown to visitors who are not signed in.',
+  profileSaved: 'Saved · {name}',
   signOut: 'Sign out',
   signOutFailed: "Couldn't sign out. Check your connection and try again.",
   signInToEditTitle: 'Sign in to edit',
@@ -164,6 +170,9 @@ export const en = {
     laneNumber: 'A whole number from 0.',
     timeFormat: 'Not a time. Try 1:05.32.',
     dateOutsideMeet: 'Outside the meet dates.',
+    emailFormat: 'Not an email address.',
+    noAccount: 'No account with that email. Accounts are created by the admin.',
+    displayNameTooLong: '50 characters at most.',
   } satisfies Record<FieldError, string>,
 
   // Swimmer settings and Add swimmer
@@ -187,6 +196,26 @@ export const en = {
   deleteSwimmer: 'Delete swimmer',
   deleteSwimmerBody: 'Removes {name} and every entry and result. This cannot be undone.',
   typeToConfirm: 'Type {name} to confirm',
+
+  // Sharing
+  whoCanEdit: 'Who can edit',
+  owner: 'Owner',
+  nameYou: '{name} (you)',
+  sharingGrants:
+    "Someone you share with can add and change this swimmer's entries and results, and see the private fields. They can't rename or delete the swimmer, or share it further.",
+  shareByEmail: 'Share by email',
+  share: 'Share',
+  sharing: 'Sharing…',
+  sharedWith: 'Shared with {email}.',
+  alreadyShared: '{email} can already edit this swimmer. Nothing changed.',
+  remove: 'Remove',
+  removeEditorNamed: 'Remove {name}',
+  removeEditorConfirm: 'Remove {name}?',
+  removeEditorBody:
+    "{name} will no longer be able to edit {swimmer}'s entries and results, or see the private fields. You can share again later.",
+  removing: 'Removing…',
+  editorRemoved: 'Removed · {name}',
+  editorsLoadFailed: "Couldn't load who can edit.",
 
   // Meet form
   meet: 'Meet',
@@ -282,7 +311,7 @@ export const en = {
   retrySave: 'Retry save',
   keptUntilSaved: '{label} is kept on this phone until it saves.',
   timesNotSaved: { one: '{n} time not saved', other: '{n} times not saved' },
-  keptOnPhone: 'Kept on this phone.',
+  unsavedSummary: '{labels}. {reason} Kept on this phone.',
   notSavedYet: 'Not saved yet',
   notSavedTapRetry: 'Not saved yet · tap to retry',
   discard: 'Discard',

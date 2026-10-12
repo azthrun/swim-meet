@@ -46,6 +46,16 @@ export function canManageSwimmer(access: Access | null, swimmerId: string): bool
   return access !== null && (access.isAdmin || access.owned.has(swimmerId))
 }
 
+/** The sharing section, sharing by email and removing an editor: the owner or an admin. */
+export function canShareSwimmer(access: Access | null, swimmerId: string): boolean {
+  return canManageSwimmer(access, swimmerId)
+}
+
+/** Anyone on the list can be removed by whoever may share, except the owner. */
+export function canRemoveEditor(access: Access | null, swimmerId: string, editor: { isOwner: boolean }): boolean {
+  return canShareSwimmer(access, swimmerId) && !editor.isOwner
+}
+
 /** Entries and results: any editor of the swimmer. */
 export function canEditEntries(access: Access | null, swimmerId: string): boolean {
   return access !== null && (access.isAdmin || access.owned.has(swimmerId) || access.shared.has(swimmerId))

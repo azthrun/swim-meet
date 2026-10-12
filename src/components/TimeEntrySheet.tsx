@@ -4,7 +4,6 @@ import { usePendingResults } from '../data/PendingResultsContext'
 import type { Entry, Lookups, Swimmer } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { dropAgainstSeed, personalBestBadge, personalBestsOf } from '../lib/entries'
-import { SWUM } from '../lib/personalBests'
 import {
   draftOf,
   NO_SHOW,
@@ -19,7 +18,7 @@ import { formatTime } from '../lib/time'
 import { padDisplay, pressBackspace, pressDigit, readPad } from '../lib/timePad'
 import { Alert, SaveButton } from './feedback'
 import { fieldClass } from './forms'
-import { Drop, PersonalBestBadge, useEventLabel } from './swim'
+import { Drop, PersonalBestBadge, useEventLabel, usePendingLabel, useResultLabel, useStatusLabel } from './swim'
 import { buttonClass, iconButtonClass } from './ui'
 
 const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'clear', '0', 'backspace'] as const
@@ -99,6 +98,9 @@ function SheetBody({
   const { m, fill, plural, name, pick } = useI18n()
   const { pending, lastSaved, save, retry } = usePendingResults()
   const event = useEventLabel(lookups)(entry.event_id)
+  const statusLabel = useStatusLabel(lookups)
+  const resultLabel = useResultLabel(lookups)
+  const labelOf = usePendingLabel()
   const notesId = useId()
 
   const mine = pending.get(entry.id)
@@ -151,16 +153,7 @@ function SheetBody({
     },
   })
 
-  const statusLabel = (code: string) => m.statusShort[code] ?? name(lookups.status.get(code))
-  const shownCs = values?.official_time_cs ?? values?.live_time_cs ?? null
-  // "50 Freestyle 29.48", "50 Freestyle DQ 29.48", or the event alone when there is nothing else to say.
-  const label = [
-    event,
-    values && values.status_code !== SWUM ? statusLabel(values.status_code) : null,
-    shownCs === null ? null : formatTime(shownCs),
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const label = resultLabel(entry.event_id, values)
 
   const hasResult = entry.result !== null || mine !== undefined
   const unchanged = !mine && !reading.error && sameResult(values, entry.result)
@@ -172,7 +165,7 @@ function SheetBody({
     const move = () => (thenNext && next ? onNext(next.id) : onClose())
     if (unchanged) return move()
     setEditing(false)
-    const saved = save({ entryId: entry.id, serverResult: entry.result, draft, label })
+    const saved = save({ entryId: entry.id, serverResult: entry.result, draft, eventId: entry.event_id, label })
     if (thenNext && next) return move()
     // Plain Save waits here, so a failure is met with the pad still under the thumb.
     void saved.then((ok) => {
@@ -251,7 +244,7 @@ function SheetBody({
           <TriangleAlert size={20} aria-hidden="true" className="flex-none text-accent-orange" />
           <span className="flex min-w-0 flex-1 flex-col">
             <span className="type-body-sm font-semibold">{plural(m.timesNotSaved, failedOthers.length)}</span>
-            <span className="truncate type-caption text-secondary">{failedOthers.map((p) => p.label).join(' · ')}</span>
+            <span className="truncate type-caption text-secondary">{failedOthers.map(labelOf).join(' · ')}</span>
           </span>
           <button
             type="button"
@@ -270,7 +263,7 @@ function SheetBody({
           {savingOther ? (
             <>
               <LoaderCircle size={16} aria-hidden="true" className="flex-none animate-spin" />
-              {fill(m.savingNamed, { label: savingOther.label })}
+              {fill(m.savingNamed, { label: labelOf(savingOther) })}
             </>
           ) : lastSaved ? (
             <>
@@ -404,8 +397,7 @@ function SheetBody({
         {failed && mine ? (
           <div className="flex-none">
             <Alert title={mine.error ? m.saveErrors[mine.error.kind].title : m.notSavedYet}>
-              {fill(m.keptUntilSaved, { label: mine.label })}
-              {mine.error?.kind === 'unknown' && mine.error.message ? ` (${mine.error.message})` : null}
+              {fill(m.keptUntilSaved, { label: labelOf(mine) })}
             </Alert>
           </div>
         ) : saving && mine ? (
@@ -414,7 +406,7 @@ function SheetBody({
             className="flex min-h-11 flex-none items-center justify-center gap-xs type-body-sm text-secondary"
           >
             <LoaderCircle size={16} aria-hidden="true" className="flex-none animate-spin" />
-            {fill(m.savingNamed, { label: mine.label })}
+            {fill(m.savingNamed, { label: labelOf(mine) })}
           </p>
         ) : (
           <div className="flex flex-none flex-col gap-[6px]">

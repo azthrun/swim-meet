@@ -1,5 +1,6 @@
 import { ChevronDown, type LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { useI18n } from '../i18n/I18nContext'
 
 type Ring = 'solid' | 'dashed'
 
@@ -128,12 +129,11 @@ export function FilterSelect({
   value: string
   onChange: (value: string) => void
 }) {
+  const { m, fill } = useI18n()
   const current = options.find((option) => option.value === value)
   return (
     <label className={`relative has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary ${buttonClass('secondary')}`}>
-      <span>
-        {label}: {current?.label}
-      </span>
+      <span>{fill(m.labelValue, { label, value: current?.label ?? '' })}</span>
       <ChevronDown size={18} aria-hidden="true" />
       <select
         aria-label={label}

@@ -103,11 +103,11 @@ export function MeetFormBody({
   /** Given when this account may delete the meet. */
   onDeleted?: () => void
 }) {
-  const { m, fill, plural, name } = useI18n()
+  const { m, fill, plural, name, pick } = useI18n()
   const toast = useToast()
   const [id] = useState(() => meet?.id ?? newId())
   const save = useSave(saveMeet, ({ values }) => {
-    toast(fill(meet ? m.meetSaved : m.meetCreated, { name: values.name }))
+    toast(fill(meet ? m.meetSaved : m.meetCreated, { name: pick(values.name, values.name_zh) }))
     onSaved(id)
   })
 

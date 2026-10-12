@@ -19,6 +19,7 @@ import type { Entry } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDate, formatDateRange, formatDay } from '../lib/dates'
 import { byMeetOrder, dropAgainstSeed, groupBy, isRelay, personalBestBadge, shownTime } from '../lib/entries'
+import { TIMED_FINAL } from '../lib/entryForms'
 import { SWUM } from '../lib/personalBests'
 import { seasonLabel, seasonOf } from '../lib/season'
 import { formatTime } from '../lib/time'
@@ -246,7 +247,7 @@ export function SwimmerResults() {
                         <Link to={`/meets/${entry.meet.id}`} className="type-body-sm text-secondary no-underline">
                           {formatDate(entry.swim_date, lang)} · {pick(entry.meet.name, entry.meet.name_zh)}
                         </Link>
-                        {entry.round_code === 'TIMED_FINAL' ? null : (
+                        {entry.round_code === TIMED_FINAL ? null : (
                           <span className="type-caption text-muted">{name(lookups.round.get(entry.round_code))}</span>
                         )}
                         {badges(entry, false)}
@@ -297,7 +298,7 @@ export function SwimmerResults() {
         />
         {eventId === ALL ? null : (
           <button type="button" onClick={() => set('event', ALL)} className={buttonClass('secondary')}>
-            {m.filterEvent}: {eventLabel(Number(eventId))}
+            {fill(m.labelValue, { label: m.filterEvent, value: eventLabel(Number(eventId)) })}
             <X size={18} aria-label={m.clearFilters} />
           </button>
         )}

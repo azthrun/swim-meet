@@ -64,7 +64,7 @@ export function SignIn() {
           type="email"
           autoComplete="username"
           autoCapitalize="none"
-          placeholder="you@example.com"
+          placeholder={m.emailPlaceholder}
           value={email}
           onChange={setEmail}
           invalid={wrong}
