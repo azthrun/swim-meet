@@ -1,0 +1,26 @@
+name: Keep Supabase awake
+
+# A free-tier Supabase project pauses after a week without activity.
+# One read every 3 days, with the publishable key the site itself ships, prevents that.
+on:
+  schedule:
+    - cron: '17 6 */3 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .env
+          sparse-checkout-cone-mode: false
+      - name: Read one row
+        run: |
+          set -a; . ./.env; set +a
+          curl --fail-with-body --silent --show-error --max-time 30 --retry 3 --retry-all-errors \
+            -H "apikey: $VITE_SUPABASE_PUBLISHABLE_KEY" \
+            "$VITE_SUPABASE_URL/rest/v1/courses?select=code&limit=1"
