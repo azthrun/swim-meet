@@ -6,12 +6,22 @@ import { CONTAINER } from '../components/Layout'
 import { LoadFailed } from '../components/swim'
 import { Bar, iconButtonClass, ListSkeleton } from '../components/ui'
 import { usePendingResults } from '../data/PendingResultsContext'
-import { useEntriesOfSwimmers, useLookups, useSwimmers, type Entry, type Lookups, type Swimmer } from '../data/queries'
+import {
+  useEntriesOfSwimmers,
+  useLookups,
+  useStandardGaps,
+  useStandardLevels,
+  useSwimmers,
+  type Entry,
+  type Lookups,
+  type Swimmer,
+} from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { personalBestsOf } from '../lib/entries'
 import type { PersonalBests } from '../lib/personalBests'
 import { canEditEntries, canManageSwimmer } from '../lib/permissions'
 import { withPendingResults } from '../lib/results'
+import { standardsOf, type Standards } from '../lib/standards'
 import { NotFoundState } from './NotFound'
 
 export type SwimmerContext = {
@@ -22,6 +32,8 @@ export type SwimmerContext = {
   loadedEntries: Entry[]
   lookups: Lookups
   bests: PersonalBests
+  /** Motivational standard levels. Empty when the swimmer has none, and when they failed to load. */
+  standards: Standards
   /** True when the signed-in account may add, edit and delete this swimmer's entries. */
   canEdit: boolean
 }
@@ -36,10 +48,15 @@ export function SwimmerScreen() {
   const { m, pick } = useI18n()
   const swimmers = useSwimmers()
   const lookups = useLookups()
-  const { status, access } = useAuth()
+  const { status, access, userId } = useAuth()
   const swimmer = swimmers.data?.find((s) => s.slug === slug)
   const entries = useEntriesOfSwimmers(swimmer ? [swimmer.id] : undefined)
   const { pending } = usePendingResults()
+  const canEdit = swimmer ? canEditEntries(access, swimmer.id) : false
+  // Levels are an extra: the screens work without them, so a failure here fails nothing.
+  const levels = useStandardLevels(swimmer?.id)
+  const gaps = useStandardGaps(userId, swimmer?.id, canEdit)
+  const standards = useMemo(() => standardsOf(levels.data, gaps.data), [levels.data, gaps.data])
 
   const shown = useMemo(() => entries.data && withPendingResults(entries.data, pending), [entries.data, pending])
   const bests = useMemo(
@@ -125,7 +142,8 @@ export function SwimmerScreen() {
                 loadedEntries: entries.data,
                 lookups: lookups.data,
                 bests,
-                canEdit: canEditEntries(access, swimmer.id),
+                standards,
+                canEdit,
               } satisfies SwimmerContext
             }
           />

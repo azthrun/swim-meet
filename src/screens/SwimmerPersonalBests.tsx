@@ -1,8 +1,11 @@
 import { Trophy } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
+import { StandardLevelBadge } from '../components/swim'
 import { BadgePill, EmptyState, Segmented } from '../components/ui'
+import { usePendingResults } from '../data/PendingResultsContext'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDate } from '../lib/dates'
+import { shownGap, shownLevel } from '../lib/standards'
 import { formatTime } from '../lib/time'
 import { useSwimmerContext } from './Swimmer'
 
@@ -10,8 +13,9 @@ const CELL = 'border-t border-l border-hairline'
 
 /** One grid per course: strokes down, distances across. Relays never have a personal best. */
 export function SwimmerPersonalBests() {
-  const { swimmer, entries, lookups, bests } = useSwimmerContext()
-  const { m, lang, name } = useI18n()
+  const { swimmer, entries, lookups, bests, standards } = useSwimmerContext()
+  const { m, lang, name, fill } = useI18n()
+  const { pending } = usePendingResults()
   const [params, setParams] = useSearchParams()
 
   if (bests.best.size === 0 && bests.provisional.size === 0) {
@@ -86,6 +90,10 @@ export function SwimmerPersonalBests() {
                   const best = bests.best.get(event.id)
                   const provisional = bests.provisional.get(event.id)
                   if (!best && !provisional) return <td key={distance} className={border} />
+                  const bestEntry = best && entries.find((entry) => entry.id === best.entryId)
+                  const unsaved = best ? pending.has(best.entryId) : false
+                  const level = bestEntry ? shownLevel(bestEntry, standards, unsaved) : null
+                  const gap = bestEntry ? shownGap(bestEntry, standards, unsaved) : null
                   return (
                     <td key={distance} className={`p-0 align-top ${border}`}>
                       <Link
@@ -98,6 +106,15 @@ export function SwimmerPersonalBests() {
                             <span className="type-caption whitespace-nowrap text-muted">
                               {formatDate(best.swimDate, lang)}
                             </span>
+                            <StandardLevelBadge code={level} lookups={lookups} />
+                            {gap ? (
+                              <span className="type-caption whitespace-nowrap text-secondary">
+                                {fill(m.gapToLevel, {
+                                  gap: formatTime(gap.gapCs),
+                                  level: name(lookups.level.get(gap.levelCode)),
+                                })}
+                              </span>
+                            ) : null}
                           </>
                         ) : null}
                         {provisional ? (
@@ -123,6 +140,20 @@ export function SwimmerPersonalBests() {
           </BadgePill>
           <span>{m.keyProvisional}</span>
         </div>
+        {standards.levels.size > 0 ? (
+          <div className="flex items-center gap-sm type-caption text-secondary">
+            <StandardLevelBadge code={[...standards.levels.values()][0]!} lookups={lookups} />
+            <span>{m.keyStandard}</span>
+          </div>
+        ) : null}
+        {standards.gaps.size > 0 ? (
+          <div className="flex items-center gap-sm type-caption text-secondary">
+            <span className="flex-none whitespace-nowrap">
+              {fill(m.gapToLevel, { gap: formatTime(84), level: name(lookups.level.get('A')) })}
+            </span>
+            <span>{m.keyGap}</span>
+          </div>
+        ) : null}
         <div className="flex items-center gap-sm type-caption text-secondary">
           <span className="h-6 w-10 flex-none rounded-xs border border-hairline bg-canvas" />
           <span>{m.keyNotAnEvent}</span>

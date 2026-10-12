@@ -10,6 +10,14 @@ declare
   v_swimmer uuid;
   v_meet uuid;
   v_entry uuid;
+  v_bare uuid;
+  v_bare_entry uuid;
+  v_relay uuid;
+  v_dq uuid;
+  v_live uuid;
+  v_slow uuid;
+  v_level text;
+  v_gap int;
   v_event int := (select id from public.events where course_code = 'SCY' and stroke_code = 'FREE' and distance = 50);
   v_lcm_event int := (select id from public.events where course_code = 'LCM' and stroke_code = 'FREE' and distance = 50);
   n int;
@@ -110,6 +118,102 @@ begin
   exception when check_violation then null; end;
   begin update public.profiles set display_name = '   ' where id = v_other; raise exception 'FAIL blank display name';
   exception when check_violation then null; end;
+
+  -- ---------------------------------------------------------------------------
+  -- Motivational standard levels
+  -- ---------------------------------------------------------------------------
+  -- The swimmer is a boy born 2015-01-01 with a 30.12 in the SCY 50 Freestyle, at a meet that
+  -- starts 2026-01-10. He is 11 that day: BB (30.49) reached, 2.03 off A (28.09).
+  reset role;
+  perform set_config('request.jwt.claims', json_build_object('sub', v_admin, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  -- results that never get a level: a relay, a disqualified swim, a live-only time
+  insert into public.entries (swimmer_id, meet_id, course_code, event_id, swim_date)
+  values (v_swimmer, v_meet, 'SCY', (select id from public.events where course_code = 'SCY' and stroke_code = 'FREE_RELAY' and distance = 200), '2026-01-10') returning id into v_relay;
+  insert into public.results (entry_id, official_time_cs) values (v_relay, 10000);
+  insert into public.entries (swimmer_id, meet_id, course_code, event_id, swim_date)
+  values (v_swimmer, v_meet, 'SCY', (select id from public.events where course_code = 'SCY' and stroke_code = 'FREE' and distance = 100), '2026-01-10') returning id into v_dq;
+  insert into public.results (entry_id, status_code, official_time_cs) values (v_dq, 'DQ', 5000);
+  insert into public.entries (swimmer_id, meet_id, course_code, event_id, swim_date)
+  values (v_swimmer, v_meet, 'SCY', (select id from public.events where course_code = 'SCY' and stroke_code = 'FREE' and distance = 200), '2026-01-10') returning id into v_live;
+  insert into public.results (entry_id, live_time_cs) values (v_live, 11000);
+  -- slower than B (6:59.89): no level, and a gap to B
+  insert into public.entries (swimmer_id, meet_id, course_code, event_id, swim_date)
+  values (v_swimmer, v_meet, 'SCY', (select id from public.events where course_code = 'SCY' and stroke_code = 'FREE' and distance = 500), '2026-01-10') returning id into v_slow;
+  insert into public.results (entry_id, official_time_cs) values (v_slow, 42000);
+  -- a swimmer with no private row at all
+  insert into public.swimmers (slug, display_name) values ('rls-check-bare', 'RLS Check Bare') returning id into v_bare;
+  insert into public.entries (swimmer_id, meet_id, course_code, event_id, swim_date) values (v_bare, v_meet, 'SCY', v_event, '2026-01-10') returning id into v_bare_entry;
+  insert into public.results (entry_id, official_time_cs) values (v_bare_entry, 3012);
+
+  -- an editor gets the level and the gap
+  select level_code into v_level from public.standard_levels(v_swimmer) where entry_id = v_entry;
+  if v_level is distinct from 'BB' then raise exception 'FAIL level, got %', v_level; end if;
+  select count(*) into n from public.standard_levels(v_swimmer); if n <> 1 then raise exception 'FAIL relay, DQ, live-only or slower than B got a level'; end if;
+  select next_level_code, gap_cs into v_level, v_gap from public.standard_gaps(v_swimmer) where entry_id = v_entry;
+  if v_level is distinct from 'A' or v_gap is distinct from 203 then raise exception 'FAIL gap, got % %', v_gap, v_level; end if;
+  select next_level_code, gap_cs into v_level, v_gap from public.standard_gaps(v_swimmer) where entry_id = v_slow;
+  if v_level is distinct from 'B' or v_gap is distinct from 11 then raise exception 'FAIL gap to B, got % %', v_gap, v_level; end if;
+  select count(*) into n from public.standard_gaps(v_swimmer); if n <> 2 then raise exception 'FAIL relay, DQ or live-only got a gap'; end if;
+  select count(*) into n from public.standard_levels(v_bare); if n <> 0 then raise exception 'FAIL level without a private row'; end if;
+  select count(*) into n from public.standard_gaps(v_bare); if n <> 0 then raise exception 'FAIL gap without a private row'; end if;
+
+  -- signed out: the level, in two columns, and nothing else
+  reset role;
+  perform set_config('request.jwt.claims', '{"role":"anon"}', true);
+  set local role anon;
+  select level_code into v_level from public.standard_levels(v_swimmer) where entry_id = v_entry;
+  if v_level is distinct from 'BB' then raise exception 'FAIL anon level, got %', v_level; end if;
+  select count(*) into n from public.standard_levels(v_swimmer); if n <> 1 then raise exception 'FAIL anon level count'; end if;
+  if (select array_agg(k order by k) from public.standard_levels(v_swimmer) l, jsonb_object_keys(to_jsonb(l)) k) <> array['entry_id', 'level_code'] then raise exception 'FAIL standard_levels returns more than entry and level'; end if;
+  begin select count(*) into n from public.standard_gaps(v_swimmer); raise exception 'FAIL anon reads gaps';
+  exception when insufficient_privilege then null; end;
+  begin select count(*) into n from private.standard_progress(v_swimmer); raise exception 'FAIL anon reads standard_progress';
+  exception when insufficient_privilege then null; end;
+
+  -- a signed-in account that cannot edit the swimmer: the level, no gap
+  reset role;
+  delete from public.swimmer_editors where swimmer_id = v_swimmer and user_id = v_other;
+  perform set_config('request.jwt.claims', json_build_object('sub', v_other, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  select count(*) into n from public.standard_levels(v_swimmer); if n <> 1 then raise exception 'FAIL non-editor level'; end if;
+  select count(*) into n from public.standard_gaps(v_swimmer); if n <> 0 then raise exception 'FAIL non-editor reads gaps'; end if;
+  begin select count(*) into n from private.standard_progress(v_swimmer); raise exception 'FAIL non-editor reads standard_progress';
+  exception when insufficient_privilege then null; end;
+
+  -- age is the age on the first day of the meet, not on the day of the swim
+  reset role;
+  perform set_config('request.jwt.claims', json_build_object('sub', v_admin, 'role', 'authenticated')::text, true);
+  set local role authenticated;
+  update public.entries set swim_date = '2026-01-11' where id = v_entry;
+  -- turns 11 on the second day, the day he swims: still 10 & under, where 30.12 is an A (31.09)
+  update public.swimmer_private set date_of_birth = '2015-01-11' where swimmer_id = v_swimmer;
+  select level_code into v_level from public.standard_levels(v_swimmer) where entry_id = v_entry;
+  if v_level is distinct from 'A' then raise exception 'FAIL 10 on the first day, got %', v_level; end if;
+  select gap_cs into v_gap from public.standard_gaps(v_swimmer) where entry_id = v_entry;
+  if v_gap is distinct from 23 then raise exception 'FAIL 10 & under gap, got %', v_gap; end if;
+  -- turns 11 on the first day: 11-12
+  update public.swimmer_private set date_of_birth = '2015-01-10' where swimmer_id = v_swimmer;
+  select level_code into v_level from public.standard_levels(v_swimmer) where entry_id = v_entry;
+  if v_level is distinct from 'BB' then raise exception 'FAIL 11 on the first day, got %', v_level; end if;
+  -- 18 on the first day still has standards; 19 is older than the oldest age group
+  update public.swimmer_private set date_of_birth = '2007-01-11' where swimmer_id = v_swimmer;
+  select count(*) into n from public.standard_levels(v_swimmer); if n <> 0 then raise exception 'FAIL 30.12 is no level at 17-18'; end if;
+  select count(*) into n from public.standard_gaps(v_swimmer) where entry_id = v_entry and next_level_code = 'B'; if n <> 1 then raise exception 'FAIL 18 on the first day has no standards'; end if;
+  update public.swimmer_private set date_of_birth = '2007-01-10' where swimmer_id = v_swimmer;
+  select count(*) into n from public.standard_gaps(v_swimmer); if n <> 0 then raise exception 'FAIL 19 on the first day has standards'; end if;
+  -- the top level has no gap
+  update public.swimmer_private set date_of_birth = '2015-01-01' where swimmer_id = v_swimmer;
+  update public.results set official_time_cs = 2000 where entry_id = v_entry;
+  select level_code into v_level from public.standard_levels(v_swimmer) where entry_id = v_entry;
+  if v_level is distinct from 'AAAA' then raise exception 'FAIL top level, got %', v_level; end if;
+  select count(*) into n from public.standard_gaps(v_swimmer) where entry_id = v_entry; if n <> 0 then raise exception 'FAIL gap at the top level'; end if;
+  -- no level without a date of birth, or without a gender
+  update public.swimmer_private set date_of_birth = null where swimmer_id = v_swimmer;
+  select count(*) into n from public.standard_levels(v_swimmer); if n <> 0 then raise exception 'FAIL level without date of birth'; end if;
+  select count(*) into n from public.standard_gaps(v_swimmer); if n <> 0 then raise exception 'FAIL gap without date of birth'; end if;
+  update public.swimmer_private set date_of_birth = '2015-01-01', gender_code = null where swimmer_id = v_swimmer;
+  select count(*) into n from public.standard_levels(v_swimmer); if n <> 0 then raise exception 'FAIL level without gender'; end if;
 
   reset role;
   raise notice 'RLS check passed';

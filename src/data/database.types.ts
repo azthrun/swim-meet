@@ -626,6 +626,21 @@ export type Database = {
         Args: { p_email: string; p_swimmer_id: string }
         Returns: boolean
       }
+      standard_gaps: {
+        Args: { p_swimmer_id: string }
+        Returns: {
+          entry_id: string
+          gap_cs: number
+          next_level_code: string
+        }[]
+      }
+      standard_levels: {
+        Args: { p_swimmer_id: string }
+        Returns: {
+          entry_id: string
+          level_code: string
+        }[]
+      }
       unshare_swimmer: {
         Args: { p_swimmer_id: string; p_user_id: string }
         Returns: undefined
