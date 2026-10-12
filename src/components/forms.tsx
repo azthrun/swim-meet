@@ -11,7 +11,7 @@ import { iconButtonClass, type Option } from './ui'
 const FIELD =
   'min-h-11 w-full rounded-xs border bg-card px-sm py-[6px] type-body-md text-ink transition-[box-shadow,border-color] placeholder:text-faint focus:shadow-soft disabled:bg-canvas disabled:text-muted'
 
-const fieldClass = (invalid: boolean) => `${FIELD} ${invalid ? 'border-accent-orange' : 'border-input'}`
+export const fieldClass = (invalid: boolean) => `${FIELD} ${invalid ? 'border-accent-orange' : 'border-input'}`
 
 function Field({
   id,

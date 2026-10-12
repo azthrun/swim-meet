@@ -1,8 +1,9 @@
-import { ListFilter, Timer, Users, X } from 'lucide-react'
+import { ListFilter, Pencil, Timer, Users, X } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   CourseBadge,
   Drop,
+  PendingMark,
   PersonalBestBadge,
   RelayBadge,
   RelayTile,
@@ -10,7 +11,10 @@ import {
   UnofficialBadge,
   useEventLabel,
 } from '../components/swim'
-import { buttonClass, EmptyState, FilterSelect, Segmented, type Option } from '../components/ui'
+import { TimeEntrySheet } from '../components/TimeEntrySheet'
+import { buttonClass, EmptyState, FilterSelect, iconButtonClass, Segmented, type Option } from '../components/ui'
+import { useSheetEntry } from '../components/useSheetEntry'
+import { usePendingResults } from '../data/PendingResultsContext'
 import type { Entry } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDate, formatDateRange, formatDay } from '../lib/dates'
@@ -49,8 +53,10 @@ function Outcome({ entry, relay }: { entry: Entry; relay: boolean }) {
 }
 
 export function SwimmerResults() {
-  const { entries, lookups, bests } = useSwimmerContext()
-  const { m, lang, name, pick } = useI18n()
+  const { swimmer, entries, loadedEntries, lookups, bests, canEdit } = useSwimmerContext()
+  const { m, lang, fill, name, pick } = useI18n()
+  const { pending } = usePendingResults()
+  const sheet = useSheetEntry()
   const eventLabel = useEventLabel(lookups)
   const [params, setParams] = useSearchParams()
 
@@ -69,6 +75,19 @@ export function SwimmerResults() {
     setParams(next, { replace: true })
   }
 
+  // Editors only. The sheet works from the entry as loaded, and has no "next" outside a meet.
+  const sheetEntry = canEdit ? loadedEntries.find((entry) => entry.id === sheet.entryId) : undefined
+  const timeEntrySheet = sheetEntry ? (
+    <TimeEntrySheet
+      entry={sheetEntry}
+      swimmer={swimmer}
+      lookups={lookups}
+      history={entries}
+      onClose={sheet.close}
+      onNext={sheet.advance}
+    />
+  ) : null
+
   const results = entries.filter((entry) => entry.result)
   const strokeOf = (entry: Entry) => lookups.event.get(entry.event_id)?.stroke_code
   const shown = results.filter(
@@ -81,9 +100,12 @@ export function SwimmerResults() {
 
   if (results.length === 0) {
     return (
-      <EmptyState icon={Timer} title={m.noResultsTitle}>
-        {m.noResultsBody}
-      </EmptyState>
+      <>
+        <EmptyState icon={Timer} title={m.noResultsTitle}>
+          {m.noResultsBody}
+        </EmptyState>
+        {timeEntrySheet}
+      </>
     )
   }
 
@@ -95,14 +117,27 @@ export function SwimmerResults() {
   const badges = (entry: Entry, long: boolean) => {
     const drop = dropAgainstSeed(entry)
     const badge = personalBestBadge(entry, bests)
-    if (drop === null && !badge) return null
+    const state = pending.get(entry.id)?.state
+    if (drop === null && !badge && !state) return null
     return (
       <div className="flex flex-wrap items-center gap-sm">
         {drop === null ? null : <Drop deltaCs={drop} long={long} />}
         <PersonalBestBadge badge={badge} />
+        <PendingMark state={state} />
       </div>
     )
   }
+  const editButton = (entry: Entry) =>
+    canEdit ? (
+      <button
+        type="button"
+        onClick={() => sheet.open(entry.id)}
+        aria-label={fill(m.editResultNamed, { event: eventLabel(entry.event_id) })}
+        className={iconButtonClass}
+      >
+        <Pencil size={20} aria-hidden="true" />
+      </button>
+    ) : null
 
   const byMeet = () =>
     [...groupBy(shown, (entry) => entry.meet_id).values()]
@@ -137,7 +172,14 @@ export function SwimmerResults() {
                       </div>
                       <Outcome entry={entry} relay={relay} />
                     </div>
-                    {badges(entry, true)}
+                    {canEdit ? (
+                      <div className="flex items-center justify-between gap-sm">
+                        {badges(entry, true) ?? <span />}
+                        {editButton(entry)}
+                      </div>
+                    ) : (
+                      badges(entry, true)
+                    )}
                     {note ? (
                       <div className="flex items-center gap-xs type-caption text-secondary">
                         {relay ? <Users size={16} aria-hidden="true" className="flex-none text-muted" /> : null}
@@ -210,7 +252,10 @@ export function SwimmerResults() {
                         {badges(entry, false)}
                         {note ? <span className="type-caption text-secondary">{note}</span> : null}
                       </div>
-                      <Outcome entry={entry} relay={relay} />
+                      <div className="flex flex-col items-end gap-xs">
+                        <Outcome entry={entry} relay={relay} />
+                        {editButton(entry)}
+                      </div>
                     </li>
                   )
                 })}
@@ -278,6 +323,7 @@ export function SwimmerResults() {
       ) : (
         <div className="grid items-start gap-md lg:grid-cols-2">{group === 'event' ? byEvent() : byMeet()}</div>
       )}
+      {timeEntrySheet}
     </>
   )
 }

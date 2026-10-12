@@ -1,7 +1,20 @@
-import { ArrowDown, ArrowUp, ExternalLink, Flag, MapPin, Minus, RotateCw, Users, WifiOff } from 'lucide-react'
+import {
+  ArrowDown,
+  ArrowUp,
+  CloudOff,
+  ExternalLink,
+  Flag,
+  LoaderCircle,
+  MapPin,
+  Minus,
+  RotateCw,
+  Users,
+  WifiOff,
+} from 'lucide-react'
 import type { Lookups, Meet } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import type { PersonalBestBadge as Badge } from '../lib/entries'
+import type { PendingResult } from '../lib/results'
 import { formatDrop, formatTime } from '../lib/time'
 import { BadgePill, buttonClass, EmptyState } from './ui'
 
@@ -79,6 +92,34 @@ export function Drop({ deltaCs, long = false }: { deltaCs: number; long?: boolea
       <span className="font-normal text-muted">{label}</span>
     </span>
   )
+}
+
+/** Says that the result on show has not reached the database: being saved, or failed and kept. */
+export function PendingMark({
+  state,
+  tappable = false,
+}: {
+  state: PendingResult['state'] | undefined
+  tappable?: boolean
+}) {
+  const { m } = useI18n()
+  if (state === 'saving') {
+    return (
+      <span role="status" className="inline-flex items-center gap-xxs type-caption text-secondary">
+        <LoaderCircle size={16} aria-hidden="true" className="flex-none animate-spin" />
+        {m.saving}
+      </span>
+    )
+  }
+  if (state === 'failed') {
+    return (
+      <span className="inline-flex items-center gap-xxs type-caption font-semibold text-ink">
+        <CloudOff size={16} aria-hidden="true" className="flex-none text-accent-orange" />
+        {tappable ? m.notSavedTapRetry : m.notSavedYet}
+      </span>
+    )
+  }
+  return null
 }
 
 /** How an entry ended when it was not simply swum: DQ, No Show, Scratched. */

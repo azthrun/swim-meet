@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import type { ResultWrite } from '../lib/results'
 import type { TablesInsert } from './database.types'
 import { supabase } from './supabase'
 
@@ -96,6 +97,41 @@ async function deleteRow(table: Deletable, id: string): Promise<void> {
 export const deleteSwimmer = (id: string) => deleteRow('swimmers', id)
 export const deleteMeet = (id: string) => deleteRow('meets', id)
 export const deleteEntry = (id: string) => deleteRow('entries', id)
+
+/**
+ * Carries out what `decideResultWrite` decided. Insert and update are both upserts on the
+ * entry, so a retry after a lost answer lands on the same row, and so does a save made after
+ * another editor created or cleared it.
+ */
+export async function writeResult(write: ResultWrite): Promise<void> {
+  if (write.kind === 'none') return
+  if (write.kind === 'delete') {
+    const { data, error } = await supabase
+      .from('results')
+      .delete()
+      .eq('entry_id', write.entryId)
+      .select('entry_id')
+      .abortSignal(timeout())
+    if (error) throw error
+    if (data.length > 0) return
+    // As in deleteRow: nothing deleted is either already gone or refused.
+    const still = await supabase
+      .from('results')
+      .select('entry_id')
+      .eq('entry_id', write.entryId)
+      .abortSignal(timeout())
+      .maybeSingle()
+    if (still.error) throw still.error
+    if (still.data) throw { code: '42501', message: 'delete on results was not allowed' }
+    return
+  }
+  const row: TablesInsert<'results'> = { entry_id: write.entryId, ...write.values }
+  if (write.officialSource !== undefined) {
+    row.official_source = write.officialSource
+    row.official_imported_at = null
+  }
+  check(await supabase.from('results').upsert(row, { onConflict: 'entry_id' }).abortSignal(timeout()))
+}
 
 // How long "saving" may wait for the screens behind the form to catch up with the write.
 const REFRESH_WAIT_MS = 5_000

@@ -64,6 +64,9 @@
   --container-desktop: 1080px;
 }
 
+/* A phone with the browser bars showing: the time entry sheet tightens up to keep its pad in view. */
+@custom-variant short (@media (max-height: 820px));
+
 /* Type roles: each sets the font shorthand and its matching tracking. */
 @utility type-heading-1 {
   font: var(--type-heading-1);
@@ -76,6 +79,10 @@
 @utility type-heading-3 {
   font: var(--type-heading-3);
   letter-spacing: var(--tracking-heading-3);
+}
+@utility type-display-1 {
+  font: var(--type-display-1);
+  letter-spacing: var(--tracking-display-1);
 }
 @utility type-title {
   font: var(--type-title);
