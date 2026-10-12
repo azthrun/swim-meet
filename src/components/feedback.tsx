@@ -7,7 +7,7 @@ import { buttonClass } from './ui'
 
 const TOAST_MS = 3500
 
-/** DreamBig Toast, pinned bottom-centre. Says what was saved, then goes away. */
+/** DreamBig Toast, pinned bottom-centre above a form's action bar. Says what was saved, then goes away. */
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toast, setToast] = useState<{ id: number; message: string } | null>(null)
 
@@ -25,7 +25,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       <div
         role="status"
         aria-live="polite"
-        className="pointer-events-none fixed inset-x-0 bottom-lg z-50 flex justify-center px-md"
+        className="pointer-events-none fixed inset-x-0 bottom-[104px] z-50 flex justify-center px-md"
       >
         {toast ? (
           <div className="inline-flex items-center gap-[10px] rounded-well border border-hairline bg-card px-md py-sm type-body-sm text-ink shadow-soft">

@@ -17,6 +17,7 @@ import {
   hasErrors,
   meetValues,
   validateMeet,
+  withoutErrors,
   type FieldErrors,
   type MeetForm as MeetFormState,
 } from '../lib/forms'
@@ -125,7 +126,10 @@ export function MeetFormBody({
       : EMPTY_MEET_FORM,
   )
   const [errors, setErrors] = useState<FieldErrors<MeetFormState>>({})
-  const set = (patch: Partial<MeetFormState>) => setForm((current) => ({ ...current, ...patch }))
+  const set = (patch: Partial<MeetFormState>) => {
+    setForm((current) => ({ ...current, ...patch }))
+    setErrors((current) => withoutErrors(current, patch))
+  }
 
   const courseLocked = Boolean(meet) && entryCount > 0
 

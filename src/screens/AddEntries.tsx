@@ -32,7 +32,7 @@ import {
   validateEntryDraft,
   type EntryDraft,
 } from '../lib/entryForms'
-import { hasErrors, type FieldErrors } from '../lib/forms'
+import { hasErrors, withoutErrors, type FieldErrors } from '../lib/forms'
 import { editableSwimmers } from '../lib/permissions'
 import { MeetFormBody } from './MeetForm'
 
@@ -328,7 +328,16 @@ function Wizard({
               <EntryFields
                 draft={draft}
                 errors={errors[draft.eventId] ?? {}}
-                onChange={(patch) => setTyped((current) => ({ ...current, [draft.eventId]: { ...draft, ...patch } }))}
+                onChange={(patch) => {
+                  setTyped((current) => ({ ...current, [draft.eventId]: { ...draft, ...patch } }))
+                  setErrors((current) => {
+                    const next = { ...current }
+                    const left = withoutErrors(current[draft.eventId] ?? {}, patch)
+                    if (hasErrors(left)) next[draft.eventId] = left
+                    else delete next[draft.eventId]
+                    return next
+                  })
+                }}
                 meet={meet}
                 lookups={lookups}
                 seedHint={

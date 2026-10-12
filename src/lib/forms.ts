@@ -20,6 +20,13 @@ export function hasErrors(errors: Partial<Record<string, FieldError>>): boolean 
   return Object.keys(errors).length > 0
 }
 
+/** The errors left once the fields in `patch` have been edited. */
+export function withoutErrors<Form>(errors: FieldErrors<Form>, patch: Partial<Form>): FieldErrors<Form> {
+  const left = { ...errors }
+  for (const key of Object.keys(patch) as (keyof Form)[]) delete left[key]
+  return left
+}
+
 /** Blank or whitespace-only text is stored as null. */
 export function blankToNull(value: string): string | null {
   const text = value.trim()

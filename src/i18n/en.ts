@@ -207,7 +207,7 @@ export const en = {
   meetDeleted: 'Deleted · {name}',
   deleteMeet: 'Delete meet',
   deleteMeetBody: 'Removes this meet. It has no entries.',
-  deleteMeetBlocked: "Can't delete: this meet has {entries}. Delete them first.",
+  deleteMeetBlocked: "Can't delete: this meet has {entries}. Delete its entries first.",
   deleteMeetConfirm: 'Delete {name}?',
 
   // Entries

@@ -11,6 +11,7 @@ import {
   swimmerValues,
   validateMeet,
   validateSwimmer,
+  withoutErrors,
   type MeetForm,
   type SwimmerForm,
 } from './forms'
@@ -139,6 +140,15 @@ describe('meetValues', () => {
       results_url: null,
       notes: null,
     })
+  })
+})
+
+describe('withoutErrors', () => {
+  it('drops the error of a field once it is edited and keeps the rest', () => {
+    const errors = { name: 'required', slug: 'slugFormat' } as const
+    expect(withoutErrors<SwimmerForm>(errors, { name: 'J' })).toEqual({ slug: 'slugFormat' })
+    expect(withoutErrors<SwimmerForm>(errors, { name: 'J', slug: 'j' })).toEqual({})
+    expect(withoutErrors<SwimmerForm>(errors, { nameZh: '杰' })).toEqual(errors)
   })
 })
 

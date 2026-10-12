@@ -27,6 +27,7 @@ import {
   swimmerPrivateValues,
   swimmerValues,
   validateSwimmer,
+  withoutErrors,
   type FieldErrors,
   type SwimmerForm,
 } from '../lib/forms'
@@ -112,7 +113,10 @@ function SwimmerEditor({
   const [slugTyped, setSlugTyped] = useState(Boolean(swimmer))
   const [errors, setErrors] = useState<FieldErrors<SwimmerForm>>({})
 
-  const set = (patch: Partial<SwimmerForm>) => setForm((current) => ({ ...current, ...patch }))
+  const set = (patch: Partial<SwimmerForm>) => {
+    setForm((current) => ({ ...current, ...patch }))
+    setErrors((current) => withoutErrors(current, patch))
+  }
 
   const submit = (event?: FormEvent) => {
     event?.preventDefault()

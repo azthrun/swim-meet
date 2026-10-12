@@ -14,7 +14,7 @@ import { useEntriesOfSwimmers, useEntry, useLookups, useSwimmers, type Entry, ty
 import { useI18n } from '../i18n/I18nContext'
 import { personalBestsOf } from '../lib/entries'
 import { draftOfEntry, entryValues, seedIsPersonalBest, validateEntryDraft, type EntryDraft } from '../lib/entryForms'
-import { hasErrors, type FieldErrors } from '../lib/forms'
+import { hasErrors, withoutErrors, type FieldErrors } from '../lib/forms'
 import { canEditEntries } from '../lib/permissions'
 import { NotFoundState } from './NotFound'
 
@@ -65,7 +65,10 @@ function EditEntryForm({ entry, lookups, swimmerName }: { entry: Entry; lookups:
           <EntryFields
             draft={draft}
             errors={errors}
-            onChange={(patch) => setDraft((current) => ({ ...current, ...patch }))}
+            onChange={(patch) => {
+              setDraft((current) => ({ ...current, ...patch }))
+              setErrors((current) => withoutErrors(current, patch))
+            }}
             meet={entry.meet}
             lookups={lookups}
             seedHint={seedIsPersonalBest(draft, bests) ? m.seedIsPersonalBest : undefined}

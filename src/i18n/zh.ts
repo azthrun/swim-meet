@@ -196,7 +196,7 @@ export const zh: Messages = {
   meetDeleted: '已删除 · {name}',
   deleteMeet: '删除比赛',
   deleteMeetBody: '将删除这场比赛。它没有任何报名。',
-  deleteMeetBlocked: '无法删除：这场比赛有 {entries}。请先删除它们。',
+  deleteMeetBlocked: '无法删除：这场比赛有 {entries}。请先删除这些报名。',
   deleteMeetConfirm: '删除{name}？',
 
   // Entries
