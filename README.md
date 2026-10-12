@@ -32,8 +32,9 @@ Open http://localhost:5173/swim-meet/. There is no local database: the dev serve
 
 ### Layout
 
-- `src/lib/` pure logic with tests: time format and parse, personal best selection, seasons, dates.
-- `src/data/` the Supabase client, queries, and `database.types.ts`.
+- `src/lib/` pure logic with tests: time format and parse, personal best selection, seasons, dates, permissions, form validation, and the defaults for new entries.
+- `src/data/` the Supabase client, queries, mutations, and `database.types.ts`.
+- `src/auth/` the session and what the signed-in account may edit. Edit controls are shown from `lib/permissions.ts`, which mirrors the row level security policies; the database still has the last word.
 - `src/i18n/` UI chrome in English and Chinese. Courses, strokes, rounds and statuses are not here: their names come from the lookup tables (`name_en` / `name_zh`).
 - `src/components/`, `src/screens/` hand-built from the DreamBig tokens. `src/styles/index.css` imports the token files from `docs/design/dreambig/tokens/` and gives them Tailwind names.
 

@@ -1,20 +1,29 @@
-import { CalendarClock, ChevronRight } from 'lucide-react'
+import { CalendarClock, ChevronRight, Pencil, Plus, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { DeleteEntryModal } from '../components/entry'
 import { CourseBadge, LiveResultsLink, MeetPlace, RelayBadge, RelayTile, useEventLabel } from '../components/swim'
-import { EmptyState } from '../components/ui'
+import { buttonClass, EmptyState, iconButtonClass } from '../components/ui'
 import type { Entry } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDateRangeWithDays, formatDay } from '../lib/dates'
 import { byMeetOrder, groupBy, isRelay } from '../lib/entries'
+import { TIMED_FINAL } from '../lib/entryForms'
 import { formatTime } from '../lib/time'
 import { useSwimmerContext } from './Swimmer'
 
-const TIMED_FINAL = 'TIMED_FINAL'
-
 export function SwimmerUpcoming() {
-  const { entries, lookups } = useSwimmerContext()
+  const { swimmer, entries, lookups, canEdit } = useSwimmerContext()
   const { m, lang, fill, plural, name, pick } = useI18n()
   const eventLabel = useEventLabel(lookups)
+  const [deleting, setDeleting] = useState<Entry | null>(null)
+
+  const addEntries = canEdit ? (
+    <Link to={`/entries/new?swimmer=${swimmer.slug}`} className={buttonClass('primary', 'lg', true)}>
+      <Plus size={18} aria-hidden="true" />
+      {m.addEntries}
+    </Link>
+  ) : null
 
   // An entry with no result is upcoming.
   const upcoming = entries.filter((entry) => !entry.result)
@@ -24,9 +33,12 @@ export function SwimmerUpcoming() {
 
   if (upcoming.length === 0) {
     return (
-      <EmptyState icon={CalendarClock} title={m.noUpcomingTitle}>
-        {m.noUpcomingBody}
-      </EmptyState>
+      <>
+        {addEntries}
+        <EmptyState icon={CalendarClock} title={m.noUpcomingTitle}>
+          {m.noUpcomingBody}
+        </EmptyState>
+      </>
     )
   }
 
@@ -43,6 +55,7 @@ export function SwimmerUpcoming() {
 
   return (
     <>
+      {addEntries}
       <p className="type-caption text-muted">
         {fill(m.upcomingSummary, {
           meets: plural(m.meetCount, meets.length),
@@ -69,12 +82,13 @@ export function SwimmerUpcoming() {
               <ol>
                 {[...meetEntries].sort(byMeetOrder).map((entry) => {
                   const relay = isRelay(entry, lookups)
-                  return (
-                    <li key={entry.id} className="flex items-start gap-md border-t border-hairline p-md">
+                  const label = eventLabel(entry.event_id)
+                  const row = (
+                    <div className="flex items-start gap-md">
                       {relay ? <RelayTile /> : null}
                       <div className="flex min-w-0 flex-1 flex-col gap-xxs">
                         <span className="flex flex-wrap items-center gap-xs">
-                          <span className="type-title text-heading">{eventLabel(entry.event_id)}</span>
+                          <span className="type-title text-heading">{label}</span>
                           {relay ? <RelayBadge /> : null}
                         </span>
                         <span className="type-caption text-muted">{details(entry)}</span>
@@ -92,6 +106,35 @@ export function SwimmerUpcoming() {
                           <span className="type-heading-3 tabular text-heading">{formatTime(entry.seed_time_cs)}</span>
                         )}
                       </div>
+                    </div>
+                  )
+                  if (!canEdit) {
+                    return (
+                      <li key={entry.id} className="border-t border-hairline p-md">
+                        {row}
+                      </li>
+                    )
+                  }
+                  return (
+                    <li key={entry.id} className="flex flex-col gap-xs border-t border-hairline px-md pt-md pb-xs">
+                      {row}
+                      <div className="flex justify-end gap-xs">
+                        <Link
+                          to={`/entries/${entry.id}/edit`}
+                          aria-label={fill(m.editEntryNamed, { event: label })}
+                          className={iconButtonClass}
+                        >
+                          <Pencil size={20} aria-hidden="true" />
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setDeleting(entry)}
+                          aria-label={fill(m.deleteEntryNamed, { event: label })}
+                          className={iconButtonClass}
+                        >
+                          <Trash2 size={20} aria-hidden="true" />
+                        </button>
+                      </div>
                     </li>
                   )
                 })}
@@ -100,6 +143,7 @@ export function SwimmerUpcoming() {
           )
         })}
       </div>
+      {deleting ? <DeleteEntryModal entry={deleting} lookups={lookups} onClose={() => setDeleting(null)} /> : null}
     </>
   )
 }
