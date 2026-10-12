@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* DreamBig tokens, read straight from the design system so there is one copy.
+   tokens/fonts.css is skipped: it only loads Inter, which index.html does. */
+@import "../../docs/design/dreambig/tokens/colors.css";
+@import "../../docs/design/dreambig/tokens/typography.css";
+@import "../../docs/design/dreambig/tokens/spacing.css";
+@import "../../docs/design/dreambig/tokens/radius.css";
+@import "../../docs/design/dreambig/tokens/elevation.css";
+@import "../../docs/design/dreambig/tokens/motion.css";
+@import "../../docs/design/dreambig/tokens/base.css" layer(base);
+
+:root {
+  --font-sans: "DreamBigSans", "Inter", -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-features: "lnum" 1, "locl" 1;
+  /* Added by the Swim Meet design draft: times need tabular figures. */
+  --font-features-tabular: "lnum" 1, "tnum" 1;
+}
+
+/* Tailwind names for the tokens. `inline` makes utilities point at the token itself. */
+@theme inline {
+  --color-*: initial;
+  --color-white: var(--white);
+  --color-transparent: transparent;
+  --color-canvas: var(--canvas);
+  --color-card: var(--surface-card);
+  --color-primary: var(--blue-600);
+  --color-primary-active: var(--blue-700);
+  --color-on-primary: var(--white);
+  --color-translucent: var(--fill-translucent);
+  --color-ink: var(--text-body);
+  --color-heading: var(--text-heading);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-link: var(--text-link);
+  --color-hairline: var(--border-hairline);
+  --color-input: var(--border-input);
+  --color-accent-teal: var(--accent-teal);
+  --color-accent-green: var(--accent-green);
+  --color-accent-orange: var(--accent-orange);
+
+  --spacing-xxs: var(--space-xxs);
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --spacing-xxl: var(--space-xxl);
+
+  --radius-*: initial;
+  --radius-xs: 4px;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-card: 12px;
+  --radius-well: 16px;
+  --radius-full: 9999px;
+
+  --shadow-*: initial;
+  --shadow-soft: var(--shadow-card-raised);
+
+  --container-desktop: 1080px;
+}
+
+/* Type roles: each sets the font shorthand and its matching tracking. */
+@utility type-heading-1 {
+  font: var(--type-heading-1);
+  letter-spacing: var(--tracking-heading-1);
+}
+@utility type-heading-2 {
+  font: var(--type-heading-2);
+  letter-spacing: var(--tracking-heading-2);
+}
+@utility type-heading-3 {
+  font: var(--type-heading-3);
+  letter-spacing: var(--tracking-heading-3);
+}
+@utility type-title {
+  font: var(--type-title);
+  letter-spacing: var(--tracking-title);
+}
+@utility type-body-md {
+  font: var(--type-body-md);
+}
+@utility type-body-sm {
+  font: var(--type-body-sm);
+}
+@utility type-button {
+  font: var(--type-button);
+}
+@utility type-caption {
+  font: var(--type-caption);
+}
+@utility type-eyebrow {
+  font: var(--type-eyebrow);
+  letter-spacing: var(--tracking-eyebrow);
+}
+@utility tabular {
+  font-feature-settings: var(--font-features-tabular);
+}
+@utility press {
+  transition: var(--transition-press), var(--transition-surface);
+  &:active {
+    transform: scale(var(--press-scale));
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100dvh;
+  }
+  button {
+    cursor: pointer;
+  }
+}
