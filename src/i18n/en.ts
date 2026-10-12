@@ -1,5 +1,6 @@
 import type { FieldError } from '../lib/forms'
 import type { SaveErrorKind } from '../lib/saveErrors'
+import type { PadError } from '../lib/timePad'
 
 // UI chrome only. Courses, strokes, rounds and statuses come from the lookup tables.
 export const en = {
@@ -250,6 +251,43 @@ export const en = {
   deleteEntryBody: '{meet}. This cannot be undone.',
   entryNotFoundTitle: 'No entry here',
   entryNotFoundBody: 'This link does not match any entry. It may have been deleted.',
+
+  // Time entry sheet
+  tapEntryHint: 'Tap an entry to enter a time.',
+  enterTimeNamed: 'Enter time: {event}',
+  editResultNamed: 'Edit result: {event}',
+  close: 'Close',
+  timeType: 'Time type',
+  liveTime: 'Live time',
+  officialTime: 'Official time',
+  status: 'Status',
+  numberPad: 'Number pad',
+  clear: 'Clear',
+  backspace: 'Backspace',
+  typeDigitsHint: 'Type the digits: 10532 → 1:05.32',
+  padErrors: {
+    seconds: 'Seconds must be under 60.',
+    zero: "A time can't be zero.",
+  } satisfies Record<PadError, string>,
+  otherTimeInvalid: '{type} is not a valid time.',
+  noTimeForEntry: 'No time for this entry.',
+  clearsResult: 'Saving removes this result. The entry goes back to upcoming.',
+  notesPlaceholder: 'Relay leg, split…',
+  save: 'Save',
+  saveAndNext: 'Save and next',
+  savingNamed: 'Saving {label}…',
+  resultSaved: 'Saved · {label}',
+  resultCleared: 'Cleared · {label}',
+  keepEditing: 'Keep editing',
+  retrySave: 'Retry save',
+  keptUntilSaved: '{label} is kept on this phone until it saves.',
+  timesNotSaved: { one: '{n} time not saved', other: '{n} times not saved' },
+  keptOnPhone: 'Kept on this phone.',
+  notSavedYet: 'Not saved yet',
+  notSavedTapRetry: 'Not saved yet · tap to retry',
+  discard: 'Discard',
+  discardUnsaved: { one: 'Discard {n} unsaved time?', other: 'Discard {n} unsaved times?' },
+  discardUnsavedBody: 'Never saved, and gone for good once discarded: {labels}.',
 }
 
 export type Messages = typeof en

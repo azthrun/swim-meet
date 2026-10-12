@@ -1,4 +1,4 @@
-import { CalendarPlus, ChevronLeft, Pencil, Plus } from 'lucide-react'
+import { CalendarPlus, ChevronLeft, ChevronRight, Pencil, Plus, Pointer } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
@@ -9,6 +9,7 @@ import {
   LiveResultsLink,
   LoadFailed,
   MeetPlace,
+  PendingMark,
   PersonalBestBadge,
   RelayBadge,
   RelayTile,
@@ -16,13 +17,17 @@ import {
   UnofficialBadge,
   useEventLabel,
 } from '../components/swim'
+import { TimeEntrySheet } from '../components/TimeEntrySheet'
 import { Bar, buttonClass, EmptyState, iconButtonClass, ListSkeleton } from '../components/ui'
+import { useSheetEntry } from '../components/useSheetEntry'
+import { usePendingResults } from '../data/PendingResultsContext'
 import { useEntriesOfSwimmers, useLookups, useMeet, type Entry, type Lookups, type Swimmer } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDateRangeWithDays, formatDay } from '../lib/dates'
 import { byMeetOrder, dropAgainstSeed, groupBy, isRelay, personalBestBadge, personalBestsOf } from '../lib/entries'
 import { SWUM, type PersonalBests } from '../lib/personalBests'
-import { canEditMeet } from '../lib/permissions'
+import { canEditEntries, canEditMeet } from '../lib/permissions'
+import { nextEntryAfter, withPendingResults, type PendingResult } from '../lib/results'
 import { formatTime } from '../lib/time'
 import { NotFoundState } from './NotFound'
 
@@ -52,12 +57,18 @@ function EntryCard({
   lookups,
   swimmer,
   bests,
+  pending,
+  onOpen,
 }: {
   entry: Entry
   lookups: Lookups
   /** Set when more than one swimmer is at the meet. */
   swimmer: Swimmer | undefined
   bests: PersonalBests | undefined
+  /** Set while the result on show has not reached the database. */
+  pending: PendingResult['state'] | undefined
+  /** Opens the time entry sheet. Set for editors of this entry's swimmer only. */
+  onOpen: (() => void) | undefined
 }) {
   const { m, fill, name, pick } = useI18n()
   const eventLabel = useEventLabel(lookups)
@@ -85,7 +96,7 @@ function EntryCard({
   ].filter(Boolean)
 
   return (
-    <article className="flex flex-col gap-sm rounded-card border border-hairline bg-card p-md">
+    <article className="relative flex flex-col gap-sm rounded-card border border-hairline bg-card p-md">
       <div className="flex items-start gap-sm">
         {relay ? <RelayTile /> : null}
         <div className="flex min-w-0 flex-1 flex-col gap-xxs">
@@ -107,6 +118,7 @@ function EntryCard({
           </span>
           {note ? <span className="type-caption text-secondary">{note}</span> : null}
         </div>
+        {onOpen ? <ChevronRight size={20} aria-hidden="true" className="flex-none text-faint" /> : null}
       </div>
       {status !== SWUM && result ? (
         <StatusBlock
@@ -125,12 +137,22 @@ function EntryCard({
           />
         </div>
       )}
-      {drop === null && !badge ? null : (
+      {drop === null && !badge && !pending ? null : (
         <div className="flex flex-wrap items-center gap-sm">
           {drop === null ? null : <Drop deltaCs={drop} />}
           <PersonalBestBadge badge={badge} />
+          <PendingMark state={pending} tappable={onOpen !== undefined} />
         </div>
       )}
+      {/* The whole card is the target, laid over it so the card keeps its own markup. */}
+      {onOpen ? (
+        <button
+          type="button"
+          onClick={onOpen}
+          aria-label={fill(m.enterTimeNamed, { event: eventLabel(entry.event_id) })}
+          className="absolute inset-0 rounded-card border-0 bg-transparent active:bg-[rgba(0,0,0,0.04)]"
+        />
+      ) : null}
     </article>
   )
 }
@@ -146,15 +168,22 @@ export function MeetScreen() {
   const { access } = useAuth()
   // Personal bests need each swimmer's whole history, not just this meet.
   const history = useEntriesOfSwimmers(meet.data?.swimmers.map((swimmer) => swimmer.id))
+  const { pending } = usePendingResults()
+  const sheet = useSheetEntry()
 
+  // A pending save is shown as if it had landed, here and in the personal bests it may change.
+  const historyBySwimmer = useMemo(
+    () => history.data && groupBy(withPendingResults(history.data, pending), (entry) => entry.swimmer_id),
+    [history.data, pending],
+  )
   const bests = useMemo(() => {
-    if (!history.data || !lookups.data) return undefined
+    if (!historyBySwimmer || !lookups.data) return undefined
     const perSwimmer = new Map<string, PersonalBests>()
-    for (const [swimmerId, entries] of groupBy(history.data, (entry) => entry.swimmer_id)) {
+    for (const [swimmerId, entries] of historyBySwimmer) {
       perSwimmer.set(swimmerId, personalBestsOf(entries, lookups.data))
     }
     return perSwimmer
-  }, [history.data, lookups.data])
+  }, [historyBySwimmer, lookups.data])
 
   const failed = meet.isError || lookups.isError
   const data = meet.data
@@ -207,7 +236,12 @@ export function MeetScreen() {
   // Add entries is for an account with at least one swimmer it can edit.
   const canAddEntries = access !== null && (access.isAdmin || access.owned.size > 0 || access.shared.size > 0)
   const swimmerById = new Map(data.swimmers.map((swimmer) => [swimmer.id, swimmer]))
-  const days = [...groupBy([...data.entries].sort(byMeetOrder), (entry) => entry.swim_date).entries()]
+  const ordered = withPendingResults(data.entries, pending).sort(byMeetOrder)
+  const days = [...groupBy(ordered, (entry) => entry.swim_date).entries()]
+  const editable = (entry: Entry) => canEditEntries(access, entry.swimmer_id)
+  // The sheet works from the entry as loaded; what is pending is laid over it for display only.
+  const sheetEntry = data.entries.find((entry) => entry.id === sheet.entryId && editable(entry))
+  const sheetSwimmer = sheetEntry && swimmerById.get(sheetEntry.swimmer_id)
 
   return (
     <>
@@ -251,24 +285,45 @@ export function MeetScreen() {
             {m.noEntriesBody}
           </EmptyState>
         ) : (
-          days.map(([day, entries]) => (
-            <section key={day} className="flex flex-col gap-sm">
-              <h2 className="pt-xs type-title">{formatDay(day, lang, true)}</h2>
-              <div className="grid items-start gap-sm md:grid-cols-2">
-                {entries.map((entry) => (
-                  <EntryCard
-                    key={entry.id}
-                    entry={entry}
-                    lookups={lookups.data}
-                    swimmer={data.swimmers.length > 1 ? swimmerById.get(entry.swimmer_id) : undefined}
-                    bests={bests?.get(entry.swimmer_id)}
-                  />
-                ))}
-              </div>
-            </section>
-          ))
+          <>
+            {ordered.some(editable) ? (
+              <p className="flex items-center gap-xs type-caption text-muted">
+                <Pointer size={16} aria-hidden="true" className="flex-none" />
+                {m.tapEntryHint}
+              </p>
+            ) : null}
+            {days.map(([day, entries]) => (
+              <section key={day} className="flex flex-col gap-sm">
+                <h2 className="pt-xs type-title">{formatDay(day, lang, true)}</h2>
+                <div className="grid items-start gap-sm md:grid-cols-2">
+                  {entries.map((entry) => (
+                    <EntryCard
+                      key={entry.id}
+                      entry={entry}
+                      lookups={lookups.data}
+                      swimmer={data.swimmers.length > 1 ? swimmerById.get(entry.swimmer_id) : undefined}
+                      bests={bests?.get(entry.swimmer_id)}
+                      pending={pending.get(entry.id)?.state}
+                      onOpen={editable(entry) ? () => sheet.open(entry.id) : undefined}
+                    />
+                  ))}
+                </div>
+              </section>
+            ))}
+          </>
         )}
       </main>
+      {sheetEntry && sheetSwimmer ? (
+        <TimeEntrySheet
+          entry={sheetEntry}
+          swimmer={sheetSwimmer}
+          lookups={lookups.data}
+          history={historyBySwimmer?.get(sheetEntry.swimmer_id)}
+          next={nextEntryAfter(ordered, sheetEntry.id, editable)}
+          onClose={sheet.close}
+          onNext={sheet.advance}
+        />
+      ) : null}
     </>
   )
 }

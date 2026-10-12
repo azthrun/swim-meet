@@ -24,12 +24,21 @@ export function isRelay(entry: Entry, lookups: Lookups): boolean {
   return lookups.stroke.get(event?.stroke_code ?? '')?.is_relay ?? false
 }
 
-/** Meet order: by day, then event number, with unnumbered entries last. */
+// Infinity sorts a missing number last; two missing ones compare as NaN and fall through.
+const numbered = (a: number | null, b: number | null) => (a ?? Infinity) - (b ?? Infinity)
+
+/**
+ * Meet order: by day, then event number, with unnumbered entries last. Swimmers in the same
+ * event go by heat and lane, so the order is the order they swim in and never shifts.
+ */
 export function byMeetOrder(a: Entry, b: Entry): number {
   return (
     a.swim_date.localeCompare(b.swim_date) ||
-    (a.event_number ?? Infinity) - (b.event_number ?? Infinity) ||
-    a.event_id - b.event_id
+    numbered(a.event_number, b.event_number) ||
+    a.event_id - b.event_id ||
+    numbered(a.heat, b.heat) ||
+    numbered(a.lane, b.lane) ||
+    a.id.localeCompare(b.id)
   )
 }
 

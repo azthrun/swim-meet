@@ -5,17 +5,21 @@ import { useAuth } from '../auth/AuthContext'
 import { CONTAINER } from '../components/Layout'
 import { LoadFailed } from '../components/swim'
 import { Bar, iconButtonClass, ListSkeleton } from '../components/ui'
+import { usePendingResults } from '../data/PendingResultsContext'
 import { useEntriesOfSwimmers, useLookups, useSwimmers, type Entry, type Lookups, type Swimmer } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { personalBestsOf } from '../lib/entries'
 import type { PersonalBests } from '../lib/personalBests'
 import { canEditEntries, canManageSwimmer } from '../lib/permissions'
+import { withPendingResults } from '../lib/results'
 import { NotFoundState } from './NotFound'
 
 export type SwimmerContext = {
   swimmer: Swimmer
-  /** Every entry of this swimmer, upcoming and finished. */
+  /** Every entry of this swimmer, upcoming and finished, with pending saves shown as if saved. */
   entries: Entry[]
+  /** The same entries as loaded, without pending saves. */
+  loadedEntries: Entry[]
   lookups: Lookups
   bests: PersonalBests
   /** True when the signed-in account may add, edit and delete this swimmer's entries. */
@@ -35,10 +39,12 @@ export function SwimmerScreen() {
   const { status, access } = useAuth()
   const swimmer = swimmers.data?.find((s) => s.slug === slug)
   const entries = useEntriesOfSwimmers(swimmer ? [swimmer.id] : undefined)
+  const { pending } = usePendingResults()
 
+  const shown = useMemo(() => entries.data && withPendingResults(entries.data, pending), [entries.data, pending])
   const bests = useMemo(
-    () => (entries.data && lookups.data ? personalBestsOf(entries.data, lookups.data) : undefined),
-    [entries.data, lookups.data],
+    () => (shown && lookups.data ? personalBestsOf(shown, lookups.data) : undefined),
+    [shown, lookups.data],
   )
 
   const failed = swimmers.isError || lookups.isError || entries.isError
@@ -110,12 +116,13 @@ export function SwimmerScreen() {
               for (const query of [swimmers, lookups, entries]) if (query.isError) void query.refetch()
             }}
           />
-        ) : swimmer && entries.data && lookups.data && bests ? (
+        ) : swimmer && entries.data && shown && lookups.data && bests ? (
           <Outlet
             context={
               {
                 swimmer,
-                entries: entries.data,
+                entries: shown,
+                loadedEntries: entries.data,
                 lookups: lookups.data,
                 bests,
                 canEdit: canEditEntries(access, swimmer.id),
