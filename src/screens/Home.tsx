@@ -1,11 +1,13 @@
-import { ChevronRight, Users } from 'lucide-react'
+import { ChevronRight, Plus, Users } from 'lucide-react'
 import { Link, Navigate } from 'react-router-dom'
+import { useAuth } from '../auth/AuthContext'
 import { CONTAINER } from '../components/Layout'
 import { CourseBadge, LoadFailed } from '../components/swim'
-import { EmptyState, ListSkeleton } from '../components/ui'
+import { buttonClass, EmptyState, ListSkeleton } from '../components/ui'
 import { useLookups, useSwimmers, useUpcomingMeets, type Meet } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDateRange } from '../lib/dates'
+import { canAddSwimmer } from '../lib/permissions'
 
 /** The soonest meet each swimmer has an upcoming entry in. */
 function nextMeets(upcoming: { swimmer_id: string; meet: Meet }[]): Map<string, Meet> {
@@ -22,14 +24,17 @@ export function Home() {
   const swimmers = useSwimmers()
   const upcoming = useUpcomingMeets()
   const lookups = useLookups()
+  const { status, access } = useAuth()
 
-  // With one swimmer only, Home is skipped and opens that swimmer.
-  if (swimmers.data?.length === 1) {
+  // With one swimmer only, Home is skipped and opens that swimmer. A signed-in account stays,
+  // because Home is where a swimmer is added.
+  if (swimmers.data?.length === 1 && status === 'signedOut') {
     return <Navigate to={`/swimmers/${swimmers.data[0]!.slug}`} replace />
   }
 
   const failed = swimmers.isError || upcoming.isError || lookups.isError
-  const ready = swimmers.data && upcoming.data && lookups.data
+  // Whether Home is skipped depends on being signed in, so wait to know.
+  const ready = swimmers.data && upcoming.data && lookups.data && status !== 'loading'
   const next = nextMeets(upcoming.data ?? [])
 
   return (
@@ -82,6 +87,14 @@ export function Home() {
           })}
         </ul>
       )}
+      {ready && !failed && canAddSwimmer(access) ? (
+        <div className="flex flex-col pt-xs md:items-start">
+          <Link to="/swimmers/new" className={buttonClass('primary', 'lg', true)}>
+            <Plus size={18} aria-hidden="true" />
+            {m.addSwimmer}
+          </Link>
+        </div>
+      ) : null}
     </main>
   )
 }

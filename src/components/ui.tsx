@@ -46,7 +46,7 @@ export function buttonClass(variant: ButtonVariant = 'primary', size: ButtonSize
     secondary: 'bg-card text-ink shadow-soft',
   }
   const sizes: Record<ButtonSize, string> = { md: 'px-[20px] py-[9px]', lg: 'px-xl py-[13px]' }
-  return `press inline-flex items-center justify-center gap-xs whitespace-nowrap rounded-full border border-transparent type-button no-underline ${
+  return `press inline-flex items-center justify-center gap-xs whitespace-nowrap rounded-full border border-transparent type-button no-underline disabled:cursor-not-allowed disabled:opacity-40 ${
     variants[variant]
   } ${sizes[size]} ${fullWidth ? 'w-full' : ''}`
 }

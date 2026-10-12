@@ -24,6 +24,7 @@
   --color-transparent: transparent;
   --color-canvas: var(--canvas);
   --color-card: var(--surface-card);
+  --color-featured: var(--surface-featured);
   --color-primary: var(--blue-600);
   --color-primary-active: var(--blue-700);
   --color-on-primary: var(--white);
@@ -58,6 +59,7 @@
 
   --shadow-*: initial;
   --shadow-soft: var(--shadow-card-raised);
+  --shadow-modal: var(--shadow-elevated);
 
   --container-desktop: 1080px;
 }

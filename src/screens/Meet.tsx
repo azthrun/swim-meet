@@ -1,6 +1,7 @@
-import { CalendarPlus, ChevronLeft } from 'lucide-react'
+import { CalendarPlus, ChevronLeft, Pencil, Plus } from 'lucide-react'
 import { useMemo } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useAuth } from '../auth/AuthContext'
 import { CONTAINER } from '../components/Layout'
 import {
   CourseBadge,
@@ -15,12 +16,13 @@ import {
   UnofficialBadge,
   useEventLabel,
 } from '../components/swim'
-import { Bar, EmptyState, iconButtonClass, ListSkeleton } from '../components/ui'
+import { Bar, buttonClass, EmptyState, iconButtonClass, ListSkeleton } from '../components/ui'
 import { useEntriesOfSwimmers, useLookups, useMeet, type Entry, type Lookups, type Swimmer } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDateRangeWithDays, formatDay } from '../lib/dates'
 import { byMeetOrder, dropAgainstSeed, groupBy, isRelay, personalBestBadge, personalBestsOf } from '../lib/entries'
 import { SWUM, type PersonalBests } from '../lib/personalBests'
+import { canEditMeet } from '../lib/permissions'
 import { formatTime } from '../lib/time'
 import { NotFoundState } from './NotFound'
 
@@ -141,6 +143,7 @@ export function MeetScreen() {
   const location = useLocation()
   const lookups = useLookups()
   const meet = useMeet(meetId)
+  const { access } = useAuth()
   // Personal bests need each swimmer's whole history, not just this meet.
   const history = useEntriesOfSwimmers(meet.data?.swimmers.map((swimmer) => swimmer.id))
 
@@ -201,6 +204,8 @@ export function MeetScreen() {
     )
   }
 
+  // Add entries is for an account with at least one swimmer it can edit.
+  const canAddEntries = access !== null && (access.isAdmin || access.owned.size > 0 || access.shared.size > 0)
   const swimmerById = new Map(data.swimmers.map((swimmer) => [swimmer.id, swimmer]))
   const days = [...groupBy([...data.entries].sort(byMeetOrder), (entry) => entry.swim_date).entries()]
 
@@ -222,6 +227,22 @@ export function MeetScreen() {
           <MeetPlace meet={data.meet} />
           <LiveResultsLink meet={data.meet} />
           {data.meet.notes ? <p className="type-body-sm text-secondary">{data.meet.notes}</p> : null}
+          {access ? (
+            <div className="flex flex-wrap gap-xs pt-xs">
+              {canEditMeet(access, data.meet.id) ? (
+                <Link to={`/meets/${data.meet.id}/edit`} className={buttonClass('secondary')}>
+                  <Pencil size={18} aria-hidden="true" />
+                  {m.editMeet}
+                </Link>
+              ) : null}
+              {canAddEntries ? (
+                <Link to={`/entries/new?meet=${data.meet.id}`} className={buttonClass('secondary')}>
+                  <Plus size={18} aria-hidden="true" />
+                  {m.addEntries}
+                </Link>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </div>
       <main className={`flex flex-1 flex-col gap-sm p-md ${CONTAINER}`}>
