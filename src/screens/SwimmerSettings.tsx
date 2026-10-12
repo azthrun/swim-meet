@@ -33,12 +33,13 @@ import {
 } from '../lib/forms'
 import { canManageSwimmer } from '../lib/permissions'
 import { NotFoundState } from './NotFound'
+import { SwimmerSharing } from './SwimmerSharing'
 
 function DeleteSwimmer({ swimmer }: { swimmer: Swimmer }) {
-  const { m, fill } = useI18n()
+  const { m, fill, pick } = useI18n()
   const navigate = useNavigate()
   const toast = useToast()
-  const name = swimmer.display_name
+  const name = pick(swimmer.display_name, swimmer.display_name_zh)
   const remove = useSave(deleteSwimmer, () => {
     toast(fill(m.swimmerDeleted, { name }))
     navigate('/', { replace: true })
@@ -92,7 +93,7 @@ function SwimmerEditor({
   const navigate = useNavigate()
   const toast = useToast()
   const save = useSave(saveSwimmer, ({ values }) => {
-    toast(fill(swimmer ? m.swimmerSaved : m.swimmerAdded, { name: values.display_name }))
+    toast(fill(swimmer ? m.swimmerSaved : m.swimmerAdded, { name: pick(values.display_name, values.display_name_zh) }))
     navigate(`/swimmers/${values.slug}`, { replace: true })
   })
   const goBack = useGoBack(swimmer ? `/swimmers/${swimmer.slug}` : '/')
@@ -200,6 +201,7 @@ function SwimmerEditor({
           <button type="submit" hidden />
         </form>
 
+        {swimmer ? <SwimmerSharing swimmer={swimmer} /> : null}
         {swimmer ? <DeleteSwimmer swimmer={swimmer} /> : null}
       </main>
       <ActionBar>
@@ -263,7 +265,7 @@ function SwimmerSettingsForm({ swimmer }: { swimmer: Swimmer }) {
   return <SwimmerEditor key={swimmer.id} swimmer={swimmer} privateRow={privateRow.data} genders={genders.data} />
 }
 
-/** Owner or admin only: name, slug, the private fields, and deleting the swimmer. */
+/** Owner or admin only: name, slug, the private fields, sharing, and deleting the swimmer. */
 export function SwimmerSettings() {
   const { slug } = useParams()
   const { m } = useI18n()

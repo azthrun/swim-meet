@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import type { AccessFacts } from '../lib/permissions'
+import type { SwimmerEditors } from '../lib/sharing'
 import type { Tables } from './database.types'
 import { supabase } from './supabase'
 
@@ -210,6 +211,50 @@ export function useSwimmerPrivate(userId: string | undefined, swimmerId: string 
         .eq('swimmer_id', swimmerId!)
         .maybeSingle()
         .then(unwrap),
+  })
+}
+
+/**
+ * The signed-in account's own display name. Never fetched for a signed-out visitor: `profiles`
+ * is readable by signed-in accounts only. Resolves to null when the account has no profile row.
+ */
+export function useOwnDisplayName(userId: string | undefined) {
+  return useQuery({
+    queryKey: [ACCOUNT_KEY, userId, 'display-name'],
+    enabled: userId !== undefined,
+    queryFn: async (): Promise<string | null> => {
+      const profile = await supabase.from('profiles').select('display_name').eq('id', userId!).maybeSingle().then(unwrap)
+      return profile?.display_name ?? null
+    },
+  })
+}
+
+/**
+ * Who can edit one swimmer: the owner and the accounts it is shared with, by display name.
+ * For the owner and an admin only; the database shows anyone else no more than their own share.
+ * Asks for the named accounts and nothing else: no emails, and no list of accounts.
+ */
+export function useSwimmerEditors(userId: string | undefined, swimmerId: string | undefined) {
+  return useQuery({
+    queryKey: [ACCOUNT_KEY, userId, 'swimmer-editors', swimmerId],
+    enabled: userId !== undefined && swimmerId !== undefined,
+    queryFn: async (): Promise<SwimmerEditors> => {
+      const [swimmer, editors] = await Promise.all([
+        supabase.from('swimmers').select('owner_id').eq('id', swimmerId!).single().then(unwrap),
+        supabase.from('swimmer_editors').select('user_id').eq('swimmer_id', swimmerId!).then(unwrap),
+      ])
+      const editorIds = editors.map((editor) => editor.user_id)
+      const profiles = await supabase
+        .from('profiles')
+        .select('id, display_name')
+        .in('id', [swimmer.owner_id, ...editorIds])
+        .then(unwrap)
+      return {
+        ownerId: swimmer.owner_id,
+        editorIds,
+        names: Object.fromEntries(profiles.map((profile) => [profile.id, profile.display_name])),
+      }
+    },
   })
 }
 

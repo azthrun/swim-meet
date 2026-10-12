@@ -1,7 +1,7 @@
 import { Check, LoaderCircle, RotateCw, TriangleAlert, type LucideIcon } from 'lucide-react'
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { useI18n } from '../i18n/I18nContext'
-import { saveErrorKind, saveErrorMessage } from '../lib/saveErrors'
+import { saveErrorKind } from '../lib/saveErrors'
 import { ToastContext } from './ToastContext'
 import { buttonClass } from './ui'
 
@@ -62,13 +62,14 @@ export function SaveFailed({ error, onRetry, saving }: { error: unknown; onRetry
 
   // The save button may be a screen away from where the banner appears.
   useEffect(() => {
-    if (error) ref.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    if (!error) return
+    ref.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+    // The database's own words are for whoever debugs this, not for the editor's screen.
+    if (saveErrorKind(error) === 'unknown') console.error(error)
   }, [error])
 
   if (!error) return null
-  const kind = saveErrorKind(error)
-  const { title, body } = m.saveErrors[kind]
-  const detail = kind === 'unknown' ? saveErrorMessage(error) : ''
+  const { title, body } = m.saveErrors[saveErrorKind(error)]
   return (
     <div ref={ref} className="scroll-m-md">
       <Alert
@@ -81,7 +82,6 @@ export function SaveFailed({ error, onRetry, saving }: { error: unknown; onRetry
         }
       >
         {body}
-        {detail ? ` (${detail})` : null}
       </Alert>
     </div>
   )

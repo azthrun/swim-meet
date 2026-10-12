@@ -249,6 +249,13 @@ describe('readStoredPending', () => {
     expect(readStoredPending(JSON.stringify(kept))).toEqual([{ ...kept[0], state: 'failed' }])
   })
 
+  it('keeps the event, so the save can be named in either language', () => {
+    expect(readStoredPending(JSON.stringify([pending({ eventId: 12 })]))[0]!.eventId).toBe(12)
+    // Kept before events were recorded, or tampered with: the label as typed is all there is.
+    expect(readStoredPending(JSON.stringify([pending()]))[0]).not.toHaveProperty('eventId')
+    expect(readStoredPending(JSON.stringify([{ ...pending(), eventId: '12' }]))[0]).not.toHaveProperty('eventId')
+  })
+
   it('keeps the typed digits exactly', () => {
     const [back] = readStoredPending(JSON.stringify([pending({ draft: draft({ live: '10532', notes: 'leg 3' }) })]))
     expect(back!.draft).toEqual(draft({ live: '10532', notes: 'leg 3' }))

@@ -6,6 +6,8 @@ import {
   canEditEntries,
   canEditMeet,
   canManageSwimmer,
+  canRemoveEditor,
+  canShareSwimmer,
   deriveAccess,
   editableSwimmers,
   type AccessFacts,
@@ -103,5 +105,43 @@ describe('admin', () => {
     expect(canEditMeet(access, 'other-meet')).toBe(true)
     expect(canDeleteMeet(access)).toBe(true)
     expect(editableSwimmers(access, [{ id: 'theirs' }])).toHaveLength(1)
+  })
+})
+
+describe('sharing', () => {
+  const owner = { isOwner: true }
+  const editor = { isOwner: false }
+
+  it('is hidden from a signed-out visitor', () => {
+    expect(canShareSwimmer(null, 'mine')).toBe(false)
+    expect(canRemoveEditor(null, 'mine', editor)).toBe(false)
+  })
+
+  it('is for the owner of the swimmer', () => {
+    const access = deriveAccess(facts())
+    expect(canShareSwimmer(access, 'mine')).toBe(true)
+    expect(canRemoveEditor(access, 'mine', editor)).toBe(true)
+  })
+
+  it('is never shown to a shared editor, who may not share further', () => {
+    const access = deriveAccess(facts())
+    expect(canEditEntries(access, 'shared')).toBe(true)
+    expect(canShareSwimmer(access, 'shared')).toBe(false)
+    expect(canRemoveEditor(access, 'shared', editor)).toBe(false)
+  })
+
+  it('is hidden for a swimmer the account has nothing to do with', () => {
+    expect(canShareSwimmer(deriveAccess(facts()), 'theirs')).toBe(false)
+  })
+
+  it('is for an admin on every swimmer', () => {
+    const access = deriveAccess(facts({ isAdmin: true }))
+    expect(canShareSwimmer(access, 'theirs')).toBe(true)
+    expect(canRemoveEditor(access, 'theirs', editor)).toBe(true)
+  })
+
+  it('never lets the owner be removed, not even by an admin', () => {
+    expect(canRemoveEditor(deriveAccess(facts()), 'mine', owner)).toBe(false)
+    expect(canRemoveEditor(deriveAccess(facts({ isAdmin: true })), 'theirs', owner)).toBe(false)
   })
 })

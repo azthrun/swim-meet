@@ -11,10 +11,12 @@ import {
   Users,
   WifiOff,
 } from 'lucide-react'
-import type { Lookups, Meet } from '../data/queries'
+import { useCallback } from 'react'
+import { useLookups, type Lookups, type Meet, type Result } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import type { PersonalBestBadge as Badge } from '../lib/entries'
-import type { PendingResult } from '../lib/results'
+import { SWUM } from '../lib/personalBests'
+import { DQ, resultOfDraft, type PendingResult } from '../lib/results'
 import { formatDrop, formatTime } from '../lib/time'
 import { BadgePill, buttonClass, EmptyState } from './ui'
 
@@ -25,6 +27,49 @@ export function useEventLabel(lookups: Lookups) {
     const event = lookups.event.get(eventId)
     return event ? `${event.distance} ${name(lookups.stroke.get(event.stroke_code))}` : ''
   }
+}
+
+/** A status in as few letters as the language has for it: English writes Disqualified as its code. */
+export function useStatusLabel(lookups: Lookups | undefined) {
+  const { lang, name } = useI18n()
+  return useCallback(
+    (code: string) => (lang === 'en' && code === DQ ? code : name(lookups?.status.get(code))),
+    [lang, name, lookups],
+  )
+}
+
+/** "50 Freestyle 29.48", "50 Freestyle DQ 29.48", or the event alone when there is nothing else to say. */
+export function useResultLabel(lookups: Lookups | undefined) {
+  const { name } = useI18n()
+  const statusLabel = useStatusLabel(lookups)
+  return useCallback(
+    (eventId: number, result: Result | null) => {
+      const event = lookups?.event.get(eventId)
+      const cs = result?.official_time_cs ?? result?.live_time_cs ?? null
+      return [
+        event ? `${event.distance} ${name(lookups?.stroke.get(event.stroke_code))}` : null,
+        result && result.status_code !== SWUM ? statusLabel(result.status_code) : null,
+        cs === null ? null : formatTime(cs),
+      ]
+        .filter(Boolean)
+        .join(' ')
+    },
+    [lookups, name, statusLabel],
+  )
+}
+
+/**
+ * A save that has not reached the database, in words. Written in the language on screen now,
+ * not the one it was typed in: a failed save can sit on the phone across a change of language.
+ */
+export function usePendingLabel() {
+  const lookups = useLookups().data
+  const resultLabel = useResultLabel(lookups)
+  return useCallback(
+    (save: Pick<PendingResult, 'eventId' | 'draft' | 'label'>) =>
+      lookups && save.eventId !== undefined ? resultLabel(save.eventId, resultOfDraft(save.draft)) : save.label,
+    [lookups, resultLabel],
+  )
 }
 
 export function CourseBadge({ code, lookups }: { code: string; lookups: Lookups }) {
@@ -136,7 +181,7 @@ export function StatusBlock({
 }) {
   const { m, name } = useI18n()
   const full = name(lookups.status.get(statusCode))
-  const short = m.statusShort[statusCode] ?? full
+  const short = useStatusLabel(lookups)(statusCode)
   const detail = timeCs === null ? m.noTime : formatTime(timeCs)
   return (
     <div className={`flex flex-col gap-xxs ${align === 'end' ? 'items-end text-right' : 'items-start'}`}>

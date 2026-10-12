@@ -52,7 +52,7 @@ Header: swimmer name. Three tabs.
 
 - Edit name, Chinese name, URL slug.
 - Private fields: date of birth, gender. Labelled as never shown publicly.
-- Sharing: list of people who can edit, remove button, "share by email" field with found / no such account feedback.
+- Sharing: list of people who can edit by display name (owner first, marked as owner), remove button, "share by email" field with shared / already shared / no such account feedback. No email from the database is ever shown.
 - Delete swimmer, behind a typed confirmation.
 
 ## 3. Meet
@@ -116,6 +116,8 @@ The draft lives in `docs/design/canvas/`, built on the design system in `docs/de
   - Edit entry: the Add entries step 3 row, for one entry.
   - Add swimmer: Swimmer settings without the sharing and delete sections.
   - Delete entry: confirmation in the system's Modal.
+  - Remove editor: confirmation in the system's Modal.
+  - Edit profile: one field, the account's display name, on the form pattern of Swimmer settings. Opened from the account menu, which shows the display name and never an email.
   - Empty states for the Upcoming and Results tabs, and loading / empty / failed states for Home, following the Meet states.
   - Unknown swimmer or meet: the system's EmptyState with a link home.
   - Filter pickers: the Select from the components sheet.
