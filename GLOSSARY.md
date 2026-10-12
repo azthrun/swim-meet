@@ -62,6 +62,12 @@ A live time that would be a personal best if it becomes official.
 A USA Swimming time cut (B through AAAA) for an event, age group, and gender.
 _Avoid_: Time standard, cut, level
 
+**Standard level**:
+The fastest motivational standard an official time reached, for the swimmer's age on the first day of the meet. Worked out in the database; the age and gender behind it are never shown.
+
+**Standard gap**:
+The time a personal best is from the next standard level up. Shown to the swimmer's editors only: a time and its gap together name the age group and gender.
+
 ### People
 
 **Swimmer**:
@@ -79,4 +85,4 @@ _Avoid_: Manager
 The account that can edit everything and delete meets.
 
 **Legacy**:
-The pre-rewrite tables held in the `legacy` database schema, kept only as a source for a future data migration.
+The pre-rewrite tables held in the `legacy` database schema, kept in place and left untouched. The data migration once planned from them was dropped.

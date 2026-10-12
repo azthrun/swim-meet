@@ -1,6 +1,7 @@
 import {
   ArrowDown,
   ArrowUp,
+  Award,
   CloudOff,
   ExternalLink,
   Flag,
@@ -119,6 +120,26 @@ export function PersonalBestBadge({ badge }: { badge: Badge }) {
     )
   }
   return null
+}
+
+/**
+ * The motivational standard level a result reached. A filled square tag with a medal, where the
+ * personal best badges are outlined pills with a dot: told apart by shape, not by color.
+ */
+export function StandardLevelBadge({ code, lookups }: { code: string | null; lookups: Lookups }) {
+  const { m, name } = useI18n()
+  const level = lookups.level.get(code ?? '')
+  if (!level) return null
+  return (
+    <span
+      title={m.motivationalStandard}
+      className="inline-flex flex-none items-center gap-xxs rounded-xs bg-ink py-xxs pr-xs pl-xxs type-eyebrow text-white"
+    >
+      <Award size={14} aria-hidden="true" className="flex-none" />
+      <span className="sr-only">{m.motivationalStandard}</span>
+      {name(level)}
+    </span>
+  )
 }
 
 /** Drop against the seed time. `long` spells out "faster than seed". */

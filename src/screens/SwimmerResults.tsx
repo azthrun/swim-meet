@@ -7,6 +7,7 @@ import {
   PersonalBestBadge,
   RelayBadge,
   RelayTile,
+  StandardLevelBadge,
   StatusBlock,
   UnofficialBadge,
   useEventLabel,
@@ -22,6 +23,7 @@ import { byMeetOrder, dropAgainstSeed, groupBy, isRelay, personalBestBadge, show
 import { TIMED_FINAL } from '../lib/entryForms'
 import { SWUM } from '../lib/personalBests'
 import { seasonLabel, seasonOf } from '../lib/season'
+import { shownLevel } from '../lib/standards'
 import { formatTime } from '../lib/time'
 import { useSwimmerContext } from './Swimmer'
 
@@ -54,7 +56,7 @@ function Outcome({ entry, relay }: { entry: Entry; relay: boolean }) {
 }
 
 export function SwimmerResults() {
-  const { swimmer, entries, loadedEntries, lookups, bests, canEdit } = useSwimmerContext()
+  const { swimmer, entries, loadedEntries, lookups, bests, standards, canEdit } = useSwimmerContext()
   const { m, lang, fill, name, pick } = useI18n()
   const { pending } = usePendingResults()
   const sheet = useSheetEntry()
@@ -119,11 +121,13 @@ export function SwimmerResults() {
     const drop = dropAgainstSeed(entry)
     const badge = personalBestBadge(entry, bests)
     const state = pending.get(entry.id)?.state
-    if (drop === null && !badge && !state) return null
+    const level = shownLevel(entry, standards, state !== undefined)
+    if (drop === null && !badge && !level && !state) return null
     return (
       <div className="flex flex-wrap items-center gap-sm">
         {drop === null ? null : <Drop deltaCs={drop} long={long} />}
         <PersonalBestBadge badge={badge} />
+        <StandardLevelBadge code={level} lookups={lookups} />
         <PendingMark state={state} />
       </div>
     )

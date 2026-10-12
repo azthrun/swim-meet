@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import type { AccessFacts } from '../lib/permissions'
 import type { SwimmerEditors } from '../lib/sharing'
+import type { StandardGapRow, StandardLevelRow } from '../lib/standards'
 import type { Tables } from './database.types'
 import { supabase } from './supabase'
 
@@ -9,6 +10,7 @@ export type Stroke = Tables<'strokes'>
 export type Round = Tables<'rounds'>
 export type ResultStatus = Tables<'result_statuses'>
 export type Event = Tables<'events'>
+export type StandardLevel = Tables<'standard_levels'>
 export type Gender = Tables<'genders'>
 export type Swimmer = Pick<Tables<'swimmers'>, 'id' | 'slug' | 'display_name' | 'display_name_zh'>
 export type Meet = Pick<
@@ -53,20 +55,23 @@ export type Lookups = {
   rounds: Round[]
   statuses: ResultStatus[]
   events: Event[]
+  levels: StandardLevel[]
   course: Map<string, Course>
   stroke: Map<string, Stroke>
   round: Map<string, Round>
   status: Map<string, ResultStatus>
   event: Map<number, Event>
+  level: Map<string, StandardLevel>
 }
 
 async function fetchLookups(): Promise<Lookups> {
-  const [courses, strokes, rounds, statuses, events] = await Promise.all([
+  const [courses, strokes, rounds, statuses, events, levels] = await Promise.all([
     supabase.from('courses').select('*').order('sort_order').then(unwrap),
     supabase.from('strokes').select('*').order('sort_order').then(unwrap),
     supabase.from('rounds').select('*').order('sort_order').then(unwrap),
     supabase.from('result_statuses').select('*').order('sort_order').then(unwrap),
     supabase.from('events').select('*').order('distance').then(unwrap),
+    supabase.from('standard_levels').select('*').order('sort_order').then(unwrap),
   ])
   return {
     courses,
@@ -74,11 +79,13 @@ async function fetchLookups(): Promise<Lookups> {
     rounds,
     statuses,
     events,
+    levels,
     course: new Map(courses.map((r) => [r.code, r])),
     stroke: new Map(strokes.map((r) => [r.code, r])),
     round: new Map(rounds.map((r) => [r.code, r])),
     status: new Map(statuses.map((r) => [r.code, r])),
     event: new Map(events.map((r) => [r.id, r])),
+    level: new Map(levels.map((r) => [r.code, r])),
   }
 }
 
@@ -122,6 +129,19 @@ export function useEntriesOfSwimmers(swimmerIds: string[] | undefined) {
       if (!ids || ids.length === 0) return []
       return supabase.from('entries').select(ENTRY_COLUMNS).in('swimmer_id', ids).then(unwrap)
     },
+  })
+}
+
+/**
+ * The motivational standard level each of a swimmer's results reached. Public, and all the
+ * database gives away: the age and gender it is worked out from stay there (ADR 0002).
+ */
+export function useStandardLevels(swimmerId: string | undefined) {
+  return useQuery({
+    queryKey: ['standard-levels', swimmerId],
+    enabled: swimmerId !== undefined,
+    queryFn: async (): Promise<StandardLevelRow[]> =>
+      supabase.rpc('standard_levels', { p_swimmer_id: swimmerId! }).then(unwrap),
   })
 }
 
@@ -193,6 +213,19 @@ export function useAccessFacts(userId: string | undefined) {
         createdMeetIds: meets.map((meet) => meet.id),
       }
     },
+  })
+}
+
+/**
+ * How far each of a swimmer's results is from the next level. For editors only: a gap gives
+ * away the age group, so the database answers anyone else with nothing.
+ */
+export function useStandardGaps(userId: string | undefined, swimmerId: string | undefined, enabled: boolean) {
+  return useQuery({
+    queryKey: [ACCOUNT_KEY, userId, 'standard-gaps', swimmerId],
+    enabled: enabled && userId !== undefined && swimmerId !== undefined,
+    queryFn: async (): Promise<StandardGapRow[]> =>
+      supabase.rpc('standard_gaps', { p_swimmer_id: swimmerId! }).then(unwrap),
   })
 }
 
