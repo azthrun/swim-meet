@@ -1,4 +1,5 @@
-import { ListFilter, Pencil, Timer, Users, X } from 'lucide-react'
+import { ChartLine, ListFilter, Pencil, Timer, Users, X } from 'lucide-react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   CourseBadge,
@@ -12,6 +13,7 @@ import {
   UnofficialBadge,
   useEventLabel,
 } from '../components/swim'
+import { Modal } from '../components/feedback'
 import { TimeChart } from '../components/TimeChart'
 import { TimeEntrySheet } from '../components/TimeEntrySheet'
 import { buttonClass, EmptyState, FilterSelect, iconButtonClass, Segmented, type Option } from '../components/ui'
@@ -64,6 +66,8 @@ export function SwimmerResults() {
   const sheet = useSheetEntry()
   const eventLabel = useEventLabel(lookups)
   const [params, setParams] = useSearchParams()
+  // Below the desktop layout the chart opens in a modal, to keep each event's card short.
+  const [chartEventId, setChartEventId] = useState<number | null>(null)
 
   const group = params.get('group') === 'event' ? 'event' : 'meet'
   const course = params.get('course') ?? ALL
@@ -220,6 +224,7 @@ export function SwimmerResults() {
         const best = bests.best.get(id)
         // A relay time is the team's, so it has no history to chart.
         const points = relay ? [] : chartPointsOf(eventEntries, bests)
+        const chartTitle = `${eventLabel(id)} ${eventEntries[0]!.meet.course_code}`
         return (
           <section key={id} className="overflow-hidden rounded-card border border-hairline bg-card">
             <div className="flex flex-wrap items-center gap-xs border-b border-hairline p-md">
@@ -243,12 +248,35 @@ export function SwimmerResults() {
                   )}
                 </div>
               )}
+              {points.length < 2 ? null : (
+                <button
+                  type="button"
+                  onClick={() => setChartEventId(id)}
+                  aria-label={fill(m.showChartNamed, { event: chartTitle })}
+                  className={`${iconButtonClass} lg:hidden`}
+                >
+                  <ChartLine size={20} aria-hidden="true" />
+                </button>
+              )}
             </div>
             {points.length === 0 ? null : (
-              <div className="border-b border-hairline p-md">
-                <TimeChart event={`${eventLabel(id)} ${eventEntries[0]!.meet.course_code}`} points={points} />
+              <div className="hidden border-b border-hairline p-md lg:block">
+                <TimeChart event={chartTitle} points={points} />
               </div>
             )}
+            {chartEventId === id ? (
+              <Modal
+                title={chartTitle}
+                onClose={() => setChartEventId(null)}
+                actions={
+                  <button type="button" onClick={() => setChartEventId(null)} className={buttonClass('secondary')}>
+                    {m.close}
+                  </button>
+                }
+              >
+                <TimeChart event={chartTitle} points={points} />
+              </Modal>
+            ) : null}
             <ol>
               {[...eventEntries]
                 .sort((a, b) => -byMeetOrder(a, b))

@@ -68,6 +68,7 @@ export const zh: Messages = {
   chartHint: '点按圆点查看成绩、日期和比赛。',
   chartSingleTime: '目前只有一个成绩：{date} {time}。有第二个成绩后显示图表。',
   chartSummary: '{event}成绩图：{first}至{last}共 {count} 个成绩，越快越高。最快 {time}，{date}。',
+  showChartNamed: '查看成绩图：{event}',
   relaysNeverCount: '接力成绩不计入个人最佳。',
 
   course: '泳池',
