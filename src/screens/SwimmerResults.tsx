@@ -12,6 +12,7 @@ import {
   UnofficialBadge,
   useEventLabel,
 } from '../components/swim'
+import { TimeChart } from '../components/TimeChart'
 import { TimeEntrySheet } from '../components/TimeEntrySheet'
 import { buttonClass, EmptyState, FilterSelect, iconButtonClass, Segmented, type Option } from '../components/ui'
 import { useSheetEntry } from '../components/useSheetEntry'
@@ -25,6 +26,7 @@ import { SWUM } from '../lib/personalBests'
 import { seasonLabel, seasonOf } from '../lib/season'
 import { shownLevel } from '../lib/standards'
 import { formatTime } from '../lib/time'
+import { chartPointsOf } from '../lib/timeChart'
 import { useSwimmerContext } from './Swimmer'
 
 const ALL = ''
@@ -216,6 +218,8 @@ export function SwimmerResults() {
       .map(([id, eventEntries]) => {
         const relay = isRelay(eventEntries[0]!, lookups)
         const best = bests.best.get(id)
+        // A relay time is the team's, so it has no history to chart.
+        const points = relay ? [] : chartPointsOf(eventEntries, bests)
         return (
           <section key={id} className="overflow-hidden rounded-card border border-hairline bg-card">
             <div className="flex flex-wrap items-center gap-xs border-b border-hairline p-md">
@@ -240,6 +244,11 @@ export function SwimmerResults() {
                 </div>
               )}
             </div>
+            {points.length === 0 ? null : (
+              <div className="border-b border-hairline p-md">
+                <TimeChart event={`${eventLabel(id)} ${eventEntries[0]!.meet.course_code}`} points={points} />
+              </div>
+            )}
             <ol>
               {[...eventEntries]
                 .sort((a, b) => -byMeetOrder(a, b))

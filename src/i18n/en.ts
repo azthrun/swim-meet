@@ -68,6 +68,9 @@ export const en = {
   gapToLevel: '{gap} to {level}',
   noTime: 'no time',
   noneYet: 'None yet',
+  chartHint: 'Tap a point for its time, date and meet.',
+  chartSingleTime: 'One time so far: {time} on {date}. A chart starts with the second.',
+  chartSummary: 'Chart of {event}: {count} times from {first} to {last}, faster times higher. Fastest {time} on {date}.',
   relaysNeverCount: 'Relays never count as personal bests.',
 
   course: 'Course',
