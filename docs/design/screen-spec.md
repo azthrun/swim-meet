@@ -121,5 +121,5 @@ The draft lives in `docs/design/canvas/`, built on the design system in `docs/de
   - Empty states for the Upcoming and Results tabs, and loading / empty / failed states for Home, following the Meet states.
   - Unknown swimmer or meet: the system's EmptyState with a link home.
   - Filter pickers: the Select from the components sheet.
-- **Sign in lives in the header, not a footer.** The draft's Main artboard still shows the footer link; the header link replaces it.
+- **Sign in lives in the header, not a footer.** The link sits after the language toggle. The draft's artboards were updated to match.
 - **Not in v1:** a list of all meets, and a delete meet control.
