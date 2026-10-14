@@ -1,5 +1,5 @@
-import { ChartLine, ListFilter, Pencil, Timer, Users, X } from 'lucide-react'
-import { useState } from 'react'
+import { ChevronDown, ListFilter, Pencil, Timer, Users, X } from 'lucide-react'
+import { useId, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import {
   CourseBadge,
@@ -22,7 +22,15 @@ import { usePendingResults } from '../data/PendingResultsContext'
 import type { Entry } from '../data/queries'
 import { useI18n } from '../i18n/I18nContext'
 import { formatDate, formatDateRange, formatDay } from '../lib/dates'
-import { byMeetOrder, dropAgainstSeed, groupBy, isRelay, personalBestBadge, shownTime } from '../lib/entries'
+import {
+  byMeetOrder,
+  dropAgainstSeed,
+  groupBy,
+  isRelay,
+  newestFirst,
+  personalBestBadge,
+  shownTime,
+} from '../lib/entries'
 import { TIMED_FINAL } from '../lib/entryForms'
 import { SWUM } from '../lib/personalBests'
 import { seasonLabel, seasonOf } from '../lib/season'
@@ -66,8 +74,9 @@ export function SwimmerResults() {
   const sheet = useSheetEntry()
   const eventLabel = useEventLabel(lookups)
   const [params, setParams] = useSearchParams()
-  // Below the desktop layout the chart opens in a modal, to keep each event's card short.
-  const [chartEventId, setChartEventId] = useState<number | null>(null)
+  // An event card shows its latest result; the chart and all results open in a modal.
+  const [details, setDetails] = useState<{ eventId: number; historyOpen: boolean } | null>(null)
+  const historyId = useId()
 
   const group = params.get('group') === 'event' ? 'event' : 'meet'
   const course = params.get('course') ?? ALL
@@ -205,6 +214,37 @@ export function SwimmerResults() {
         )
       })
 
+  // One event's results as a list row; `linkMeet` is off on the card, where the whole card is a button.
+  const eventRow = (entry: Entry, relay: boolean, linkMeet: boolean) => {
+    const note = notes(entry)
+    const meetLine = `${formatDate(entry.swim_date, lang)} · ${pick(entry.meet.name, entry.meet.name_zh)}`
+    return (
+      <div className="flex items-start gap-md">
+        <div className="flex min-w-0 flex-1 flex-col items-start gap-xs">
+          {linkMeet ? (
+            <Link to={`/meets/${entry.meet.id}`} className="type-body-sm text-secondary no-underline">
+              {meetLine}
+            </Link>
+          ) : (
+            <span className="type-body-sm text-secondary">{meetLine}</span>
+          )}
+          {entry.round_code === TIMED_FINAL ? null : (
+            <span className="type-caption text-muted">{name(lookups.round.get(entry.round_code))}</span>
+          )}
+          {badges(entry, false)}
+          {note ? <span className="type-caption text-secondary">{note}</span> : null}
+        </div>
+        <div className="flex flex-col items-end gap-xs">
+          <Outcome entry={entry} relay={relay} />
+          {editButton(entry)}
+        </div>
+      </div>
+    )
+  }
+
+  const eventGroups = groupBy(shown, (entry) => entry.event_id)
+  const titleOf = (id: number, entries: readonly Entry[]) => `${eventLabel(id)} ${entries[0]!.meet.course_code}`
+
   const byEvent = () => {
     const order = (id: number) => {
       const event = lookups.event.get(id)
@@ -214,7 +254,7 @@ export function SwimmerResults() {
         event?.distance ?? 0,
       ]
     }
-    return [...groupBy(shown, (entry) => entry.event_id).entries()]
+    return [...eventGroups.entries()]
       .sort(([a], [b]) => {
         const [x, y] = [order(a), order(b)]
         return x[0]! - y[0]! || x[1]! - y[1]! || x[2]! - y[2]!
@@ -222,89 +262,114 @@ export function SwimmerResults() {
       .map(([id, eventEntries]) => {
         const relay = isRelay(eventEntries[0]!, lookups)
         const best = bests.best.get(id)
-        // A relay time is the team's, so it has no history to chart.
-        const points = relay ? [] : chartPointsOf(eventEntries, bests)
-        const chartTitle = `${eventLabel(id)} ${eventEntries[0]!.meet.course_code}`
+        const latest = newestFirst(eventEntries)[0]!
         return (
-          <section key={id} className="overflow-hidden rounded-card border border-hairline bg-card">
-            <div className="flex flex-wrap items-center gap-xs border-b border-hairline p-md">
-              {relay ? <RelayTile /> : null}
-              <h2 className="type-heading-3">{eventLabel(id)}</h2>
-              <CourseBadge code={eventEntries[0]!.meet.course_code} lookups={lookups} />
-              {relay ? (
-                <>
-                  <RelayBadge />
-                  <span className="basis-full type-caption text-muted">{m.relaysNeverCount}</span>
-                </>
-              ) : (
-                <div className="ml-auto flex flex-col items-end">
-                  <span className="type-eyebrow text-muted uppercase">{m.personalBest}</span>
-                  {best ? (
-                    <span className="type-title tabular text-heading">{formatTime(best.timeCs)}</span>
-                  ) : (
-                    <span aria-label={m.noneYet} className="type-title text-faint">
-                      —
-                    </span>
-                  )}
-                </div>
-              )}
-              {points.length < 2 ? null : (
-                <button
-                  type="button"
-                  onClick={() => setChartEventId(id)}
-                  aria-label={fill(m.showChartNamed, { event: chartTitle })}
-                  className={`${iconButtonClass} lg:hidden`}
-                >
-                  <ChartLine size={20} aria-hidden="true" />
-                </button>
-              )}
-            </div>
-            {points.length === 0 ? null : (
-              <div className="hidden border-b border-hairline p-md lg:block">
-                <TimeChart event={chartTitle} points={points} />
+          // The whole card opens the event's details; the content sits over the button and lets taps
+          // through, except on the edit button.
+          <section
+            key={id}
+            className="relative overflow-hidden rounded-card border border-hairline bg-card has-[>button:hover]:bg-canvas"
+          >
+            <button
+              type="button"
+              onClick={() => setDetails({ eventId: id, historyOpen: relay })}
+              aria-label={fill(m.showDetailsNamed, { event: titleOf(id, eventEntries) })}
+              className="absolute inset-0 cursor-pointer rounded-card focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary"
+            />
+            <div className="pointer-events-none relative">
+              <div className="flex flex-wrap items-center gap-xs border-b border-hairline p-md">
+                {relay ? <RelayTile /> : null}
+                <h2 className="type-heading-3">{eventLabel(id)}</h2>
+                <CourseBadge code={eventEntries[0]!.meet.course_code} lookups={lookups} />
+                {relay ? (
+                  <>
+                    <RelayBadge />
+                    <span className="basis-full type-caption text-muted">{m.relaysNeverCount}</span>
+                  </>
+                ) : (
+                  <div className="ml-auto flex flex-col items-end">
+                    <span className="type-eyebrow text-muted uppercase">{m.personalBest}</span>
+                    {best ? (
+                      <span className="type-title tabular text-heading">{formatTime(best.timeCs)}</span>
+                    ) : (
+                      <span aria-label={m.noneYet} className="type-title text-faint">
+                        —
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
-            )}
-            {chartEventId === id ? (
-              <Modal
-                title={chartTitle}
-                onClose={() => setChartEventId(null)}
-                actions={
-                  <button type="button" onClick={() => setChartEventId(null)} className={buttonClass('secondary')}>
-                    {m.close}
-                  </button>
-                }
-              >
-                <TimeChart event={chartTitle} points={points} />
-              </Modal>
-            ) : null}
-            <ol>
-              {[...eventEntries]
-                .sort((a, b) => -byMeetOrder(a, b))
-                .map((entry) => {
-                  const note = notes(entry)
-                  return (
-                    <li key={entry.id} className="flex items-start gap-md border-t border-hairline p-md first:border-t-0">
-                      <div className="flex min-w-0 flex-1 flex-col items-start gap-xs">
-                        <Link to={`/meets/${entry.meet.id}`} className="type-body-sm text-secondary no-underline">
-                          {formatDate(entry.swim_date, lang)} · {pick(entry.meet.name, entry.meet.name_zh)}
-                        </Link>
-                        {entry.round_code === TIMED_FINAL ? null : (
-                          <span className="type-caption text-muted">{name(lookups.round.get(entry.round_code))}</span>
-                        )}
-                        {badges(entry, false)}
-                        {note ? <span className="type-caption text-secondary">{note}</span> : null}
-                      </div>
-                      <div className="flex flex-col items-end gap-xs">
-                        <Outcome entry={entry} relay={relay} />
-                        {editButton(entry)}
-                      </div>
-                    </li>
-                  )
-                })}
-            </ol>
+              <div className="p-md [&_button]:pointer-events-auto">{eventRow(latest, relay, false)}</div>
+            </div>
           </section>
         )
       })
+  }
+
+  const detailsEntries = details ? eventGroups.get(details.eventId) : undefined
+  const detailsModal = () => {
+    if (!details || !detailsEntries) return null
+    const id = details.eventId
+    const relay = isRelay(detailsEntries[0]!, lookups)
+    const best = bests.best.get(id)
+    const title = titleOf(id, detailsEntries)
+    // A relay time is the team's, so it has no history to chart.
+    const points = relay ? [] : chartPointsOf(detailsEntries, bests)
+    const close = () => setDetails(null)
+    return (
+      <Modal
+        title={title}
+        onClose={close}
+        actions={
+          <button type="button" onClick={close} className={buttonClass('secondary')}>
+            {m.close}
+          </button>
+        }
+      >
+        {relay ? (
+          <span className="type-caption text-muted">{m.relaysNeverCount}</span>
+        ) : (
+          <>
+            <span className="flex items-baseline justify-between gap-sm">
+              <span className="type-eyebrow text-muted uppercase">{m.personalBest}</span>
+              {best ? (
+                <span className="type-title tabular text-heading">{formatTime(best.timeCs)}</span>
+              ) : (
+                <span aria-label={m.noneYet} className="type-title text-faint">
+                  —
+                </span>
+              )}
+            </span>
+            {points.length === 0 ? (
+              <p className="type-caption text-muted">{m.noChartYet}</p>
+            ) : (
+              <TimeChart event={title} points={points} />
+            )}
+          </>
+        )}
+        <button
+          type="button"
+          onClick={() => setDetails({ ...details, historyOpen: !details.historyOpen })}
+          aria-expanded={details.historyOpen}
+          aria-controls={historyId}
+          className="flex items-center justify-between gap-sm border-t border-hairline pt-sm type-title text-heading"
+        >
+          {fill(m.allResultsCount, { count: detailsEntries.length })}
+          <ChevronDown
+            size={20}
+            aria-hidden="true"
+            className={`flex-none transition-transform ${details.historyOpen ? 'rotate-180' : ''}`}
+          />
+        </button>
+        <ol id={historyId} hidden={!details.historyOpen}>
+          {newestFirst(detailsEntries).map((entry) => (
+            <li key={entry.id} className="border-t border-hairline py-sm first:border-t-0 first:pt-0">
+              {eventRow(entry, relay, true)}
+            </li>
+          ))}
+        </ol>
+      </Modal>
+    )
   }
 
   return (
@@ -365,6 +430,7 @@ export function SwimmerResults() {
       ) : (
         <div className="grid items-start gap-md lg:grid-cols-2">{group === 'event' ? byEvent() : byMeet()}</div>
       )}
+      {detailsModal()}
       {timeEntrySheet}
     </>
   )

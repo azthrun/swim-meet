@@ -71,7 +71,9 @@ export const en = {
   chartHint: 'Tap a point for its time, date and meet.',
   chartSingleTime: 'One time so far: {time} on {date}. A chart starts with the second.',
   chartSummary: 'Chart of {event}: {count} times from {first} to {last}, faster times higher. Fastest {time} on {date}.',
-  showChartNamed: 'Show chart: {event}',
+  showDetailsNamed: 'Show details: {event}',
+  noChartYet: 'Not enough swims to chart yet.',
+  allResultsCount: 'All results ({count})',
   relaysNeverCount: 'Relays never count as personal bests.',
 
   course: 'Course',
