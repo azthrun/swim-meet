@@ -42,6 +42,11 @@ export function byMeetOrder(a: Entry, b: Entry): number {
   )
 }
 
+/** The reverse of meet order: the latest swim first. */
+export function newestFirst(entries: readonly Entry[]): Entry[] {
+  return [...entries].sort((a, b) => byMeetOrder(b, a))
+}
+
 /** Personal bests of one swimmer, from all of that swimmer's entries. */
 export function personalBestsOf(entries: readonly Entry[], lookups: Lookups): PersonalBests {
   return selectPersonalBests(
