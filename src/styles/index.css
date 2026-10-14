@@ -123,4 +123,12 @@
   button {
     cursor: pointer;
   }
+  /* A modal dialog does not stop the page behind it scrolling, so lock it
+     while one is open and keep the dialog's own scroll from chaining out. */
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+  dialog {
+    overscroll-behavior: contain;
+  }
 }
