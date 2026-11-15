@@ -2,6 +2,7 @@ import { ChevronLeft, Settings } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, NavLink, Outlet, useOutletContext, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
+import { FollowBell } from '../components/FollowBell'
 import { CONTAINER } from '../components/Layout'
 import { LoadFailed } from '../components/swim'
 import { Bar, iconButtonClass, ListSkeleton } from '../components/ui'
@@ -98,6 +99,7 @@ export function SwimmerScreen() {
             ) : failed ? null : (
               <Bar className="h-9 w-2/5 bg-hairline" />
             )}
+            {swimmer ? <FollowBell key={swimmer.id} swimmer={swimmer} /> : null}
             {swimmer && canManageSwimmer(access, swimmer.id) ? (
               <Link
                 to={`/swimmers/${swimmer.slug}/settings`}

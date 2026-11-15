@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import type { Lang } from '../lib/dates'
+import { saveLang } from '../lib/langStore'
 import { en } from './en'
 import { I18nContext, type I18n } from './I18nContext'
 import { zh } from './zh'
@@ -25,6 +26,9 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en'
     document.title = MESSAGES[lang].appName
+    // For the service worker, which writes record notifications in this language. Stored always,
+    // default included; the worker uses the device's language only when nothing was stored.
+    saveLang(lang).catch(() => {})
   }, [lang])
 
   const value = useMemo<I18n>(

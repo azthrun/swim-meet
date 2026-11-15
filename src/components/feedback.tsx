@@ -1,17 +1,27 @@
-import { Check, LoaderCircle, RotateCw, TriangleAlert, type LucideIcon } from 'lucide-react'
+import { BellOff, Check, LoaderCircle, RotateCw, TriangleAlert, type LucideIcon } from 'lucide-react'
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react'
 import { useI18n } from '../i18n/I18nContext'
 import { saveErrorKind } from '../lib/saveErrors'
-import { ToastContext } from './ToastContext'
+import { ToastContext, type ToastTone } from './ToastContext'
 import { buttonClass } from './ui'
 
 const TOAST_MS = 3500
 
+const TOAST_ICON: Record<ToastTone, { icon: LucideIcon; className: string }> = {
+  done: { icon: Check, className: 'text-accent-green' },
+  off: { icon: BellOff, className: 'text-muted' },
+  error: { icon: TriangleAlert, className: 'text-accent-orange' },
+}
+
 /** DreamBig Toast, pinned bottom-centre above a form's action bar. Says what was saved, then goes away. */
 export function ToastProvider({ children }: { children: ReactNode }) {
-  const [toast, setToast] = useState<{ id: number; message: string } | null>(null)
+  const [toast, setToast] = useState<{ id: number; message: string; tone: ToastTone } | null>(null)
 
-  const show = useCallback((message: string) => setToast({ id: Date.now(), message }), [])
+  const show = useCallback(
+    (message: string, tone: ToastTone = 'done') => setToast({ id: Date.now(), message, tone }),
+    [],
+  )
+  const ToastIcon = toast ? TOAST_ICON[toast.tone].icon : null
 
   useEffect(() => {
     if (!toast) return
@@ -27,9 +37,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         aria-live="polite"
         className="pointer-events-none fixed inset-x-0 bottom-[104px] z-50 flex justify-center px-md"
       >
-        {toast ? (
+        {toast && ToastIcon ? (
           <div className="inline-flex items-center gap-[10px] rounded-well border border-hairline bg-card px-md py-sm type-body-sm text-ink shadow-soft">
-            <Check size={16} aria-hidden="true" className="flex-none text-accent-green" />
+            <ToastIcon size={16} aria-hidden="true" className={`flex-none ${TOAST_ICON[toast.tone].className}`} />
             <span>{toast.message}</span>
           </div>
         ) : null}
@@ -166,6 +176,71 @@ export function Modal({
           {title}
         </h2>
         <div className="flex flex-col gap-sm type-body-sm text-secondary">{children}</div>
+        <div className="mt-xxs flex flex-col gap-xs">{actions}</div>
+      </div>
+    </dialog>
+  )
+}
+
+/**
+ * DreamBig bottom sheet on the native dialog, for a short explanation and its actions.
+ * `steps` are rows led by an icon tile; `note` is the small print under them.
+ */
+export function Sheet({
+  title,
+  children,
+  steps,
+  note,
+  actions,
+  onClose,
+}: {
+  title: string
+  children?: ReactNode
+  steps: { icon: LucideIcon; text: string }[]
+  note?: string
+  actions: ReactNode
+  onClose: () => void
+}) {
+  const ref = useRef<HTMLDialogElement>(null)
+  const titleId = useId()
+
+  useEffect(() => {
+    const dialog = ref.current
+    if (dialog && !dialog.open) dialog.showModal()
+    return () => dialog?.close()
+  }, [])
+
+  return (
+    <dialog
+      ref={ref}
+      aria-labelledby={titleId}
+      onCancel={(event) => {
+        event.preventDefault()
+        onClose()
+      }}
+      onClick={(event) => {
+        // A click on the scrim lands on the dialog element itself.
+        if (event.target === ref.current) onClose()
+      }}
+      className="mx-auto mt-auto mb-0 max-h-[100dvh] w-full max-w-[min(480px,100vw)] overflow-y-auto rounded-t-well border-0 bg-card p-0 text-ink shadow-modal backdrop:bg-[rgba(0,0,0,0.28)]"
+    >
+      <div className="flex flex-col gap-sm px-md pt-xs pb-[max(var(--spacing-md),env(safe-area-inset-bottom))]">
+        <span aria-hidden="true" className="mx-auto h-[4px] w-9 rounded-full bg-hairline" />
+        <h2 id={titleId} className="type-heading-3">
+          {title}
+        </h2>
+        {children ? <p className="type-body-sm text-secondary">{children}</p> : null}
+        <ul className="flex flex-col gap-xs">
+          {steps.map(({ icon: Icon, text }) => (
+            <li key={text} className="flex items-center gap-sm type-body-sm">
+              <span className="inline-flex size-8 flex-none items-center justify-center rounded-sm bg-canvas">
+                <Icon size={16} aria-hidden="true" />
+              </span>
+              {text}
+            </li>
+          ))}
+        </ul>
+        {note ? <p className="type-caption text-muted">{note}</p> : null}
         <div className="mt-xxs flex flex-col gap-xs">{actions}</div>
       </div>
     </dialog>

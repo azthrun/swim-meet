@@ -6,6 +6,8 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   base: '/swim-meet/',
   plugins: [react(), tailwindcss()],
+  // In development the service worker is served from src/sw/ but must control the whole app.
+  server: { headers: { 'Service-Worker-Allowed': '/swim-meet/' } },
   test: {
     include: ['src/**/*.test.ts'],
   },
