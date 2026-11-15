@@ -338,6 +338,69 @@ export type Database = {
         }
         Relationships: []
       }
+      push_endpoints: {
+        Row: {
+          auth: string
+          created_at: string
+          endpoint: string
+          p256dh: string
+          updated_at: string
+        }
+        Insert: {
+          auth: string
+          created_at?: string
+          endpoint: string
+          p256dh: string
+          updated_at?: string
+        }
+        Update: {
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          p256dh?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      record_subscriptions: {
+        Row: {
+          created_at: string
+          endpoint: string
+          last_live_sent_at: string | null
+          last_official_sent_at: string | null
+          swimmer_id: string
+        }
+        Insert: {
+          created_at?: string
+          endpoint: string
+          last_live_sent_at?: string | null
+          last_official_sent_at?: string | null
+          swimmer_id: string
+        }
+        Update: {
+          created_at?: string
+          endpoint?: string
+          last_live_sent_at?: string | null
+          last_official_sent_at?: string | null
+          swimmer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "record_subscriptions_endpoint_fkey"
+            columns: ["endpoint"]
+            isOneToOne: false
+            referencedRelation: "push_endpoints"
+            referencedColumns: ["endpoint"]
+          },
+          {
+            foreignKeyName: "record_subscriptions_swimmer_id_fkey"
+            columns: ["swimmer_id"]
+            isOneToOne: false
+            referencedRelation: "swimmers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       result_statuses: {
         Row: {
           code: string
@@ -622,6 +685,17 @@ export type Database = {
       }
     }
     Functions: {
+      claim_record_notification: {
+        Args: { p_kind: string; p_secret: string; p_swimmer_id: string }
+        Returns: {
+          auth: string
+          endpoint: string
+          name: string
+          name_zh: string
+          p256dh: string
+          slug: string
+        }[]
+      }
       share_swimmer: {
         Args: { p_email: string; p_swimmer_id: string }
         Returns: boolean
@@ -641,8 +715,22 @@ export type Database = {
           level_code: string
         }[]
       }
+      subscribe_to_swimmer: {
+        Args: {
+          p_auth: string
+          p_endpoint: string
+          p_p256dh: string
+          p_swimmer_id: string
+        }
+        Returns: undefined
+      }
+      subscribed_swimmers: { Args: { p_endpoint: string }; Returns: string[] }
       unshare_swimmer: {
         Args: { p_swimmer_id: string; p_user_id: string }
+        Returns: undefined
+      }
+      unsubscribe_from_swimmer: {
+        Args: { p_endpoint: string; p_swimmer_id: string }
         Returns: undefined
       }
     }

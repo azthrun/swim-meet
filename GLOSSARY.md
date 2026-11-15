@@ -86,3 +86,13 @@ The account that can edit everything and delete meets.
 
 **Legacy**:
 The pre-rewrite tables held in the `legacy` database schema, kept in place and left untouched. The data migration once planned from them was dropped.
+
+### Notifications
+
+**Subscription**:
+One device following one swimmer. It belongs to the device, never to an account.
+_Avoid_: Follow, watch
+
+**Record notification**:
+The push a subscribed device gets when one of the swimmer's results first gets a live time or an official time. Corrections to a time already there send nothing.
+_Avoid_: Alert, result notification

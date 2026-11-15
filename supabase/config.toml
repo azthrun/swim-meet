@@ -1,0 +1,3 @@
+# pg_net sends no Authorization header; the function checks the hook secret itself.
+[functions.record-notification]
+verify_jwt = false
