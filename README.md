@@ -44,6 +44,8 @@ Routing is hash-based (`/#/swimmers/jayden/results`) because GitHub Pages serves
 
 The schema lives in `supabase/migrations/`. CI never touches the database. A migration is applied by hand through the Supabase connector, `supabase/tests/rls_check.sql` is run the same way, the file is named after the applied version, and only then is its pull request merged.
 
+`supabase/functions/` holds the Edge Functions, deployed through the Supabase connector (or `npx supabase functions deploy <name> --no-verify-jwt`). `record-notification` sends record notifications ([ADR 0006](docs/adr/0006-record-notifications-use-web-push-from-an-edge-function.md)) and must be deployed with JWT verification off (`verify_jwt: false` through the connector, or `--no-verify-jwt`; `supabase/config.toml` sets it for the CLI), since the trigger sends no JWT; its VAPID keys are Edge Function secrets set in the dashboard, and `supabase/tests/record_notifications_check.sql` is run like the RLS check.
+
 After a schema change, regenerate `src/data/database.types.ts` (Supabase connector, or `npx supabase gen types typescript --project-id vjmkdwlluakdbvtvoucn`) and commit it.
 
 ## Deploys
