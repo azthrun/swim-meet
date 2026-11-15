@@ -22,5 +22,6 @@ https://claude.ai/code/artifact/0f1dbfa2-91a3-4ebc-b91b-058b0d91fa6f
 | MeetForm | 6 Meet form (edit with course locked / new) |
 | SignIn | 7 Sign in (default / error) |
 | SwimmerDesktop, MeetDesktop | Desktop layouts |
+| [Follow.md](Follow.md) | Follow a swimmer: bell, sheets, toasts, system notification (added 2026-11-15) |
 
 `../dreambig/` holds the DreamBig design system's README, token stylesheets and the source of the components used here.

@@ -1,7 +1,10 @@
 import { createContext, useContext } from 'react'
 
-/** Shows a short "saved" message at the bottom of the screen. */
-export type ShowToast = (message: string) => void
+/** `done` says something worked, `off` that something was turned off, `error` that it failed. */
+export type ToastTone = 'done' | 'off' | 'error'
+
+/** Shows a short message at the bottom of the screen; a "saved" one unless told otherwise. */
+export type ShowToast = (message: string, tone?: ToastTone) => void
 
 export const ToastContext = createContext<ShowToast | null>(null)
 
